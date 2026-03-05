@@ -181,7 +181,7 @@ export default function BusinessOwnerSupplier() {
                         <TextField
                             name="name"
                             label="Company Name"
-                            placeholder="e.g. Tech Supplies Co."
+                            placeholder="Enter Company Name"
                             value={formData.name}
                             onChange={handleInputChange}
                             required
@@ -191,7 +191,7 @@ export default function BusinessOwnerSupplier() {
                             name="email"
                             label="Email Address"
                             type="email"
-                            placeholder="e.g. orders@techsupplies.com"
+                            placeholder="Enter Email Address"
                             value={formData.email}
                             onChange={handleInputChange}
                             required
@@ -200,7 +200,7 @@ export default function BusinessOwnerSupplier() {
                         <TextField
                             name="phone"
                             label="Phone Number"
-                            placeholder="e.g. +1-800-555-0001"
+                            placeholder="Enter Phone Number"
                             value={formData.phone}
                             onChange={handleInputChange}
                             required
@@ -209,7 +209,7 @@ export default function BusinessOwnerSupplier() {
                         <TextField
                             name="address"
                             label="Address"
-                            placeholder="e.g. 1000 Industrial Blvd, San Jose, CA 95101"
+                            placeholder="Enter Address"
                             value={formData.address}
                             onChange={handleInputChange}
                             required

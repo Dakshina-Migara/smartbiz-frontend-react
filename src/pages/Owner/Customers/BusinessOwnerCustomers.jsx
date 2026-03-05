@@ -182,7 +182,7 @@ export default function BusinessOwnerCustomers() {
                         <TextField
                             name="name"
                             label="Customer Name"
-                            placeholder="e.g. John Doe"
+                            placeholder="Enter Customer Name"
                             value={formData.name}
                             onChange={handleInputChange}
                             required
@@ -192,7 +192,7 @@ export default function BusinessOwnerCustomers() {
                             name="email"
                             label="Email Address"
                             type="email"
-                            placeholder="e.g. john@example.com"
+                            placeholder="Enter Email Address"
                             value={formData.email}
                             onChange={handleInputChange}
                             required
@@ -201,7 +201,7 @@ export default function BusinessOwnerCustomers() {
                         <TextField
                             name="phone"
                             label="Phone Number"
-                            placeholder="e.g. +1-555-0101"
+                            placeholder="Enter Phone Number"
                             value={formData.phone}
                             onChange={handleInputChange}
                             required
@@ -210,7 +210,7 @@ export default function BusinessOwnerCustomers() {
                         <TextField
                             name="address"
                             label="Address"
-                            placeholder="e.g. 123 Main St"
+                            placeholder="Enter Address"
                             value={formData.address}
                             onChange={handleInputChange}
                             required

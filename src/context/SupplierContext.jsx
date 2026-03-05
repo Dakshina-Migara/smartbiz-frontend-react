@@ -33,7 +33,7 @@ export function SupplierProvider({ children }) {
     const addSupplier = async (supplierData) => {
         if (!user?.businessId || !token) return { success: false }
         try {
-            const response = await API.post(`/business/${user.businessId}/suppliers/create`, {
+            const response = await API.post(`/business/${user.businessId}/suppliers/addSupplier`, {
                 ...supplierData,
                 businessId: user.businessId
             })
