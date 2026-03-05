@@ -6,6 +6,7 @@ import BusinessOwnerDashboard from '../pages/Owner/Dashboard/BusinessOwnerDashbo
 import OwnerProductsPage from '../pages/Owner/Products/OwnerProductsPage'
 import { ProductProvider } from '../context/ProductContext'
 import { AuthProvider } from '../context/AuthContext'
+import BusinessOwnerInventory from '../pages/Owner/Inventory/BusinessOwnerInventory'
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/owner/dashboard" element={<BusinessOwnerDashboard />} />
             <Route path="/owner/products" element={<OwnerProductsPage />} />
+            <Route path="/owner/inventory" element={<BusinessOwnerInventory />} />
           </Routes>
         </BrowserRouter>
       </ProductProvider>
