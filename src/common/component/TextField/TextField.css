@@ -1,0 +1,92 @@
+/* ===== SmartBiz TextField Overrides ===== */
+
+.smartbiz-textfield .MuiOutlinedInput-root {
+    background-color: #e8e0da;
+    border-radius: 30px;
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+    font-size: 0.95rem;
+    color: #2a2118;
+    transition: all 0.3s ease;
+}
+
+/* Remove default MUI border */
+.smartbiz-textfield .MuiOutlinedInput-notchedOutline {
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+/* Hover state */
+.smartbiz-textfield .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: rgba(61, 50, 41, 0.3);
+}
+
+/* Focus state */
+.smartbiz-textfield .MuiOutlinedInput-root.Mui-focused {
+    background-color: #f0ebe7;
+}
+
+.smartbiz-textfield .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #3d3229;
+    border-width: 2px;
+}
+
+/* Typed text color */
+.smartbiz-textfield .MuiOutlinedInput-input {
+    color: #1a1a1a;
+    caret-color: #3d3229;
+}
+
+.smartbiz-textfield .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-input {
+    color: #000000;
+}
+
+/* Placeholder */
+.smartbiz-textfield .MuiOutlinedInput-input::placeholder {
+    color: #9a8e84;
+    font-weight: 400;
+    opacity: 1;
+}
+
+/* ===== Icon ===== */
+.smartbiz-textfield__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #7a6e64;
+    transition: color 0.3s ease;
+}
+
+.smartbiz-textfield__icon svg {
+    width: 20px;
+    height: 20px;
+    fill: #7a6e64;
+    transition: fill 0.3s ease;
+}
+
+.smartbiz-textfield .Mui-focused .smartbiz-textfield__icon {
+    color: #3d3229;
+}
+
+.smartbiz-textfield .Mui-focused .smartbiz-textfield__icon svg {
+    fill: #3d3229;
+}
+
+/* ===== Password Eye Button ===== */
+.smartbiz-textfield__eye-btn.MuiIconButton-root {
+    color: #7a6e64;
+    transition: color 0.3s ease;
+}
+
+.smartbiz-textfield__eye-btn.MuiIconButton-root:hover {
+    color: #3d3229;
+    background-color: rgba(61, 50, 41, 0.08);
+}
+
+.smartbiz-textfield .Mui-focused .smartbiz-textfield__eye-btn.MuiIconButton-root {
+    color: #3d3229;
+}
+
+/* ===== Disabled ===== */
+.smartbiz-textfield--disabled {
+    opacity: 0.5;
+}
