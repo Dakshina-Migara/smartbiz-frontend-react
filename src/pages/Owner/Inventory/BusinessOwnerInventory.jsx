@@ -101,7 +101,7 @@ export default function BusinessOwnerInventory() {
     ]
 
     return (
-        <OwnerLayout breadcrumb="Business Owner - Inventory">
+        <OwnerLayout breadcrumb="Inventory">
             <div className="inventory-page">
                 {/* Statistics Cards */}
                 <div className="inventory-stats-grid">
