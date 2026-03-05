@@ -41,9 +41,11 @@ function LoginPage() {
                         Login
                     </Button>
 
-                    <Button variant="text">
-                        Forget Password/Email?
-                    </Button>
+                    <Link to="/forgot-password" style={{ textDecoration: 'none' }}>
+                        <Button variant="text">
+                            Forget Password/Email?
+                        </Button>
+                    </Link>
                 </div>
 
                 <Link to="/register" style={{ textDecoration: 'none' }}>
