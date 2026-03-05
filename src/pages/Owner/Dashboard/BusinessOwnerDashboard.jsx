@@ -6,27 +6,28 @@ import InventoryIcon from '@mui/icons-material/Inventory'
 import StatCard from '../../../common/component/StatCard/StatCard'
 import DataTable from '../../../common/component/DataTable/DataTable'
 import OwnerLayout from '../../../common/component/OwnerLayout/OwnerLayout'
+import { useProducts } from '../../../context/ProductContext'
 import './BusinessOwnerDashboard.css'
 
 const productColumns = [
     { key: 'name', label: 'Name' },
     { key: 'sku', label: 'SKU' },
     { key: 'category', label: 'Category' },
-    { key: 'price', label: 'Price', render: (val) => `$${val.toFixed(2)}` },
-    { key: 'cost', label: 'Cost', render: (val) => `$${val.toFixed(2)}` },
+    { key: 'price', label: 'Price', render: (val) => `$${Number(val).toFixed(2)}` },
+    { key: 'cost', label: 'Cost', render: (val) => `$${Number(val).toFixed(2)}` },
     { key: 'stock', label: 'Stock' },
     { key: 'minStock', label: 'Min Stock' }
 ]
 
-const sampleProducts = [
-    { name: 'Wireless Mouse', sku: 'WM-001', category: 'Electronics', price: 29.99, cost: 15.00, stock: 45, minStock: 10 },
-    { name: 'USB-C Cable', sku: 'UC-002', category: 'Electronics', price: 12.99, cost: 5.50, stock: 120, minStock: 20 },
-    { name: 'Laptop Stand', sku: 'LS-003', category: 'Accessories', price: 49.99, cost: 25.00, stock: 8, minStock: 5 },
-]
-
 export default function BusinessOwnerDashboard() {
+    const { products } = useProducts()
+
+    // Calculate dynamic stats
+    const lowStockCount = products.filter(p => p.stock <= p.minStock).length
+    const totalInventoryValue = products.reduce((sum, p) => sum + (p.stock * p.price), 0)
+
     return (
-        <OwnerLayout breadcrumb="Business Owner - Dashboard">
+        <OwnerLayout breadcrumb="Dashboard">
             <div className="dashboard-content">
                 {/* Stats Grid */}
                 <div className="dashboard-stats-grid">
@@ -54,7 +55,7 @@ export default function BusinessOwnerDashboard() {
                     />
                     <StatCard
                         title="Low Stock Alerts"
-                        value="1"
+                        value={lowStockCount.toString()}
                         subtitle="Items below minimum"
                         icon={<WarningAmberIcon />}
                         iconColor="#f39c12"
@@ -68,7 +69,7 @@ export default function BusinessOwnerDashboard() {
                     />
                     <StatCard
                         title="Inventory Value"
-                        value="N/A"
+                        value={`$${totalInventoryValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
                         subtitle="Total stock value"
                         icon={<InventoryIcon />}
                         iconColor="#9b59b6"
@@ -79,7 +80,8 @@ export default function BusinessOwnerDashboard() {
                 <div className="dashboard-section">
                     <h2 className="dashboard-section__title">Products Overview</h2>
                     <div className="dashboard-table-container">
-                        <DataTable columns={productColumns} data={sampleProducts} />
+                        {/* Show first 3 products as overview */}
+                        <DataTable columns={productColumns} data={products.slice(0, 3)} />
                     </div>
                 </div>
             </div>

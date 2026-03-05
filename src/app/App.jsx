@@ -6,18 +6,22 @@ import BusinessOwnerDashboard from '../pages/Owner/Dashboard/BusinessOwnerDashbo
 
 import OwnerProductsPage from '../pages/Owner/Products/OwnerProductsPage'
 
+import { ProductProvider } from '../context/ProductContext'
+
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/owner/dashboard" element={<BusinessOwnerDashboard />} />
-        <Route path="/owner/products" element={<OwnerProductsPage />} />
-      </Routes>
-    </BrowserRouter>
+    <ProductProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/owner/dashboard" element={<BusinessOwnerDashboard />} />
+          <Route path="/owner/products" element={<OwnerProductsPage />} />
+        </Routes>
+      </BrowserRouter>
+    </ProductProvider>
   )
 }
 

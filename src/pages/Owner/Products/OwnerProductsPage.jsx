@@ -8,18 +8,11 @@ import SearchIcon from '@mui/icons-material/Search'
 import AddIcon from '@mui/icons-material/Add'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
+import { useProducts } from '../../../context/ProductContext'
 import './OwnerProductsPage.css'
 
-const initialProducts = [
-    { id: 1, name: 'Wireless Mouse', sku: 'WM-001', category: 'Electronics', price: 29.99, cost: 15.00, stock: 45, minStock: 10 },
-    { id: 2, name: 'USB-C Cable', sku: 'UC-002', category: 'Electronics', price: 12.99, cost: 5.50, stock: 120, minStock: 20 },
-    { id: 3, name: 'Laptop Stand', sku: 'LS-003', category: 'Accessories', price: 49.99, cost: 25.00, stock: 8, minStock: 5 },
-    { id: 4, name: 'Mechanical Keyboard', sku: 'MK-004', category: 'Electronics', price: 89.99, cost: 45.00, stock: 25, minStock: 10 },
-    { id: 5, name: 'HDMI Adapter', sku: 'HA-005', category: 'Electronics', price: 15.99, cost: 6.00, stock: 0, minStock: 5 },
-]
-
 export default function OwnerProductsPage() {
-    const [products, setProducts] = useState(initialProducts)
+    const { products, addProduct, updateProduct, deleteProduct } = useProducts()
     const [searchQuery, setSearchQuery] = useState('')
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editingProduct, setEditingProduct] = useState(null)
@@ -66,7 +59,7 @@ export default function OwnerProductsPage() {
 
     const handleDeleteProduct = (id) => {
         if (window.confirm('Are you sure you want to delete this product?')) {
-            setProducts(prev => prev.filter(p => p.id !== id))
+            deleteProduct(id)
         }
     }
 
@@ -81,11 +74,9 @@ export default function OwnerProductsPage() {
         }
 
         if (editingProduct) {
-            // Update existing
-            setProducts(prev => prev.map(p => p.id === editingProduct.id ? { ...processedData, id: p.id } : p))
+            updateProduct(editingProduct.id, processedData)
         } else {
-            // Add new
-            setProducts(prev => [...prev, { ...processedData, id: Date.now() }])
+            addProduct(processedData)
         }
 
         setIsModalOpen(false)
@@ -120,10 +111,10 @@ export default function OwnerProductsPage() {
                 </div>
             )
         }
-    ], [products]) // Re-memoize when products change to ensure updated handlers
+    ], [products])
 
     return (
-        <OwnerLayout breadcrumb="Business Owner - Products">
+        <OwnerLayout breadcrumb="Products">
             <div className="owner-products-inner-content">
                 <div className="content-toolbar">
                     <h1 className="content-title">Product And Inventory</h1>
