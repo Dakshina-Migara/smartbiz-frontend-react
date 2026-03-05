@@ -1,0 +1,101 @@
+/* ===== Register Page Layout ===== */
+.register-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #dbb9ab;
+    padding: 20px;
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+}
+
+/* ===== Register Card ===== */
+.register-card {
+    background-color: #d4a999;
+    border-radius: 16px;
+    padding: 40px 56px;
+    width: 100%;
+    max-width: 460px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.register-card__title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+/* ===== Form Group ===== */
+.register-card__form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+/* ===== Footer Text ===== */
+.register-card__footer-text {
+    font-size: 0.95rem;
+    color: #2a2118;
+    margin-top: 8px;
+    font-weight: 500;
+}
+
+/* ===== Login Link ===== */
+.register-card__login-link {
+    width: 100%;
+    text-decoration: none;
+}
+
+/* ===== Role Select Dropdown ===== */
+.smartbiz-select .MuiOutlinedInput-root {
+    background-color: #e8e0da;
+    border-radius: 30px;
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+    font-size: 0.95rem;
+    color: #2a2118;
+    transition: all 0.3s ease;
+}
+
+.smartbiz-select .MuiOutlinedInput-notchedOutline {
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+.smartbiz-select .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: rgba(61, 50, 41, 0.3);
+}
+
+.smartbiz-select .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #3d3229;
+    border-width: 2px;
+}
+
+.smartbiz-select .MuiOutlinedInput-root.Mui-focused {
+    background-color: #f0ebe7;
+}
+
+.smartbiz-select .MuiSelect-select {
+    color: #1a1a1a;
+}
+
+.smartbiz-select__placeholder {
+    color: #9a8e84;
+    font-weight: 400;
+}
+
+.smartbiz-select .MuiSelect-icon {
+    color: #7a6e64;
+    transition: color 0.3s ease;
+}
+
+.smartbiz-select .MuiOutlinedInput-root.Mui-focused .MuiSelect-icon {
+    color: #3d3229;
+}
