@@ -136,7 +136,7 @@ export default function BusinessOwnerCustomers() {
     ], [])
 
     return (
-        <OwnerLayout breadcrumb="Business Owner - Customers">
+        <OwnerLayout breadcrumb="Customers">
             <div className="customers-page">
                 <div className="customers-section">
                     <div className="customers-header">
