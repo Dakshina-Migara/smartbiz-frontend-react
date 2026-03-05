@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Button from '../../common/component/Button/Button'
@@ -45,9 +46,11 @@ function LoginPage() {
                     </Button>
                 </div>
 
-                <Button variant="outlined" size="medium">
-                    Create Your Account→
-                </Button>
+                <Link to="/register" style={{ textDecoration: 'none' }}>
+                    <Button variant="outlined" size="medium">
+                        Create Your Account→
+                    </Button>
+                </Link>
             </div>
         </div>
     )
