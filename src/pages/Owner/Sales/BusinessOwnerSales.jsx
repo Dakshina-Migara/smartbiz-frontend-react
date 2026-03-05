@@ -8,6 +8,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import AddIcon from '@mui/icons-material/Add'
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
+import InvoiceModal from '../../../common/component/InvoiceModal/InvoiceModal'
 import Autocomplete from '@mui/material/Autocomplete'
 import MuiTextField from '@mui/material/TextField'
 import MenuItem from '@mui/material/MenuItem'
@@ -17,9 +18,11 @@ import InputLabel from '@mui/material/InputLabel'
 import { useSales } from '../../../context/SalesContext'
 import { useProducts } from '../../../context/ProductContext'
 import { useCustomers } from '../../../context/CustomerContext'
+import { useAuth } from '../../../context/AuthContext'
 import './BusinessOwnerSales.css'
 
 export default function BusinessOwnerSales() {
+    const { user } = useAuth()
     const { sales, loading, searchSales, recordSale, getSaleDetails, deleteSale } = useSales()
     const { products, refreshData: refreshProducts } = useProducts()
     const { customers, refreshCustomers } = useCustomers()
@@ -389,68 +392,15 @@ export default function BusinessOwnerSales() {
             </Modal>
 
             {/* View Invoice Modal */}
-            <Modal
+            <InvoiceModal
                 isOpen={isInvoiceModalOpen}
                 onClose={() => {
                     setIsInvoiceModalOpen(false)
                     setSelectedSale(null)
                 }}
-                title="Invoice"
-            >
-                {selectedSale && (
-                    <div className="invoice-view simple-receipt">
-                        <div className="invoice-header-simple">
-                            <div className="biz-details">
-                                <h2>{user?.businessName || 'SmartBiz'}</h2>
-                                <p>#{selectedSale.invoiceNumber.split('-').pop()} | {new Date(selectedSale.saleDate).toLocaleDateString()}</p>
-                            </div>
-                            <div className="cust-details">
-                                <strong>Customer:</strong> {selectedSale.customerName || 'Walk-in'}
-                            </div>
-                        </div>
-
-                        <div className="invoice-body-simple">
-                            <table className="receipt-table">
-                                <thead>
-                                    <tr>
-                                        <th>Item</th>
-                                        <th style={{ textAlign: 'center' }}>Qty</th>
-                                        <th style={{ textAlign: 'right' }}>Amount</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {selectedSale.items?.map((item, idx) => (
-                                        <tr key={idx}>
-                                            <td>{item.productName}</td>
-                                            <td style={{ textAlign: 'center' }}>{item.qty}</td>
-                                            <td style={{ textAlign: 'right' }}>${(item.qty * item.price).toFixed(2)}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div className="invoice-footer-simple">
-                            <div className="total-row-simple">
-                                <span>Total Amount:</span>
-                                <span className="grand-total-amount">${Number(selectedSale.totalAmount).toFixed(2)}</span>
-                            </div>
-                            <div className="payment-note-simple">
-                                Paid with {selectedSale.paymentMethod?.toUpperCase()} | Status: {selectedSale.status?.toUpperCase()}
-                            </div>
-                        </div>
-
-                        <div className="form-actions no-print">
-                            <Button variant="outlined" onClick={() => window.print()}>
-                                Print
-                            </Button>
-                            <Button variant="filled" onClick={() => setIsInvoiceModalOpen(false)}>
-                                Done
-                            </Button>
-                        </div>
-                    </div>
-                )}
-            </Modal>
+                sale={selectedSale}
+                businessName={user?.businessName}
+            />
         </OwnerLayout>
     )
 }
