@@ -4,6 +4,8 @@ import RegisterPage from '../pages/RegisterPage/RegisterPage'
 import ForgotPasswordPage from '../pages/ForgotPasswordPage/ForgotPasswordPage'
 import BusinessOwnerDashboard from '../pages/Owner/Dashboard/BusinessOwnerDashboard'
 
+import OwnerProductsPage from '../pages/Owner/Products/OwnerProductsPage'
+
 function App() {
   return (
     <BrowserRouter>
@@ -13,6 +15,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/owner/dashboard" element={<BusinessOwnerDashboard />} />
+        <Route path="/owner/products" element={<OwnerProductsPage />} />
       </Routes>
     </BrowserRouter>
   )

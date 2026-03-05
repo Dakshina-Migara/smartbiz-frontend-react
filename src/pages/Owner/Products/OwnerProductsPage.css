@@ -1,0 +1,112 @@
+/* ===== Inner Content Area (Grey Box) ===== */
+.owner-products-inner-content {
+    background-color: #d8d8d8;
+    border-radius: 35px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ===== Toolbar (Title + Add Button) ===== */
+.content-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    /* Wrap on mobile */
+    gap: 15px;
+}
+
+.content-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #222222;
+}
+
+/* Add Product Button */
+.add-product-btn {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border-radius: 30px !important;
+    padding: 10px 25px !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    text-transform: none !important;
+    white-space: nowrap;
+}
+
+/* ===== Search Bar ===== */
+.search-bar-container {
+    width: 100%;
+}
+
+.product-search-field .MuiOutlinedInput-root {
+    background-color: #ffffff;
+    border-radius: 50px !important;
+    height: 55px;
+}
+
+/* ===== Table Container ===== */
+.table-container {
+    background-color: #ffffff;
+    border-radius: 25px;
+    padding: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+    /* ENABLE HORIZONTAL SCROLL FOR TABLE ON MOBILE */
+    width: 100%;
+}
+
+.table-container .smartbiz-table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 600px;
+    /* Ensure table has minimum width to show columns */
+}
+
+/* Table Specific Style Overrides */
+.table-container .smartbiz-table__head-cell {
+    padding: 15px 10px;
+    border-bottom: 2px solid #f0f0f0;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+.table-container .smartbiz-table__cell {
+    padding: 12px 8px;
+    font-size: 0.85rem;
+    border-right: 1px solid #f0f0f0;
+    text-align: center;
+}
+
+/* Responsive Overrides */
+@media (max-width: 768px) {
+    .owner-products-inner-content {
+        padding: 15px;
+        border-radius: 20px;
+    }
+
+    .content-title {
+        font-size: 1.25rem;
+    }
+
+    .add-product-btn {
+        width: 100%;
+        /* Full width button on small mobile */
+        justify-content: center;
+    }
+
+    .product-search-field .MuiOutlinedInput-root {
+        height: 48px;
+    }
+}
+
+@media (max-width: 480px) {
+    .owner-products-inner-content {
+        padding: 10px;
+        gap: 15px;
+    }
+}
