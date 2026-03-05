@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import BusinessIcon from '@mui/icons-material/BusinessOutlined'
 import LocationOnIcon from '@mui/icons-material/LocationOnOutlined'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
@@ -13,6 +13,7 @@ import FormControl from '@mui/material/FormControl'
 import InputAdornment from '@mui/material/InputAdornment'
 import Button from '../../common/component/Button/Button'
 import TextField from '../../common/component/TextField/TextField'
+import { useAuth } from '../../context/AuthContext'
 import './RegisterPage.css'
 
 export default function RegisterPage() {
@@ -25,6 +26,11 @@ export default function RegisterPage() {
         phone: '',
         role: ''
     })
+    const [error, setError] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
+
+    const { register } = useAuth()
+    const navigate = useNavigate()
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -35,8 +41,23 @@ export default function RegisterPage() {
         setFormData({ ...formData, phone: numericValue })
     }
 
-    const handleRegister = () => {
-        console.log('Register:', formData)
+    const handleRegister = async (e) => {
+        if (e) e.preventDefault()
+        setError('')
+        setIsLoading(true)
+
+        const result = await register(formData)
+
+        if (result.success) {
+            if (result.data.role === 'ADMIN') {
+                navigate('/admin/dashboard')
+            } else {
+                navigate('/owner/dashboard')
+            }
+        } else {
+            setError(result.message)
+        }
+        setIsLoading(false)
     }
 
     return (
@@ -44,7 +65,9 @@ export default function RegisterPage() {
             <div className="register-card">
                 <h1 className="register-card__title">Register</h1>
 
-                <div className="register-card__form">
+                <form className="register-card__form" onSubmit={handleRegister}>
+                    {error && <div className="register-error-message">{error}</div>}
+
                     <TextField
                         icon={<BusinessIcon />}
                         placeholder="Business Name"
@@ -52,6 +75,7 @@ export default function RegisterPage() {
                         value={formData.businessName}
                         onChange={handleChange}
                         fullWidth
+                        required
                     />
 
                     <TextField
@@ -61,6 +85,7 @@ export default function RegisterPage() {
                         value={formData.businessAddress}
                         onChange={handleChange}
                         fullWidth
+                        required
                     />
 
                     <TextField
@@ -70,6 +95,7 @@ export default function RegisterPage() {
                         value={formData.ownerName}
                         onChange={handleChange}
                         fullWidth
+                        required
                     />
 
                     <TextField
@@ -79,6 +105,7 @@ export default function RegisterPage() {
                         value={formData.email}
                         onChange={handleChange}
                         fullWidth
+                        required
                     />
 
                     <TextField
@@ -89,6 +116,7 @@ export default function RegisterPage() {
                         value={formData.password}
                         onChange={handleChange}
                         fullWidth
+                        required
                     />
 
                     <TextField
@@ -99,6 +127,7 @@ export default function RegisterPage() {
                         value={formData.phone}
                         onChange={handlePhoneChange}
                         fullWidth
+                        required
                     />
 
                     <FormControl fullWidth className="smartbiz-select">
@@ -107,6 +136,7 @@ export default function RegisterPage() {
                             value={formData.role}
                             onChange={handleChange}
                             displayEmpty
+                            required
                             startAdornment={
                                 <InputAdornment position="start">
                                     <span className="smartbiz-textfield__icon">
@@ -126,8 +156,13 @@ export default function RegisterPage() {
                         </Select>
                     </FormControl>
 
-                    <Button variant="filled" fullWidth onClick={handleRegister}>
-                        Register
+                    <Button
+                        variant="filled"
+                        fullWidth
+                        type="submit"
+                        disabled={isLoading}
+                    >
+                        {isLoading ? 'Registering...' : 'Register'}
                     </Button>
 
                     <p className="register-card__footer-text">Already have an account?</p>
@@ -137,7 +172,7 @@ export default function RegisterPage() {
                             Login Here →
                         </Button>
                     </Link>
-                </div>
+                </form>
             </div>
         </div>
     )
