@@ -15,22 +15,13 @@ const productColumns = [
     { key: 'price', label: 'Price', render: (val) => `$${val.toFixed(2)}` },
     { key: 'cost', label: 'Cost', render: (val) => `$${val.toFixed(2)}` },
     { key: 'stock', label: 'Stock' },
-    {
-        key: 'status', label: 'Status', render: (val) => {
-            const statusClass = val === 'In Stock'
-                ? 'smartbiz-table__status--in-stock'
-                : val === 'Low Stock'
-                    ? 'smartbiz-table__status--low-stock'
-                    : 'smartbiz-table__status--out-of-stock'
-            return <span className={`smartbiz-table__status ${statusClass}`}>{val}</span>
-        }
-    }
+    { key: 'minStock', label: 'Min Stock' }
 ]
 
 const sampleProducts = [
-    { name: 'Wireless Mouse', sku: 'WM-001', category: 'Electronics', price: 29.99, cost: 15.00, stock: 45, status: 'In Stock' },
-    { name: 'USB-C Cable', sku: 'UC-002', category: 'Electronics', price: 12.99, cost: 5.50, stock: 120, status: 'In Stock' },
-    { name: 'Laptop Stand', sku: 'LS-003', category: 'Accessories', price: 49.99, cost: 25.00, stock: 8, status: 'Low Stock' },
+    { name: 'Wireless Mouse', sku: 'WM-001', category: 'Electronics', price: 29.99, cost: 15.00, stock: 45, minStock: 10 },
+    { name: 'USB-C Cable', sku: 'UC-002', category: 'Electronics', price: 12.99, cost: 5.50, stock: 120, minStock: 20 },
+    { name: 'Laptop Stand', sku: 'LS-003', category: 'Accessories', price: 49.99, cost: 25.00, stock: 8, minStock: 5 },
 ]
 
 export default function BusinessOwnerDashboard() {
