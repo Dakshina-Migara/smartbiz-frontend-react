@@ -1,0 +1,57 @@
+/* ===== Login Page Layout ===== */
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #dbb9ab;
+    padding: 20px;
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.login-page__label {
+    align-self: flex-start;
+    color: #a08a7e;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    margin-left: 12px;
+    letter-spacing: 0.5px;
+}
+
+/* ===== Login Card ===== */
+.login-card {
+    background-color: #d4a999;
+    border-radius: 16px;
+    padding: 48px 56px;
+    width: 100%;
+    max-width: 460px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+}
+
+.login-card__title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+/* ===== Form Group ===== */
+.login-card__form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+}
+
+/* ===== Global Reset ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
