@@ -143,6 +143,11 @@ export function ProductProvider({ children }) {
         }
     }
 
+    const refreshData = useCallback(() => {
+        fetchProducts()
+        fetchDashboardStats()
+    }, [fetchProducts, fetchDashboardStats])
+
     return (
         <ProductContext.Provider value={{
             products,
@@ -152,7 +157,7 @@ export function ProductProvider({ children }) {
             updateProduct,
             updateStock,
             deleteProduct,
-            refreshData: () => { fetchProducts(); fetchDashboardStats(); }
+            refreshData
         }}>
             {children}
         </ProductContext.Provider>
