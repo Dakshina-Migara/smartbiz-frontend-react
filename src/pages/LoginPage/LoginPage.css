@@ -40,9 +40,35 @@
     gap: 18px;
 }
 
-/* ===== Global Reset ===== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* ===== Responsive - Tablet ===== */
+@media (max-width: 768px) {
+    .login-card {
+        padding: 36px 40px;
+        gap: 24px;
+    }
+
+    .login-card__title {
+        font-size: 1.75rem;
+    }
+}
+
+/* ===== Responsive - Mobile ===== */
+@media (max-width: 480px) {
+    .login-page {
+        padding: 12px;
+    }
+
+    .login-card {
+        padding: 28px 20px;
+        border-radius: 12px;
+        gap: 20px;
+    }
+
+    .login-card__title {
+        font-size: 1.5rem;
+    }
+
+    .login-card__form {
+        gap: 14px;
+    }
 }
