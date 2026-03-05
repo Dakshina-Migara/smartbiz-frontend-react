@@ -167,7 +167,7 @@ export default function OwnerProductsPage() {
                     <div className="form-grid">
                         <TextField
                             name="name"
-                            placeholder="Product Name"
+                            placeholder="Enter Product Name"
                             label="Name"
                             value={formData.name}
                             onChange={handleInputChange}
@@ -175,7 +175,7 @@ export default function OwnerProductsPage() {
                         />
                         <TextField
                             name="sku"
-                            placeholder="SKU Code"
+                            placeholder="Enter SKU Code"
                             label="SKU"
                             value={formData.sku}
                             onChange={handleInputChange}
@@ -183,7 +183,7 @@ export default function OwnerProductsPage() {
                         />
                         <TextField
                             name="category"
-                            placeholder="Category"
+                            placeholder="Enter Category"
                             label="Category"
                             value={formData.category}
                             onChange={handleInputChange}
@@ -192,7 +192,7 @@ export default function OwnerProductsPage() {
                         <TextField
                             name="price"
                             type="number"
-                            placeholder="Selling Price"
+                            placeholder="Enter Selling Price"
                             label="Price"
                             value={formData.price}
                             onChange={handleInputChange}
@@ -201,7 +201,7 @@ export default function OwnerProductsPage() {
                         <TextField
                             name="cost"
                             type="number"
-                            placeholder="Cost Price"
+                            placeholder="Enter Cost Price"
                             label="Cost"
                             value={formData.cost}
                             onChange={handleInputChange}
@@ -210,7 +210,7 @@ export default function OwnerProductsPage() {
                         <TextField
                             name="stock"
                             type="number"
-                            placeholder="Initial Stock"
+                            placeholder="Enter Initial Stock"
                             label="Stock"
                             value={formData.stock}
                             onChange={handleInputChange}
@@ -219,7 +219,7 @@ export default function OwnerProductsPage() {
                         <TextField
                             name="minStock"
                             type="number"
-                            placeholder="Min Stock Level"
+                            placeholder="Enter Min Stock Level"
                             label="Min Stock"
                             value={formData.minStock}
                             onChange={handleInputChange}

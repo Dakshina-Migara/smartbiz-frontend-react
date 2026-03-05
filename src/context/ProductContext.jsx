@@ -104,6 +104,30 @@ export function ProductProvider({ children }) {
         }
     }
 
+    const updateStock = async (productId, currentStock, change) => {
+        if (!user?.businessId || !token) return { success: false }
+        const newQuantity = currentStock + change
+        if (newQuantity < 0) return { success: false, message: 'Stock cannot be negative' }
+
+        try {
+            const response = await API.put(`/business/${user.businessId}/inventory/${productId}`, null, {
+                params: { quantity: newQuantity }
+            })
+            if (response.status === 200) {
+                // Update local state for fast feedback
+                setProducts(prev => prev.map(p =>
+                    p.id === productId ? { ...p, stock: newQuantity } : p
+                ))
+                fetchDashboardStats() // Refresh totals
+                return { success: true }
+            }
+            return { success: false }
+        } catch (error) {
+            console.error('Failed to update stock:', error)
+            return { success: false }
+        }
+    }
+
     const deleteProduct = async (id) => {
         if (!user?.businessId) return { success: false }
         try {
@@ -119,6 +143,11 @@ export function ProductProvider({ children }) {
         }
     }
 
+    const refreshData = useCallback(() => {
+        fetchProducts()
+        fetchDashboardStats()
+    }, [fetchProducts, fetchDashboardStats])
+
     return (
         <ProductContext.Provider value={{
             products,
@@ -126,8 +155,9 @@ export function ProductProvider({ children }) {
             dashboardStats,
             addProduct,
             updateProduct,
+            updateStock,
             deleteProduct,
-            refreshData: () => { fetchProducts(); fetchDashboardStats(); }
+            refreshData
         }}>
             {children}
         </ProductContext.Provider>

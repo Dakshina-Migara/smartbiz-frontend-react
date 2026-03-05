@@ -1,0 +1,72 @@
+.suppliers-page {
+    padding: 24px;
+}
+
+.suppliers-section {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.suppliers-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.suppliers-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2b3a4a;
+    margin: 0;
+}
+
+.suppliers-toolbar {
+    margin-bottom: 24px;
+}
+
+/* Contact Styling */
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.88rem;
+    color: #4a5568;
+}
+
+.address-cell {
+    max-width: 300px;
+    white-space: normal;
+    word-wrap: break-word;
+    font-size: 0.88rem;
+    color: #4a5568;
+}
+
+/* Modal Form styling */
+.supplier-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-top: 8px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
