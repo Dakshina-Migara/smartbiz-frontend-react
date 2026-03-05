@@ -1,0 +1,69 @@
+/* ===== TextField Wrapper ===== */
+.textfield {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #e8e0da;
+    border-radius: 30px;
+    padding: 12px 22px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.textfield:focus-within {
+    border-color: #3d3229;
+    background-color: #f0ebe7;
+    box-shadow: 0 0 0 3px rgba(61, 50, 41, 0.1);
+}
+
+.textfield--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ===== Icon ===== */
+.textfield__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #7a6e64;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.textfield__icon svg {
+    width: 20px;
+    height: 20px;
+    fill: #7a6e64;
+    transition: fill 0.3s ease;
+}
+
+.textfield:focus-within .textfield__icon svg {
+    fill: #3d3229;
+}
+
+.textfield:focus-within .textfield__icon {
+    color: #3d3229;
+}
+
+/* ===== Input ===== */
+.textfield__input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+    font-size: 0.95rem;
+    color: #2a2118;
+    min-width: 0;
+}
+
+.textfield__input::placeholder {
+    color: #9a8e84;
+    font-weight: 400;
+}
+
+/* ===== Full Width ===== */
+.textfield--full-width {
+    width: 100%;
+}
