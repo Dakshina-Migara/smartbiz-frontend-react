@@ -7,7 +7,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import './TextField.css'
 
 export default function TextField({
-    type = 'text', placeholder = '', value, onChange, icon, name, id, disabled = false, required = false, fullWidth = false, className = '' }) {
+    type = 'text', placeholder = '', value, onChange, icon, name, id, disabled = false, required = false, fullWidth = false, className = '', label }) {
 
     const [showPassword, setShowPassword] = useState(false)
     const isPasswordField = type === 'password'
@@ -21,6 +21,7 @@ export default function TextField({
     return (
         <MuiTextField
             type={isPasswordField && showPassword ? 'text' : type}
+            label={label}
             placeholder={placeholder}
             value={value}
             onChange={onChange}
@@ -32,6 +33,9 @@ export default function TextField({
             variant="outlined"
             className={classNames}
             slotProps={{
+                inputLabel: {
+                    shrink: true,
+                },
                 input: {
                     startAdornment: icon ? (
                         <InputAdornment position="start">

@@ -9,6 +9,20 @@
     transition: all 0.3s ease;
 }
 
+.smartbiz-textfield .MuiInputLabel-root {
+    color: #7a6e64;
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transform: translate(14px, -10px) scale(0.75);
+    background: white;
+    padding: 0 8px;
+}
+
+.smartbiz-textfield .MuiInputLabel-root.Mui-focused {
+    color: #3d3229;
+}
+
 /* Remove default MUI border */
 .smartbiz-textfield .MuiOutlinedInput-notchedOutline {
     border: 2px solid transparent;
