@@ -1,0 +1,106 @@
+/* ===== Table Wrapper ===== */
+.smartbiz-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 14px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    -webkit-overflow-scrolling: touch;
+}
+
+/* ===== Table ===== */
+.smartbiz-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+    min-width: 600px;
+}
+
+/* ===== Header ===== */
+.smartbiz-table__head-cell {
+    text-align: left;
+    padding: 14px 18px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    border-bottom: 2px solid #f0ebe7;
+    white-space: nowrap;
+}
+
+/* ===== Body Row ===== */
+.smartbiz-table__row {
+    transition: background-color 0.2s ease;
+}
+
+.smartbiz-table__row:hover {
+    background-color: #faf7f5;
+}
+
+.smartbiz-table__row:not(:last-child) .smartbiz-table__cell {
+    border-bottom: 1px solid #f0ebe7;
+}
+
+/* ===== Body Cell ===== */
+.smartbiz-table__cell {
+    padding: 14px 18px;
+    font-size: 0.88rem;
+    color: #2a2118;
+    white-space: nowrap;
+}
+
+/* ===== Empty State ===== */
+.smartbiz-table__empty {
+    padding: 40px 18px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #9a8e84;
+}
+
+/* ===== Status Badge ===== */
+.smartbiz-table__status {
+    font-weight: 600;
+    font-size: 0.82rem;
+}
+
+.smartbiz-table__status--in-stock {
+    color: #27ae60;
+}
+
+.smartbiz-table__status--low-stock {
+    color: #e74c3c;
+}
+
+.smartbiz-table__status--out-of-stock {
+    color: #95a5a6;
+}
+
+/* ===== Responsive - Tablet ===== */
+@media (max-width: 768px) {
+    .smartbiz-table-wrapper {
+        border-radius: 10px;
+    }
+
+    .smartbiz-table__head-cell,
+    .smartbiz-table__cell {
+        padding: 12px 14px;
+        font-size: 0.82rem;
+    }
+}
+
+/* ===== Responsive - Mobile ===== */
+@media (max-width: 480px) {
+    .smartbiz-table-wrapper {
+        border-radius: 8px;
+    }
+
+    .smartbiz-table__head-cell,
+    .smartbiz-table__cell {
+        padding: 10px 12px;
+        font-size: 0.78rem;
+    }
+
+    .smartbiz-table__empty {
+        padding: 28px 12px;
+        font-size: 0.82rem;
+    }
+}

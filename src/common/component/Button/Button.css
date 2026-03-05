@@ -83,3 +83,29 @@
     padding: 16px 56px;
     font-size: 1rem;
 }
+
+/* ===== Responsive - Mobile ===== */
+@media (max-width: 480px) {
+    .smartbiz-btn--small.MuiButton-root {
+        padding: 7px 18px;
+        font-size: 0.75rem;
+    }
+
+    .smartbiz-btn--medium.MuiButton-root {
+        padding: 11px 28px;
+        font-size: 0.82rem;
+    }
+
+    .smartbiz-btn--large.MuiButton-root {
+        padding: 13px 36px;
+        font-size: 0.9rem;
+    }
+
+    .smartbiz-btn--filled.MuiButton-contained {
+        letter-spacing: 0.8px;
+    }
+
+    .smartbiz-btn--text.MuiButton-text {
+        font-size: 0.8rem;
+    }
+}
