@@ -12,10 +12,11 @@ import { useProducts } from '../../../context/ProductContext'
 import './OwnerProductsPage.css'
 
 export default function OwnerProductsPage() {
-    const { products, addProduct, updateProduct, deleteProduct } = useProducts()
+    const { products, loading, addProduct, updateProduct, deleteProduct } = useProducts()
     const [searchQuery, setSearchQuery] = useState('')
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editingProduct, setEditingProduct] = useState(null)
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
     // Form State
     const [formData, setFormData] = useState({
@@ -29,8 +30,8 @@ export default function OwnerProductsPage() {
     })
 
     const filteredProducts = products.filter(p =>
-        p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.sku.toLowerCase().includes(searchQuery.toLowerCase())
+        (p.name?.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (p.sku?.toLowerCase().includes(searchQuery.toLowerCase()))
     )
 
     // Handlers
@@ -49,22 +50,24 @@ export default function OwnerProductsPage() {
         setEditingProduct(product)
         setFormData({
             ...product,
-            price: product.price.toString(),
-            cost: product.cost.toString(),
-            stock: product.stock.toString(),
-            minStock: product.minStock.toString()
+            price: product.price?.toString() || '',
+            cost: product.cost?.toString() || '',
+            stock: product.stock?.toString() || '',
+            minStock: product.minStock?.toString() || ''
         })
         setIsModalOpen(true)
     }
 
-    const handleDeleteProduct = (id) => {
+    const handleDeleteProduct = async (id) => {
         if (window.confirm('Are you sure you want to delete this product?')) {
-            deleteProduct(id)
+            await deleteProduct(id)
         }
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
+        setIsSubmitting(true)
+
         const processedData = {
             ...formData,
             price: parseFloat(formData.price) || 0,
@@ -73,13 +76,19 @@ export default function OwnerProductsPage() {
             minStock: parseInt(formData.minStock) || 0
         }
 
+        let result;
         if (editingProduct) {
-            updateProduct(editingProduct.id, processedData)
+            result = await updateProduct(editingProduct.id, processedData)
         } else {
-            addProduct(processedData)
+            result = await addProduct(processedData)
         }
 
-        setIsModalOpen(false)
+        if (result.success) {
+            setIsModalOpen(false)
+        } else {
+            alert('Failed to save product. Please try again.')
+        }
+        setIsSubmitting(false)
     }
 
     // Column Definitions moved inside component to access handlers
@@ -87,8 +96,8 @@ export default function OwnerProductsPage() {
         { key: 'name', label: 'Name' },
         { key: 'sku', label: 'SKU' },
         { key: 'category', label: 'Category' },
-        { key: 'price', label: 'Price', render: (val) => `$${Number(val).toFixed(2)}` },
-        { key: 'cost', label: 'Cost', render: (val) => `$${Number(val).toFixed(2)}` },
+        { key: 'price', label: 'Price', render: (val) => `$${Number(val || 0).toFixed(2)}` },
+        { key: 'cost', label: 'Cost', render: (val) => `$${Number(val || 0).toFixed(2)}` },
         { key: 'stock', label: 'Stock' },
         { key: 'minStock', label: 'Min Stock' },
         {
@@ -140,7 +149,11 @@ export default function OwnerProductsPage() {
                 </div>
 
                 <div className="table-container">
-                    <DataTable columns={productColumns} data={filteredProducts} />
+                    {loading && products.length === 0 ? (
+                        <div style={{ padding: '20px', textAlign: 'center' }}>Loading products...</div>
+                    ) : (
+                        <DataTable columns={productColumns} data={filteredProducts} />
+                    )}
                 </div>
             </div>
 
@@ -214,9 +227,9 @@ export default function OwnerProductsPage() {
                         />
                     </div>
                     <div className="form-actions">
-                        <Button variant="outlined" onClick={() => setIsModalOpen(false)}>Cancel</Button>
-                        <Button type="submit" variant="filled">
-                            {editingProduct ? "Update Product" : "Save Product"}
+                        <Button variant="outlined" onClick={() => setIsModalOpen(false)} disabled={isSubmitting}>Cancel</Button>
+                        <Button type="submit" variant="filled" disabled={isSubmitting}>
+                            {isSubmitting ? 'Saving...' : (editingProduct ? "Update Product" : "Save Product")}
                         </Button>
                     </div>
                 </form>

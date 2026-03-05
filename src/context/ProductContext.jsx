@@ -1,32 +1,134 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useEffect, useCallback } from 'react'
+import { useAuth } from './AuthContext'
+import API from '../api/axios'
 
 const ProductContext = createContext()
 
-const initialProducts = [
-    { id: 1, name: 'Wireless Mouse', sku: 'WM-001', category: 'Electronics', price: 29.99, cost: 15.00, stock: 45, minStock: 10 },
-    { id: 2, name: 'USB-C Cable', sku: 'UC-002', category: 'Electronics', price: 12.99, cost: 5.50, stock: 120, minStock: 20 },
-    { id: 3, name: 'Laptop Stand', sku: 'LS-003', category: 'Accessories', price: 49.99, cost: 25.00, stock: 8, minStock: 5 },
-    { id: 4, name: 'Mechanical Keyboard', sku: 'MK-004', category: 'Electronics', price: 89.99, cost: 45.00, stock: 25, minStock: 10 },
-    { id: 5, name: 'HDMI Adapter', sku: 'HA-005', category: 'Electronics', price: 15.99, cost: 6.00, stock: 0, minStock: 5 },
-]
-
 export function ProductProvider({ children }) {
-    const [products, setProducts] = useState(initialProducts)
+    const [products, setProducts] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [dashboardStats, setDashboardStats] = useState(null)
+    const { user, token } = useAuth()
 
-    const addProduct = (product) => {
-        setProducts(prev => [...prev, { ...product, id: Date.now() }])
+    const fetchProducts = useCallback(async () => {
+        if (!user?.businessId || !token) return
+        setLoading(true)
+        try {
+            const response = await API.get(`/business/${user.businessId}/inventory`)
+            const data = response.data
+
+            // Map backend fields to frontend fields
+            const mappedData = data.map(p => ({
+                id: p.productId,
+                name: p.productName,
+                sku: p.sku,
+                category: p.category,
+                price: p.price,
+                cost: p.cost,
+                stock: p.stockLevel,
+                minStock: p.minStockLevel
+            }))
+            setProducts(mappedData)
+        } catch (error) {
+            console.error('Failed to fetch products:', error)
+        } finally {
+            setLoading(false)
+        }
+    }, [user?.businessId, token])
+
+    const fetchDashboardStats = useCallback(async () => {
+        if (!user?.businessId || !token) return
+        try {
+            const response = await API.get(`/business/${user.businessId}/dashboard/kpis`)
+            setDashboardStats(response.data)
+        } catch (error) {
+            console.error('Failed to fetch dashboard stats:', error)
+        }
+    }, [user?.businessId, token])
+
+    useEffect(() => {
+        if (user?.businessId && token) {
+            fetchProducts()
+            fetchDashboardStats()
+        } else {
+            setProducts([])
+            setDashboardStats(null)
+        }
+    }, [user?.businessId, token, fetchProducts, fetchDashboardStats])
+
+    const addProduct = async (product) => {
+        if (!user?.businessId) return { success: false }
+        try {
+            const response = await API.post('/business/inventory', {
+                productName: product.name,
+                sku: product.sku,
+                category: product.category,
+                price: parseFloat(product.price),
+                cost: parseFloat(product.cost),
+                stockLevel: parseInt(product.stock),
+                minStockLevel: parseInt(product.minStock),
+                businessId: user.businessId
+            })
+            if (response.status === 201 || response.status === 200) {
+                fetchProducts()
+                fetchDashboardStats()
+                return { success: true }
+            }
+            return { success: false }
+        } catch (error) {
+            return { success: false, error: error.message }
+        }
     }
 
-    const updateProduct = (id, updatedProduct) => {
-        setProducts(prev => prev.map(p => p.id === id ? { ...updatedProduct, id } : p))
+    const updateProduct = async (id, updatedProduct) => {
+        if (!user?.businessId) return { success: false }
+        try {
+            const response = await API.put(`/business/${user.businessId}/inventory/${id}/edit`, {
+                productName: updatedProduct.name,
+                sku: updatedProduct.sku,
+                category: updatedProduct.category,
+                price: parseFloat(updatedProduct.price),
+                cost: parseFloat(updatedProduct.cost),
+                stockLevel: parseInt(updatedProduct.stock),
+                minStockLevel: parseInt(updatedProduct.minStock),
+                businessId: user.businessId
+            })
+            if (response.status === 200) {
+                fetchProducts()
+                fetchDashboardStats()
+                return { success: true }
+            }
+            return { success: false }
+        } catch (error) {
+            return { success: false, error: error.message }
+        }
     }
 
-    const deleteProduct = (id) => {
-        setProducts(prev => prev.filter(p => p.id !== id))
+    const deleteProduct = async (id) => {
+        if (!user?.businessId) return { success: false }
+        try {
+            const response = await API.delete(`/business/${user.businessId}/inventory/${id}`)
+            if (response.status === 204 || response.status === 200) {
+                fetchProducts()
+                fetchDashboardStats()
+                return { success: true }
+            }
+            return { success: false }
+        } catch (error) {
+            return { success: false, error: error.message }
+        }
     }
 
     return (
-        <ProductContext.Provider value={{ products, addProduct, updateProduct, deleteProduct }}>
+        <ProductContext.Provider value={{
+            products,
+            loading,
+            dashboardStats,
+            addProduct,
+            updateProduct,
+            deleteProduct,
+            refreshData: () => { fetchProducts(); fetchDashboardStats(); }
+        }}>
             {children}
         </ProductContext.Provider>
     )
