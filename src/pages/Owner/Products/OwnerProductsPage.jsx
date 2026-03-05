@@ -8,21 +8,15 @@ import SearchIcon from '@mui/icons-material/Search'
 import AddIcon from '@mui/icons-material/Add'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
+import { useProducts } from '../../../context/ProductContext'
 import './OwnerProductsPage.css'
 
-const initialProducts = [
-    { id: 1, name: 'Wireless Mouse', sku: 'WM-001', category: 'Electronics', price: 29.99, cost: 15.00, stock: 45, minStock: 10 },
-    { id: 2, name: 'USB-C Cable', sku: 'UC-002', category: 'Electronics', price: 12.99, cost: 5.50, stock: 120, minStock: 20 },
-    { id: 3, name: 'Laptop Stand', sku: 'LS-003', category: 'Accessories', price: 49.99, cost: 25.00, stock: 8, minStock: 5 },
-    { id: 4, name: 'Mechanical Keyboard', sku: 'MK-004', category: 'Electronics', price: 89.99, cost: 45.00, stock: 25, minStock: 10 },
-    { id: 5, name: 'HDMI Adapter', sku: 'HA-005', category: 'Electronics', price: 15.99, cost: 6.00, stock: 0, minStock: 5 },
-]
-
 export default function OwnerProductsPage() {
-    const [products, setProducts] = useState(initialProducts)
+    const { products, loading, addProduct, updateProduct, deleteProduct } = useProducts()
     const [searchQuery, setSearchQuery] = useState('')
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editingProduct, setEditingProduct] = useState(null)
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
     // Form State
     const [formData, setFormData] = useState({
@@ -36,8 +30,8 @@ export default function OwnerProductsPage() {
     })
 
     const filteredProducts = products.filter(p =>
-        p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.sku.toLowerCase().includes(searchQuery.toLowerCase())
+        (p.name?.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (p.sku?.toLowerCase().includes(searchQuery.toLowerCase()))
     )
 
     // Handlers
@@ -56,22 +50,24 @@ export default function OwnerProductsPage() {
         setEditingProduct(product)
         setFormData({
             ...product,
-            price: product.price.toString(),
-            cost: product.cost.toString(),
-            stock: product.stock.toString(),
-            minStock: product.minStock.toString()
+            price: product.price?.toString() || '',
+            cost: product.cost?.toString() || '',
+            stock: product.stock?.toString() || '',
+            minStock: product.minStock?.toString() || ''
         })
         setIsModalOpen(true)
     }
 
-    const handleDeleteProduct = (id) => {
+    const handleDeleteProduct = async (id) => {
         if (window.confirm('Are you sure you want to delete this product?')) {
-            setProducts(prev => prev.filter(p => p.id !== id))
+            await deleteProduct(id)
         }
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
+        setIsSubmitting(true)
+
         const processedData = {
             ...formData,
             price: parseFloat(formData.price) || 0,
@@ -80,15 +76,19 @@ export default function OwnerProductsPage() {
             minStock: parseInt(formData.minStock) || 0
         }
 
+        let result;
         if (editingProduct) {
-            // Update existing
-            setProducts(prev => prev.map(p => p.id === editingProduct.id ? { ...processedData, id: p.id } : p))
+            result = await updateProduct(editingProduct.id, processedData)
         } else {
-            // Add new
-            setProducts(prev => [...prev, { ...processedData, id: Date.now() }])
+            result = await addProduct(processedData)
         }
 
-        setIsModalOpen(false)
+        if (result.success) {
+            setIsModalOpen(false)
+        } else {
+            alert('Failed to save product. Please try again.')
+        }
+        setIsSubmitting(false)
     }
 
     // Column Definitions moved inside component to access handlers
@@ -96,8 +96,8 @@ export default function OwnerProductsPage() {
         { key: 'name', label: 'Name' },
         { key: 'sku', label: 'SKU' },
         { key: 'category', label: 'Category' },
-        { key: 'price', label: 'Price', render: (val) => `$${Number(val).toFixed(2)}` },
-        { key: 'cost', label: 'Cost', render: (val) => `$${Number(val).toFixed(2)}` },
+        { key: 'price', label: 'Price', render: (val) => `$${Number(val || 0).toFixed(2)}` },
+        { key: 'cost', label: 'Cost', render: (val) => `$${Number(val || 0).toFixed(2)}` },
         { key: 'stock', label: 'Stock' },
         { key: 'minStock', label: 'Min Stock' },
         {
@@ -120,10 +120,10 @@ export default function OwnerProductsPage() {
                 </div>
             )
         }
-    ], [products]) // Re-memoize when products change to ensure updated handlers
+    ], [products])
 
     return (
-        <OwnerLayout breadcrumb="Business Owner - Products">
+        <OwnerLayout breadcrumb="Products">
             <div className="owner-products-inner-content">
                 <div className="content-toolbar">
                     <h1 className="content-title">Product And Inventory</h1>
@@ -149,7 +149,11 @@ export default function OwnerProductsPage() {
                 </div>
 
                 <div className="table-container">
-                    <DataTable columns={productColumns} data={filteredProducts} />
+                    {loading && products.length === 0 ? (
+                        <div style={{ padding: '20px', textAlign: 'center' }}>Loading products...</div>
+                    ) : (
+                        <DataTable columns={productColumns} data={filteredProducts} />
+                    )}
                 </div>
             </div>
 
@@ -223,9 +227,9 @@ export default function OwnerProductsPage() {
                         />
                     </div>
                     <div className="form-actions">
-                        <Button variant="outlined" onClick={() => setIsModalOpen(false)}>Cancel</Button>
-                        <Button type="submit" variant="filled">
-                            {editingProduct ? "Update Product" : "Save Product"}
+                        <Button variant="outlined" onClick={() => setIsModalOpen(false)} disabled={isSubmitting}>Cancel</Button>
+                        <Button type="submit" variant="filled" disabled={isSubmitting}>
+                            {isSubmitting ? 'Saving...' : (editingProduct ? "Update Product" : "Save Product")}
                         </Button>
                     </div>
                 </form>

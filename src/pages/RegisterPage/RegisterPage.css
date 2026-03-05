@@ -40,6 +40,17 @@
     gap: 16px;
 }
 
+.register-error-message {
+    width: 100%;
+    padding: 10px;
+    background-color: #fce4e4;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
 /* ===== Footer Text ===== */
 .register-card__footer-text {
     font-size: 0.95rem;
