@@ -10,15 +10,6 @@
     font-family: 'Segoe UI', 'Roboto', sans-serif;
 }
 
-.login-page__label {
-    align-self: flex-start;
-    color: #a08a7e;
-    font-size: 0.85rem;
-    margin-bottom: 8px;
-    margin-left: 12px;
-    letter-spacing: 0.5px;
-}
-
 /* ===== Login Card ===== */
 .login-card {
     background-color: #d4a999;

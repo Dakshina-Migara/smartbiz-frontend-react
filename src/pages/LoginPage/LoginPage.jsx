@@ -6,17 +6,15 @@ import TextField from '../../common/component/TextField/TextField'
 import './LoginPage.css'
 
 function LoginPage() {
-    const [username, setUsername] = useState('')
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     const handleLogin = () => {
-        console.log('Login:', { username, password })
+        console.log('Login:', { email, password })
     }
 
     return (
         <div className="login-page">
-            <p className="login-page__label">Login Page</p>
-
             <div className="login-card">
                 <h1 className="login-card__title">Login</h1>
 
@@ -24,8 +22,8 @@ function LoginPage() {
                     <TextField
                         icon={<PersonOutlineIcon />}
                         placeholder="Type Your Email"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         fullWidth
                     />
 
