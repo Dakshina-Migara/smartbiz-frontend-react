@@ -40,6 +40,17 @@
     gap: 18px;
 }
 
+.login-error-message {
+    width: 100%;
+    padding: 10px;
+    background-color: #fce4e4;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
 /* ===== Responsive - Tablet ===== */
 @media (max-width: 768px) {
     .login-card {
