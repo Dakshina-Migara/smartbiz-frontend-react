@@ -146,14 +146,8 @@ export default function BusinessOwnerSales() {
             setSelectedCustomer(null)
             setPaymentMethod('cash')
 
-            // On success, the backend now returns FULL sale details
-            if (result.data) {
-                console.log('Sale recorded successfully, opening invoice:', result.data)
-                setSelectedSale(result.data)
-                setIsInvoiceModalOpen(true)
-            } else {
-                console.warn('Sale recorded but no data returned for invoice view.')
-            }
+            // Just notify or refresh, don't auto-open invoice based on new request
+            console.log('Sale recorded successfully')
         } else {
             console.error('Sale recording failed:', result.error)
             alert('Failed to record sale: ' + (result.error || 'Unknown error'))
@@ -388,7 +382,7 @@ export default function BusinessOwnerSales() {
                             disabled={isSubmitting || cart.length === 0}
                             sx={{ minWidth: '150px' }}
                         >
-                            {isSubmitting ? 'Generating Invoice...' : 'Generate Invoice'}
+                            {isSubmitting ? 'Recording...' : 'Record Sale'}
                         </Button>
                     </div>
                 </div>
@@ -401,40 +395,34 @@ export default function BusinessOwnerSales() {
                     setIsInvoiceModalOpen(false)
                     setSelectedSale(null)
                 }}
-                title="Invoice Details"
+                title="Invoice"
             >
                 {selectedSale && (
-                    <div className="invoice-view">
-                        <div className="invoice-view-header">
-                            <div className="invoice-biz-info">
-                                <h3>{user?.businessName || 'SmartBiz Business'}</h3>
-                                <p>Invoice #: {selectedSale.invoiceNumber}</p>
-                                <p>Date: {new Date(selectedSale.saleDate).toLocaleString()}</p>
+                    <div className="invoice-view simple-receipt">
+                        <div className="invoice-header-simple">
+                            <div className="biz-details">
+                                <h2>{user?.businessName || 'SmartBiz'}</h2>
+                                <p>#{selectedSale.invoiceNumber.split('-').pop()} | {new Date(selectedSale.saleDate).toLocaleDateString()}</p>
                             </div>
-                            <div className="invoice-cust-info">
-                                <strong>Bill To:</strong>
-                                <p>{selectedSale.customerName || 'Walk-in Customer'}</p>
-                                {selectedSale.customerEmail && <p>{selectedSale.customerEmail}</p>}
-                                {selectedSale.customerPhone && <p>{selectedSale.customerPhone}</p>}
+                            <div className="cust-details">
+                                <strong>Customer:</strong> {selectedSale.customerName || 'Walk-in'}
                             </div>
                         </div>
 
-                        <div className="invoice-view-body">
-                            <table className="invoice-table">
+                        <div className="invoice-body-simple">
+                            <table className="receipt-table">
                                 <thead>
                                     <tr>
-                                        <th>Product</th>
+                                        <th>Item</th>
                                         <th style={{ textAlign: 'center' }}>Qty</th>
-                                        <th style={{ textAlign: 'right' }}>Price</th>
-                                        <th style={{ textAlign: 'right' }}>Total</th>
+                                        <th style={{ textAlign: 'right' }}>Amount</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {selectedSale.items?.map((item, idx) => (
                                         <tr key={idx}>
-                                            <td>{item.productName || 'Product'}</td>
+                                            <td>{item.productName}</td>
                                             <td style={{ textAlign: 'center' }}>{item.qty}</td>
-                                            <td style={{ textAlign: 'right' }}>${Number(item.price).toFixed(2)}</td>
                                             <td style={{ textAlign: 'right' }}>${(item.qty * item.price).toFixed(2)}</td>
                                         </tr>
                                     ))}
@@ -442,27 +430,22 @@ export default function BusinessOwnerSales() {
                             </table>
                         </div>
 
-                        <div className="invoice-view-footer">
-                            <div className="invoice-summary-row">
-                                <span>Subtotal:</span>
-                                <span>${Number(selectedSale.totalAmount).toFixed(2)}</span>
+                        <div className="invoice-footer-simple">
+                            <div className="total-row-simple">
+                                <span>Total Amount:</span>
+                                <span className="grand-total-amount">${Number(selectedSale.totalAmount).toFixed(2)}</span>
                             </div>
-                            <div className="invoice-summary-row invoice-grand-total">
-                                <span>Grand Total:</span>
-                                <span>${Number(selectedSale.totalAmount).toFixed(2)}</span>
+                            <div className="payment-note-simple">
+                                Paid with {selectedSale.paymentMethod?.toUpperCase()} | Status: {selectedSale.status?.toUpperCase()}
                             </div>
-                            <p className="payment-status">
-                                Payment Method: <strong>{selectedSale.paymentMethod?.toUpperCase()}</strong> |
-                                Status: <strong>{selectedSale.status?.toUpperCase()}</strong>
-                            </p>
                         </div>
 
-                        <div className="form-actions">
+                        <div className="form-actions no-print">
                             <Button variant="outlined" onClick={() => window.print()}>
                                 Print
                             </Button>
                             <Button variant="filled" onClick={() => setIsInvoiceModalOpen(false)}>
-                                Close
+                                Done
                             </Button>
                         </div>
                     </div>

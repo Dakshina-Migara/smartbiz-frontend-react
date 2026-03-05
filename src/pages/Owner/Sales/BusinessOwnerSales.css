@@ -299,3 +299,113 @@
         display: none;
     }
 }
+
+/* Simple Receipt Styles */
+.simple-receipt {
+    padding: 10px;
+    font-family: 'Inter', sans-serif;
+}
+
+.invoice-header-simple {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.biz-details h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: #1a202c;
+}
+
+.biz-details p {
+    margin: 4px 0 0 0;
+    font-size: 0.85rem;
+    color: #718096;
+}
+
+.cust-details {
+    font-size: 0.9rem;
+    color: #4a5568;
+}
+
+.invoice-body-simple {
+    margin-bottom: 20px;
+}
+
+.receipt-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.receipt-table th {
+    text-align: left;
+    padding: 8px 0;
+    border-bottom: 1px solid #edf2f7;
+    font-size: 0.8rem;
+    color: #a0aec0;
+    text-transform: uppercase;
+}
+
+.receipt-table td {
+    padding: 12px 0;
+    border-bottom: 1px solid #f7fafc;
+    font-size: 0.95rem;
+    color: #2d3748;
+}
+
+.invoice-footer-simple {
+    border-top: 2px solid #eee;
+    padding-top: 15px;
+    text-align: right;
+}
+
+.total-row-simple {
+    display: flex;
+    justify-content: flex-end;
+    align-items: baseline;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.total-row-simple span:first-child {
+    font-size: 1rem;
+    color: #718096;
+}
+
+.grand-total-amount {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #1a202c;
+}
+
+.payment-note-simple {
+    font-size: 0.8rem;
+    color: #a0aec0;
+    font-style: italic;
+}
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    .simple-receipt,
+    .simple-receipt * {
+        visibility: visible;
+    }
+
+    .simple-receipt {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+}
