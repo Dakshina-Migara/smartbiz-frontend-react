@@ -1,35 +1,48 @@
+import MuiButton from '@mui/material/Button'
 import './Button.css'
 
-function Button({
+export default function Button({
     children,
     onClick,
     type = 'button',
-    variant = 'filled',  // 'filled' | 'outlined' | 'text'
-    size = 'medium',      // 'small' | 'medium' | 'large'
+    variant = 'filled',
+    size = 'medium',
     fullWidth = false,
     disabled = false,
+    startIcon,
+    endIcon,
     className = '',
     ...props
 }) {
+    // Map our custom variants to MUI variants
+    const muiVariantMap = {
+        filled: 'contained',
+        outlined: 'outlined',
+        text: 'text'
+    }
+
     const classNames = [
-        'btn',
-        `btn--${variant}`,
-        `btn--${size}`,
-        fullWidth ? 'btn--full-width' : '',
+        'smartbiz-btn',
+        `smartbiz-btn--${variant}`,
+        `smartbiz-btn--${size}`,
         className
     ].filter(Boolean).join(' ')
 
     return (
-        <button
+        <MuiButton
             type={type}
-            className={classNames}
-            onClick={onClick}
+            variant={muiVariantMap[variant] || 'contained'}
+            size={size}
+            fullWidth={fullWidth}
             disabled={disabled}
+            onClick={onClick}
+            startIcon={startIcon}
+            endIcon={endIcon}
+            className={classNames}
+            disableElevation
             {...props}
         >
             {children}
-        </button>
+        </MuiButton>
     )
 }
-
-export default Button

@@ -1,100 +1,85 @@
-/* ===== Base Button ===== */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    border: none;
+/* ===== SmartBiz Button Overrides ===== */
+
+/* Filled — dark background (LOGIN) */
+.smartbiz-btn--filled.MuiButton-contained {
+    background-color: #3d3229;
+    color: #ffffff;
     border-radius: 30px;
     font-family: 'Segoe UI', 'Roboto', sans-serif;
     font-weight: 600;
     letter-spacing: 1.2px;
-    cursor: pointer;
-    transition: all 0.3s ease;
     text-transform: uppercase;
-    outline: none;
-}
-
-.btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-/* ===== Variants ===== */
-
-/* Filled — dark background (LOGIN button) */
-.btn--filled {
-    background-color: #3d3229;
-    color: #ffffff;
     box-shadow: 0 4px 12px rgba(61, 50, 41, 0.3);
+    transition: all 0.3s ease;
 }
 
-.btn--filled:hover:not(:disabled) {
+.smartbiz-btn--filled.MuiButton-contained:hover {
     background-color: #2a2118;
     box-shadow: 0 6px 18px rgba(61, 50, 41, 0.45);
     transform: translateY(-1px);
 }
 
-.btn--filled:active:not(:disabled) {
+.smartbiz-btn--filled.MuiButton-contained:active {
     transform: translateY(0);
     box-shadow: 0 2px 8px rgba(61, 50, 41, 0.3);
 }
 
 /* Outlined — border with dark text (Create Your Account) */
-.btn--outlined {
+.smartbiz-btn--outlined.MuiButton-outlined {
     background-color: transparent;
     color: #1a1a1a;
     border: 2.5px solid #1a1a1a;
-    text-transform: none;
+    border-radius: 30px;
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+    font-weight: 600;
     letter-spacing: 0.5px;
+    text-transform: none;
+    transition: all 0.3s ease;
 }
 
-.btn--outlined:hover:not(:disabled) {
+.smartbiz-btn--outlined.MuiButton-outlined:hover {
     background-color: #1a1a1a;
     color: #ffffff;
+    border-color: #1a1a1a;
     transform: translateY(-1px);
     box-shadow: 0 4px 14px rgba(26, 26, 26, 0.3);
 }
 
-.btn--outlined:active:not(:disabled) {
+.smartbiz-btn--outlined.MuiButton-outlined:active {
     transform: translateY(0);
 }
 
-/* Text — looks like a link (Forgot Password) */
-.btn--text {
+/* Text — link style (Forgot Password) */
+.smartbiz-btn--text.MuiButton-text {
     background: none;
     color: #3d3229;
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
     font-weight: 500;
     letter-spacing: 0.3px;
     text-transform: none;
-    padding: 4px 8px;
     border-radius: 6px;
     font-size: 0.85rem;
+    padding: 4px 8px;
 }
 
-.btn--text:hover:not(:disabled) {
+.smartbiz-btn--text.MuiButton-text:hover {
     color: #1a1a1a;
     text-decoration: underline;
     background-color: rgba(61, 50, 41, 0.06);
 }
 
-/* ===== Sizes ===== */
-.btn--small {
+/* ===== Size Overrides ===== */
+.smartbiz-btn--small.MuiButton-root {
     padding: 8px 24px;
     font-size: 0.8rem;
 }
 
-.btn--medium {
+.smartbiz-btn--medium.MuiButton-root {
     padding: 13px 40px;
     font-size: 0.9rem;
 }
 
-.btn--large {
+.smartbiz-btn--large.MuiButton-root {
     padding: 16px 56px;
     font-size: 1rem;
-}
-
-/* ===== Full Width ===== */
-.btn--full-width {
-    width: 100%;
 }
