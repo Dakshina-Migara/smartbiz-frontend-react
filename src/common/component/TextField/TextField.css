@@ -30,6 +30,16 @@
     border-width: 2px;
 }
 
+/* Typed text color */
+.smartbiz-textfield .MuiOutlinedInput-input {
+    color: #1a1a1a;
+    caret-color: #3d3229;
+}
+
+.smartbiz-textfield .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-input {
+    color: #000000;
+}
+
 /* Placeholder */
 .smartbiz-textfield .MuiOutlinedInput-input::placeholder {
     color: #9a8e84;
@@ -59,6 +69,21 @@
 
 .smartbiz-textfield .Mui-focused .smartbiz-textfield__icon svg {
     fill: #3d3229;
+}
+
+/* ===== Password Eye Button ===== */
+.smartbiz-textfield__eye-btn.MuiIconButton-root {
+    color: #7a6e64;
+    transition: color 0.3s ease;
+}
+
+.smartbiz-textfield__eye-btn.MuiIconButton-root:hover {
+    color: #3d3229;
+    background-color: rgba(61, 50, 41, 0.08);
+}
+
+.smartbiz-textfield .Mui-focused .smartbiz-textfield__eye-btn.MuiIconButton-root {
+    color: #3d3229;
 }
 
 /* ===== Disabled ===== */
