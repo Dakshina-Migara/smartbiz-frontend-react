@@ -30,7 +30,7 @@ export default function AdminOverview() {
     const formatNumber = (val) => Number(val).toLocaleString()
 
     return (
-        <AdminLayout breadcrumb="Admin-Overview">
+        <AdminLayout breadcrumb="Overview">
             <div className="admin-overview">
                 {/* Stats Row */}
                 <div className="admin-overview__stats">

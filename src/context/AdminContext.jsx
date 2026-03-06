@@ -10,7 +10,7 @@ export function AdminProvider({ children }) {
         totalBusinesses: 0,
         activeBusinesses: 0,
         monthlyRevenue: 0,
-        subscriptionCount: 0, // Inferred from totalSubscribers if needed
+        subscriptionCount: 0,
         aiTokensUsed: 0,
         totalSubscribers: 0
     })
@@ -19,25 +19,21 @@ export function AdminProvider({ children }) {
         revenueByPlan: [],
         subscribersByPlan: []
     })
+    const [businesses, setBusinesses] = useState([])
     const [loading, setLoading] = useState(true)
+    const [businessesLoading, setBusinessesLoading] = useState(false)
 
+    // Dashboard Data Fetch
     const fetchDashboardData = useCallback(async () => {
-        // Only fetch if admin
         const isAdmin = user?.role?.toUpperCase() === 'ADMIN'
-        if (!isAdmin || !token) {
-            setLoading(false)
-            return
-        }
+        if (!isAdmin || !token) return
 
         setLoading(true)
-        console.log('Fetching Admin Dashboard Data from /admin/dashboard...')
-
         try {
             const response = await API.get('/admin/dashboard')
             const data = response.data
 
             if (data) {
-                // Map backend fields to frontend state
                 setStats({
                     totalBusinesses: data.totalBusinesses || 0,
                     activeBusinesses: data.activeBusinesses || 0,
@@ -47,7 +43,6 @@ export function AdminProvider({ children }) {
                     totalSubscribers: data.totalSubscribers || 0
                 })
 
-                // Map Chart Data
                 const mappedTokenUsage = (data.dailyAiTokenUsage || []).map(entry => ({
                     name: entry.date ? new Date(entry.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'Unknown',
                     usage: entry.tokens || 0
@@ -79,12 +74,75 @@ export function AdminProvider({ children }) {
         }
     }, [user, token])
 
+    // Businesses Management
+    const fetchBusinesses = useCallback(async (query = '') => {
+        const isAdmin = user?.role?.toUpperCase() === 'ADMIN'
+        if (!isAdmin || !token) return
+
+        setBusinessesLoading(true)
+        try {
+            const endpoint = query ? `/admin/businesses/search?q=${query}` : '/admin/businesses'
+            const response = await API.get(endpoint)
+            setBusinesses(response.data || [])
+        } catch (error) {
+            console.error('Error fetching businesses:', error)
+        } finally {
+            setBusinessesLoading(false)
+        }
+    }, [user, token])
+
+    const updateBusinessStatus = async (id, status) => {
+        try {
+            const action = status === 'active' ? 'activate' : 'suspend'
+            const response = await API.put(`/admin/businesses/${id}/${action}`)
+            if (response.status === 200) {
+                // Update local state
+                setBusinesses(prev => prev.map(b =>
+                    b.businessId === id ? { ...b, status: status } : b
+                ))
+                return { success: true }
+            }
+            return { success: false }
+        } catch (error) {
+            console.error(`Error ${status === 'active' ? 'activating' : 'suspending'} business:`, error)
+            return { success: false, message: error.message }
+        }
+    }
+
+    const deleteBusiness = async (id) => {
+        try {
+            const response = await API.delete(`/admin/businesses/${id}`)
+            if (response.status === 204 || response.status === 200) {
+                setBusinesses(prev => prev.filter(b => b.businessId !== id))
+                return { success: true }
+            }
+            return { success: false }
+        } catch (error) {
+            console.error('Error deleting business:', error)
+            return { success: false, message: error.message }
+        }
+    }
+
     useEffect(() => {
-        fetchDashboardData()
-    }, [fetchDashboardData])
+        const isAdmin = user?.role?.toUpperCase() === 'ADMIN'
+        if (isAdmin && token) {
+            fetchDashboardData()
+            fetchBusinesses()
+        }
+    }, [user, token, fetchDashboardData, fetchBusinesses])
 
     return (
-        <AdminContext.Provider value={{ stats, charts, loading, refreshData: fetchDashboardData }}>
+        <AdminContext.Provider value={{
+            stats,
+            charts,
+            businesses,
+            loading,
+            businessesLoading,
+            fetchDashboardData,
+            fetchBusinesses,
+            updateBusinessStatus,
+            deleteBusiness
+        }}>
             {children}
         </AdminContext.Provider>
     )
