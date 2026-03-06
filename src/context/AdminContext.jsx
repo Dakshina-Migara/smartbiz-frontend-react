@@ -106,6 +106,23 @@ export function AdminProvider({ children }) {
         }
     }
 
+    const updateAccount = async (adminId, accountData) => {
+        try {
+            const response = await API.put(`/admin/accounts/${adminId}`, accountData)
+            if (response.status === 200) {
+                // Update local businesses state
+                setBusinesses(prev => prev.map(b =>
+                    b.adminId === adminId ? { ...b, ...response.data } : b
+                ))
+                return { success: true, data: response.data }
+            }
+            return { success: false }
+        } catch (error) {
+            console.error('Error updating account:', error)
+            return { success: false, message: error.message }
+        }
+    }
+
     useEffect(() => {
         const isAdmin = user?.role?.toUpperCase() === 'ADMIN'
         if (isAdmin && token) {
@@ -123,7 +140,9 @@ export function AdminProvider({ children }) {
             businessesLoading,
             fetchDashboardData,
             fetchBusinesses,
-            deleteBusiness
+            updateAccount,
+            deleteBusiness,
+            user
         }}>
             {children}
         </AdminContext.Provider>
