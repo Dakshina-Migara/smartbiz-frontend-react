@@ -14,8 +14,19 @@ function LoginPage() {
     const [error, setError] = useState('')
     const [isLoading, setIsLoading] = useState(false)
 
-    const { login } = useAuth()
+    const { login, user, token } = useAuth()
     const navigate = useNavigate()
+
+    useEffect(() => {
+        if (user && token && !isLoading) {
+            const userRole = user.role?.toUpperCase()
+            if (userRole === 'ADMIN') {
+                navigate('/admin/dashboard')
+            } else {
+                navigate('/owner/dashboard')
+            }
+        }
+    }, [user, token, navigate])
 
     const handleLogin = async (e) => {
         if (e) e.preventDefault()
