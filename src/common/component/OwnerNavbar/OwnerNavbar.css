@@ -150,3 +150,37 @@
         padding-left: 10px;
     }
 }
+
+/* ===== Logout Button & Divider ===== */
+.owner-navbar__divider {
+    width: 2px;
+    height: 36px;
+    background-color: #e2e8f0;
+    margin: 0 8px;
+    flex-shrink: 0;
+    align-self: center;
+    border-radius: 2px;
+}
+
+.owner-navbar__item--logout {
+    margin-left: auto;
+    /* Push to right if there is space */
+}
+
+.owner-navbar__item--logout:hover {
+    background-color: #fff5f5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(229, 62, 62, 0.15);
+}
+
+.owner-navbar__item--logout:hover .owner-navbar__icon svg,
+.owner-navbar__item--logout:hover .owner-navbar__label {
+    color: #e53e3e;
+}
+
+@media (max-width: 1024px) {
+    .owner-navbar__divider {
+        height: 28px;
+        margin: 0 4px;
+    }
+}

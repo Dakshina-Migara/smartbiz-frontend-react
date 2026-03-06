@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined'
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined'
@@ -8,6 +9,10 @@ import PointOfSaleOutlinedIcon from '@mui/icons-material/PointOfSaleOutlined'
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined'
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined'
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined'
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined'
+import { useAuth } from '../../../context/AuthContext'
+import Modal from '../Modal/Modal'
+import Button from '../Button/Button'
 import './OwnerNavbar.css'
 
 const navItems = [
@@ -25,22 +30,63 @@ const navItems = [
 export default function OwnerNavbar() {
     const navigate = useNavigate()
     const location = useLocation()
+    const { logout } = useAuth()
+    const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
 
     return (
-        <nav className="owner-navbar">
-            {navItems.map((item, index) => {
-                const isActive = location.pathname === item.path
-                return (
-                    <button
-                        key={index}
-                        className={`owner-navbar__item ${isActive ? 'owner-navbar__item--active' : ''}`}
-                        onClick={() => navigate(item.path)}
-                    >
-                        <span className="owner-navbar__icon">{item.icon}</span>
-                        <span className="owner-navbar__label">{item.label}</span>
-                    </button>
-                )
-            })}
-        </nav>
+        <>
+            <nav className="owner-navbar">
+                {navItems.map((item, index) => {
+                    const isActive = location.pathname === item.path
+                    return (
+                        <button
+                            key={index}
+                            className={`owner-navbar__item ${isActive ? 'owner-navbar__item--active' : ''}`}
+                            onClick={() => navigate(item.path)}
+                        >
+                            <span className="owner-navbar__icon">{item.icon}</span>
+                            <span className="owner-navbar__label">{item.label}</span>
+                        </button>
+                    )
+                })}
+
+                <div className="owner-navbar__divider" />
+
+                <button
+                    className="owner-navbar__item owner-navbar__item--logout"
+                    onClick={() => setIsLogoutModalOpen(true)}
+                >
+                    <span className="owner-navbar__icon"><LogoutOutlinedIcon /></span>
+                    <span className="owner-navbar__label">Logout</span>
+                </button>
+            </nav>
+
+            <Modal
+                isOpen={isLogoutModalOpen}
+                onClose={() => setIsLogoutModalOpen(false)}
+                title="Confirm Logout"
+            >
+                <div style={{ textAlign: 'center', padding: '20px 0' }}>
+                    <div style={{ paddingBottom: '24px', fontSize: '15px', color: '#4a5568' }}>
+                        Are you sure you want to log out of your account?
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '16px' }}>
+                        <Button
+                            variant="outlined"
+                            onClick={() => setIsLogoutModalOpen(false)}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            variant="filled"
+                            onClick={() => logout()}
+                            sx={{ backgroundColor: '#e53e3e', color: 'white' }}
+                        >
+                            Logout
+                        </Button>
+                    </div>
+                </div>
+            </Modal>
+        </>
     )
 }
