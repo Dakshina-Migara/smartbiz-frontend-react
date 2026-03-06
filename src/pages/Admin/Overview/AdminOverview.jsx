@@ -37,7 +37,6 @@ export default function AdminOverview() {
                     <StatCard
                         title="Total Businesses"
                         value={stats.totalBusinesses.toString()}
-                        subtitle={`${stats.activeBusinesses} active`}
                         icon={<BusinessOutlinedIcon />}
                         iconColor="#4a5568"
                     />

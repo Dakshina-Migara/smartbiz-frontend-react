@@ -10,7 +10,7 @@ import Button from '../../../common/component/Button/Button'
 import './AdminBusinesses.css'
 
 export default function AdminBusinesses() {
-    const { businesses, businessesLoading, fetchBusinesses, updateBusinessStatus, deleteBusiness } = useAdmin()
+    const { businesses, businessesLoading, fetchBusinesses, deleteBusiness } = useAdmin()
     const [searchQuery, setSearchQuery] = useState('')
 
     // Delete Modal State
@@ -22,11 +22,6 @@ export default function AdminBusinesses() {
         const query = e.target.value
         setSearchQuery(query)
         fetchBusinesses(query)
-    }
-
-    const handleToggleStatus = async (id, currentStatus) => {
-        const targetStatus = (currentStatus === 'active') ? 'suspended' : 'active'
-        await updateBusinessStatus(id, targetStatus)
     }
 
     const openDeleteModal = (business) => {
@@ -79,15 +74,6 @@ export default function AdminBusinesses() {
             )
         },
         {
-            key: 'status',
-            label: 'Status',
-            render: (val) => (
-                <span className={`table-pill status-pill ${val?.toLowerCase()}`}>
-                    {val || 'Unknown'}
-                </span>
-            )
-        },
-        {
             key: 'aiUsage',
             label: 'AI Usage',
             render: (val) => (val || 0).toLocaleString()
@@ -113,15 +99,6 @@ export default function AdminBusinesses() {
                             <VisibilityOutlinedIcon />
                         </button>
                         <button
-                            className={`action-btn ${row.status === 'active' ? 'suspend' : 'activate'}`}
-                            onClick={() => !isAdmin && handleToggleStatus(row.businessId, row.status)}
-                            disabled={isAdmin}
-                            style={isAdmin ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
-                            title={isAdmin ? "System Admins cannot be suspended" : ""}
-                        >
-                            {row.status === 'active' ? 'Suspend' : 'Activate'}
-                        </button>
-                        <button
                             className="icon-btn delete-btn"
                             title={isAdmin ? "System Admins cannot be deleted" : "Delete Account"}
                             onClick={() => !isAdmin && openDeleteModal(row)}
@@ -134,7 +111,7 @@ export default function AdminBusinesses() {
                 );
             }
         }
-    ], [handleToggleStatus])
+    ], [])
 
     return (
         <AdminLayout breadcrumb="Businesses">
@@ -170,11 +147,11 @@ export default function AdminBusinesses() {
             <Modal
                 isOpen={isDeleteModalOpen}
                 onClose={() => !isDeleting && setIsDeleteModalOpen(false)}
-                title="Confirm Business Deletion"
+                title="Confirm Account Deletion"
             >
                 <div style={{ textAlign: 'center', padding: '20px 0' }}>
                     <div style={{ paddingBottom: '24px', fontSize: '15px', color: '#4a5568' }}>
-                        Are you sure you want to permanently delete <strong>{selectedBusiness?.name}</strong>?<br />
+                        Are you sure you want to permanently delete the account for <strong>{selectedBusiness?.name}</strong>?<br />
                         <span style={{ fontSize: '13px', color: '#e53e3e', marginTop: '10px', display: 'block' }}>
                             Warning: This action will delete all associated data and cannot be undone.
                         </span>

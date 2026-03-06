@@ -91,23 +91,6 @@ export function AdminProvider({ children }) {
         }
     }, [user, token])
 
-    const updateBusinessStatus = async (id, status) => {
-        try {
-            const action = status === 'active' ? 'activate' : 'suspend'
-            const response = await API.put(`/admin/businesses/${id}/${action}`)
-            if (response.status === 200) {
-                // Update local state
-                setBusinesses(prev => prev.map(b =>
-                    b.businessId === id ? { ...b, status: status } : b
-                ))
-                return { success: true }
-            }
-            return { success: false }
-        } catch (error) {
-            console.error(`Error ${status === 'active' ? 'activating' : 'suspending'} business:`, error)
-            return { success: false, message: error.message }
-        }
-    }
 
     const deleteBusiness = async (id) => {
         try {
@@ -140,7 +123,6 @@ export function AdminProvider({ children }) {
             businessesLoading,
             fetchDashboardData,
             fetchBusinesses,
-            updateBusinessStatus,
             deleteBusiness
         }}>
             {children}
