@@ -102,7 +102,8 @@ export default function BusinessOwnerTransaction() {
             } else {
                 alert('Error processing transaction: ' + result.error)
             }
-        } catch (error) {
+        } catch (err) {
+            console.error(err)
             alert('An unexpected error occurred.')
         } finally {
             setIsSubmitting(false)
