@@ -111,6 +111,21 @@
     color: #3d3229;
 }
 
+.register-instruction {
+    font-size: 0.9rem;
+    color: #4a3e36;
+    margin: 10px 0;
+    font-style: italic;
+    text-align: center;
+}
+
+.smartbiz-error-text {
+    color: #d32f2f;
+    font-size: 0.75rem;
+    margin-top: 4px;
+    margin-left: 14px;
+}
+
 /* ===== Responsive - Tablet ===== */
 @media (max-width: 768px) {
     .register-card {
