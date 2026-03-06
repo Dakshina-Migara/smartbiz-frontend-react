@@ -1,0 +1,142 @@
+.transactions-page {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 0 0 24px 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Summary Cards */
+.summary-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+@media (max-width: 768px) {
+    .summary-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+.summary-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.summary-card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a202c;
+    margin-bottom: 16px;
+}
+
+.summary-card-value {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.income-value {
+    color: #38a169;
+}
+
+.expense-value {
+    color: #e53e3e;
+}
+
+/* Transactions Table Section */
+.transactions-section {
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.transactions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.transactions-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a202c;
+    margin: 0;
+}
+
+/* Cell Formatting */
+.type-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.type-badge--expense {
+    background-color: #c53030;
+    color: #fff;
+}
+
+.type-badge--income {
+    background-color: #1a202c;
+    color: #fff;
+}
+
+.amount-cell {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.amount-cell--income {
+    color: #38a169;
+}
+
+.amount-cell--expense {
+    color: #e53e3e;
+}
+
+/* Actions */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.action-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: all 0.2s;
+    color: #4a5568;
+}
+
+.action-btn:hover {
+    background-color: #edf2f7;
+}
+
+.action-btn--delete:hover {
+    background-color: #fff5f5;
+}
+
+/* Modal Form */
+.transaction-form-container {
+    padding: 8px 0;
+}
