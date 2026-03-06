@@ -49,12 +49,18 @@ function LoginPage() {
         const result = await login(email, password)
 
         if (result.success) {
-            // Check role and navigate accordingly
-            const userRole = result.data.role?.toUpperCase()
-            if (userRole === 'ADMIN') {
-                navigate('/admin/dashboard')
+            // Priority 1: Use backend provided homePath
+            // Priority 2: Fallback to role-based check
+            const homePath = result.data.homePath
+            if (homePath) {
+                navigate(homePath)
             } else {
-                navigate('/owner/dashboard')
+                const userRole = result.data.role?.toUpperCase()
+                if (userRole === 'ADMIN') {
+                    navigate('/admin/dashboard')
+                } else {
+                    navigate('/owner/dashboard')
+                }
             }
         } else {
             setError(result.message)
