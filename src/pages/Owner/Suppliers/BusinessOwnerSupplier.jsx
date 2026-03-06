@@ -132,7 +132,7 @@ export default function BusinessOwnerSupplier() {
                 </div>
             )
         }
-    ], [])
+    ], [handleDeleteSupplier, handleOpenEditModal])
 
     return (
         <OwnerLayout breadcrumb="Suppliers">

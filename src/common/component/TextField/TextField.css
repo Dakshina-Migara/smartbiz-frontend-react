@@ -104,3 +104,25 @@
 .smartbiz-textfield--disabled {
     opacity: 0.5;
 }
+
+/* ===== Error State ===== */
+.smartbiz-textfield .Mui-error .MuiOutlinedInput-notchedOutline {
+    border-color: #e53e3e !important;
+    border-width: 2px !important;
+}
+
+.smartbiz-textfield .MuiFormHelperText-root.Mui-error {
+    color: #e53e3e;
+    font-weight: 500;
+    margin-left: 14px;
+    margin-top: 4px;
+    font-size: 0.75rem;
+}
+
+.smartbiz-textfield .Mui-error .smartbiz-textfield__icon {
+    color: #e53e3e;
+}
+
+.smartbiz-textfield .Mui-error .smartbiz-textfield__icon svg {
+    fill: #e53e3e;
+}
