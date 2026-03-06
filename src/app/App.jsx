@@ -21,6 +21,7 @@ import BusinessOwnerTransaction from '../pages/Owner/Transaction/BusinessOwnerTr
 import BusinessOwnerReports from '../pages/Owner/Reports/BusinessOwnerReports'
 import BusinessOwnerAiInsight from '../pages/Owner/AiInsight/BusinessOwnerAiInsight'
 import AdminOverview from '../pages/Admin/Overview/AdminOverview'
+import { AdminProvider } from '../context/AdminContext'
 
 function TitleManager() {
   const location = useLocation()
@@ -93,7 +94,9 @@ export default function App() {
               <TransactionProvider>
                 <ReportsProvider>
                   <AiInsightProvider>
-                    <AppContent />
+                    <AdminProvider>
+                      <AppContent />
+                    </AdminProvider>
                   </AiInsightProvider>
                 </ReportsProvider>
               </TransactionProvider>
