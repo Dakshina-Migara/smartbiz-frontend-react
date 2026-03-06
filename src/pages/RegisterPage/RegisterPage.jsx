@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import BusinessIcon from '@mui/icons-material/BusinessOutlined'
 import LocationOnIcon from '@mui/icons-material/LocationOnOutlined'
@@ -67,13 +67,19 @@ export default function RegisterPage() {
 
         // Explicit validation checks
         let errors = {}
-        if (!formData.businessName.trim()) errors.businessName = 'Business Name is required'
-        if (!formData.businessAddress.trim()) errors.businessAddress = 'Business Address is required'
-        if (!formData.ownerName.trim()) errors.ownerName = 'Owner Name is required'
+
+        // Common fields validation
+        if (!formData.role) errors.role = 'Role is required'
+        if (!formData.ownerName.trim()) errors.ownerName = 'Name is required'
         if (!formData.email.trim()) errors.email = 'Email is required'
         if (!formData.password.trim()) errors.password = 'Password is required'
         if (!formData.phone.trim()) errors.phone = 'Phone Number is required'
-        if (!formData.role) errors.role = 'Role is required'
+
+        // Conditional validation for Owner
+        if (formData.role === 'Owner') {
+            if (!formData.businessName.trim()) errors.businessName = 'Business Name is required'
+            if (!formData.businessAddress.trim()) errors.businessAddress = 'Business Address is required'
+        }
 
         if (Object.keys(errors).length > 0) {
             setFieldErrors(errors)
@@ -124,74 +130,7 @@ export default function RegisterPage() {
                 <form className="register-card__form" onSubmit={handleRegister}>
                     {error && <div className="register-error-message">{error}</div>}
 
-                    <TextField
-                        icon={<BusinessIcon />}
-                        placeholder="Business Name"
-                        name="businessName"
-                        value={formData.businessName}
-                        onChange={handleChange}
-                        fullWidth
-                        error={!!fieldErrors.businessName}
-                        helperText={fieldErrors.businessName}
-                    />
-
-                    <TextField
-                        icon={<LocationOnIcon />}
-                        placeholder="Business Address"
-                        name="businessAddress"
-                        value={formData.businessAddress}
-                        onChange={handleChange}
-                        fullWidth
-                        error={!!fieldErrors.businessAddress}
-                        helperText={fieldErrors.businessAddress}
-                    />
-
-                    <TextField
-                        icon={<PersonOutlineIcon />}
-                        placeholder="Owner Name"
-                        name="ownerName"
-                        value={formData.ownerName}
-                        onChange={handleChange}
-                        fullWidth
-                        error={!!fieldErrors.ownerName}
-                        helperText={fieldErrors.ownerName}
-                    />
-
-                    <TextField
-                        icon={<EmailOutlinedIcon />}
-                        placeholder="Email Address"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        fullWidth
-                        error={!!fieldErrors.email}
-                        helperText={fieldErrors.email}
-                    />
-
-                    <TextField
-                        type="password"
-                        icon={<LockOutlinedIcon />}
-                        placeholder="Password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        fullWidth
-                        error={!!fieldErrors.password}
-                        helperText={fieldErrors.password}
-                    />
-
-                    <TextField
-                        type="tel"
-                        icon={<PhoneOutlinedIcon />}
-                        placeholder="Phone Number"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handlePhoneChange}
-                        fullWidth
-                        error={!!fieldErrors.phone}
-                        helperText={fieldErrors.phone}
-                    />
-
+                    {/* Step 1: Role Selection */}
                     <FormControl fullWidth className="smartbiz-select" error={!!fieldErrors.role}>
                         <Select
                             name="role"
@@ -207,7 +146,7 @@ export default function RegisterPage() {
                             }
                             renderValue={(selected) => {
                                 if (!selected) {
-                                    return <span className="smartbiz-select__placeholder">Select Role</span>
+                                    return <span className="smartbiz-select__placeholder">Choose Account Type</span>
                                 }
                                 return selected
                             }}
@@ -215,16 +154,99 @@ export default function RegisterPage() {
                             <MenuItem value="Admin">Admin</MenuItem>
                             <MenuItem value="Owner">Owner</MenuItem>
                         </Select>
+                        {fieldErrors.role && <p className="smartbiz-error-text">{fieldErrors.role}</p>}
                     </FormControl>
 
-                    <Button
-                        variant="filled"
-                        fullWidth
-                        type="submit"
-                        disabled={isLoading}
-                    >
-                        {isLoading ? 'Registering...' : 'Register'}
-                    </Button>
+                    {/* Step 2: Show User Information (Always shown if role is selected) */}
+                    {formData.role && (
+                        <>
+                            <TextField
+                                icon={<PersonOutlineIcon />}
+                                placeholder={formData.role === 'Admin' ? "Admin Name" : "Owner Name"}
+                                name="ownerName"
+                                value={formData.ownerName}
+                                onChange={handleChange}
+                                fullWidth
+                                error={!!fieldErrors.ownerName}
+                                helperText={fieldErrors.ownerName}
+                            />
+
+                            <TextField
+                                icon={<EmailOutlinedIcon />}
+                                placeholder="Email Address"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                fullWidth
+                                error={!!fieldErrors.email}
+                                helperText={fieldErrors.email}
+                            />
+
+                            <TextField
+                                type="password"
+                                icon={<LockOutlinedIcon />}
+                                placeholder="Password"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                fullWidth
+                                error={!!fieldErrors.password}
+                                helperText={fieldErrors.password}
+                            />
+
+                            <TextField
+                                type="tel"
+                                icon={<PhoneOutlinedIcon />}
+                                placeholder="Phone Number"
+                                name="phone"
+                                value={formData.phone}
+                                onChange={handlePhoneChange}
+                                fullWidth
+                                error={!!fieldErrors.phone}
+                                helperText={fieldErrors.phone}
+                            />
+
+                            {/* Step 3: Show Business Information only for Owner */}
+                            {formData.role === 'Owner' && (
+                                <>
+                                    <TextField
+                                        icon={<BusinessIcon />}
+                                        placeholder="Business Name"
+                                        name="businessName"
+                                        value={formData.businessName}
+                                        onChange={handleChange}
+                                        fullWidth
+                                        error={!!fieldErrors.businessName}
+                                        helperText={fieldErrors.businessName}
+                                    />
+
+                                    <TextField
+                                        icon={<LocationOnIcon />}
+                                        placeholder="Business Address"
+                                        name="businessAddress"
+                                        value={formData.businessAddress}
+                                        onChange={handleChange}
+                                        fullWidth
+                                        error={!!fieldErrors.businessAddress}
+                                        helperText={fieldErrors.businessAddress}
+                                    />
+                                </>
+                            )}
+
+                            <Button
+                                variant="filled"
+                                fullWidth
+                                type="submit"
+                                disabled={isLoading}
+                            >
+                                {isLoading ? 'Registering...' : 'Complete Registration'}
+                            </Button>
+                        </>
+                    )}
+
+                    {!formData.role && (
+                        <p className="register-instruction">Please select an account type to continue</p>
+                    )}
 
                     <p className="register-card__footer-text">Already have an account?</p>
 
