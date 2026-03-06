@@ -133,7 +133,7 @@ export default function BusinessOwnerCustomers() {
                 </div>
             )
         }
-    ], [])
+    ], [handleDeleteCustomer, handleOpenEditModal])
 
     return (
         <OwnerLayout breadcrumb="Customers">

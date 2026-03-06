@@ -26,6 +26,7 @@ export default function RegisterPage() {
         phone: '',
         role: ''
     })
+    const [fieldErrors, setFieldErrors] = useState({})
     const [error, setError] = useState('')
     const [isLoading, setIsLoading] = useState(false)
 
@@ -33,41 +34,52 @@ export default function RegisterPage() {
     const navigate = useNavigate()
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value })
+        const { name, value } = e.target
+        setFormData({ ...formData, [name]: value })
+        if (fieldErrors[name]) {
+            setFieldErrors(prev => ({ ...prev, [name]: '' }))
+        }
     }
 
     const handlePhoneChange = (e) => {
         const numericValue = e.target.value.replace(/\D/g, '')
         setFormData({ ...formData, phone: numericValue })
+        if (fieldErrors.phone) {
+            setFieldErrors(prev => ({ ...prev, phone: '' }))
+        }
     }
 
     const handleRegister = async (e) => {
         if (e) e.preventDefault()
         setError('')
+        setFieldErrors({})
 
         // Explicit validation checks
-        let missing = []
-        if (!formData.businessName.trim()) missing.push('Business Name')
-        if (!formData.businessAddress.trim()) missing.push('Address')
-        if (!formData.ownerName.trim()) missing.push('Owner Name')
-        if (!formData.email.trim()) missing.push('Email')
-        if (!formData.password.trim()) missing.push('Password')
-        if (!formData.phone.trim()) missing.push('Phone')
-        if (!formData.role) missing.push('Role')
+        let errors = {}
+        if (!formData.businessName.trim()) errors.businessName = 'Business Name is required'
+        if (!formData.businessAddress.trim()) errors.businessAddress = 'Business Address is required'
+        if (!formData.ownerName.trim()) errors.ownerName = 'Owner Name is required'
+        if (!formData.email.trim()) errors.email = 'Email is required'
+        if (!formData.password.trim()) errors.password = 'Password is required'
+        if (!formData.phone.trim()) errors.phone = 'Phone Number is required'
+        if (!formData.role) errors.role = 'Role is required'
 
-        if (missing.length > 0) {
-            setError(`Missing required fields: ${missing.join(', ')}`)
+        if (Object.keys(errors).length > 0) {
+            setFieldErrors(errors)
+            setError('Please fix the errors below.')
             return
         }
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.com$/i
         if (!emailRegex.test(formData.email)) {
-            setError('Email must contain "@" and end with ".com"')
+            setFieldErrors({ email: 'Email must contain "@" and end with ".com"' })
+            setError('Invalid email format.')
             return
         }
 
         if (formData.password.length < 8) {
-            setError('Password must be at least 8 characters long.')
+            setFieldErrors({ password: 'Password must be at least 8 characters long.' })
+            setError('Password too short.')
             return
         }
 
@@ -102,6 +114,8 @@ export default function RegisterPage() {
                         value={formData.businessName}
                         onChange={handleChange}
                         fullWidth
+                        error={!!fieldErrors.businessName}
+                        helperText={fieldErrors.businessName}
                     />
 
                     <TextField
@@ -111,6 +125,8 @@ export default function RegisterPage() {
                         value={formData.businessAddress}
                         onChange={handleChange}
                         fullWidth
+                        error={!!fieldErrors.businessAddress}
+                        helperText={fieldErrors.businessAddress}
                     />
 
                     <TextField
@@ -120,6 +136,8 @@ export default function RegisterPage() {
                         value={formData.ownerName}
                         onChange={handleChange}
                         fullWidth
+                        error={!!fieldErrors.ownerName}
+                        helperText={fieldErrors.ownerName}
                     />
 
                     <TextField
@@ -129,6 +147,8 @@ export default function RegisterPage() {
                         value={formData.email}
                         onChange={handleChange}
                         fullWidth
+                        error={!!fieldErrors.email}
+                        helperText={fieldErrors.email}
                     />
 
                     <TextField
@@ -139,6 +159,8 @@ export default function RegisterPage() {
                         value={formData.password}
                         onChange={handleChange}
                         fullWidth
+                        error={!!fieldErrors.password}
+                        helperText={fieldErrors.password}
                     />
 
                     <TextField
@@ -149,9 +171,11 @@ export default function RegisterPage() {
                         value={formData.phone}
                         onChange={handlePhoneChange}
                         fullWidth
+                        error={!!fieldErrors.phone}
+                        helperText={fieldErrors.phone}
                     />
 
-                    <FormControl fullWidth className="smartbiz-select">
+                    <FormControl fullWidth className="smartbiz-select" error={!!fieldErrors.role}>
                         <Select
                             name="role"
                             value={formData.role}

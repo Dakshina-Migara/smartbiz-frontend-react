@@ -10,6 +10,7 @@ import './LoginPage.css'
 function LoginPage() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [fieldErrors, setFieldErrors] = useState({})
     const [error, setError] = useState('')
     const [isLoading, setIsLoading] = useState(false)
 
@@ -19,14 +20,16 @@ function LoginPage() {
     const handleLogin = async (e) => {
         if (e) e.preventDefault()
         setError('')
+        setFieldErrors({})
 
         // Custom Validation
-        let missing = []
-        if (!email.trim()) missing.push('Email')
-        if (!password.trim()) missing.push('Password')
+        let errors = {}
+        if (!email.trim()) errors.email = 'Email is required'
+        if (!password.trim()) errors.password = 'Password is required'
 
-        if (missing.length > 0) {
-            setError(`Please provide your: ${missing.join(' and ')}`)
+        if (Object.keys(errors).length > 0) {
+            setFieldErrors(errors)
+            setError('Please correct the highlighted fields.')
             return
         }
 
@@ -59,8 +62,13 @@ function LoginPage() {
                         icon={<PersonOutlineIcon />}
                         placeholder="Type Your Email"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) => {
+                            setEmail(e.target.value)
+                            if (fieldErrors.email) setFieldErrors(prev => ({ ...prev, email: '' }))
+                        }}
                         fullWidth
+                        error={!!fieldErrors.email}
+                        helperText={fieldErrors.email}
                     />
 
                     <TextField
@@ -68,8 +76,13 @@ function LoginPage() {
                         icon={<LockOutlinedIcon />}
                         placeholder="Password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => {
+                            setPassword(e.target.value)
+                            if (fieldErrors.password) setFieldErrors(prev => ({ ...prev, password: '' }))
+                        }}
                         fullWidth
+                        error={!!fieldErrors.password}
+                        helperText={fieldErrors.password}
                     />
 
                     <Button

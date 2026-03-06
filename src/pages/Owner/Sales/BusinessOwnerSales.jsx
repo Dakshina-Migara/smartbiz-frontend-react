@@ -79,7 +79,7 @@ export default function BusinessOwnerSales() {
                 if (!res.success) {
                     alert('Error: ' + (res.error || 'Failed to delete sale'))
                 }
-            } catch (err) {
+            } catch {
                 alert('An unexpected error occurred.')
             }
         }
@@ -221,7 +221,7 @@ export default function BusinessOwnerSales() {
                 </div>
             )
         }
-    ], [])
+    ], [handleDeleteSale, handleViewInvoice])
 
     return (
         <OwnerLayout breadcrumb="Sales">

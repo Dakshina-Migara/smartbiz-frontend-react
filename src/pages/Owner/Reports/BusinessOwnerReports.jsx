@@ -130,7 +130,7 @@ export default function BusinessOwnerReports() {
                                             outerRadius={100}
                                             innerRadius={0}
                                             fill="#8884d8"
-                                            label={({ cx, cy, midAngle, innerRadius, outerRadius, value, index }) => {
+                                            label={({ cx, cy, midAngle, outerRadius, value, index }) => {
                                                 const RADIAN = Math.PI / 180;
                                                 const radius = outerRadius * 1.35;
                                                 const x = cx + radius * Math.cos(-midAngle * RADIAN);
