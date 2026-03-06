@@ -44,6 +44,33 @@ export default function RegisterPage() {
     const handleRegister = async (e) => {
         if (e) e.preventDefault()
         setError('')
+
+        // Explicit validation checks
+        let missing = []
+        if (!formData.businessName.trim()) missing.push('Business Name')
+        if (!formData.businessAddress.trim()) missing.push('Address')
+        if (!formData.ownerName.trim()) missing.push('Owner Name')
+        if (!formData.email.trim()) missing.push('Email')
+        if (!formData.password.trim()) missing.push('Password')
+        if (!formData.phone.trim()) missing.push('Phone')
+        if (!formData.role) missing.push('Role')
+
+        if (missing.length > 0) {
+            setError(`Missing required fields: ${missing.join(', ')}`)
+            return
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.com$/i
+        if (!emailRegex.test(formData.email)) {
+            setError('Email must contain "@" and end with ".com"')
+            return
+        }
+
+        if (formData.password.length < 8) {
+            setError('Password must be at least 8 characters long.')
+            return
+        }
+
         setIsLoading(true)
 
         const result = await register(formData)
@@ -75,7 +102,6 @@ export default function RegisterPage() {
                         value={formData.businessName}
                         onChange={handleChange}
                         fullWidth
-                        required
                     />
 
                     <TextField
@@ -85,7 +111,6 @@ export default function RegisterPage() {
                         value={formData.businessAddress}
                         onChange={handleChange}
                         fullWidth
-                        required
                     />
 
                     <TextField
@@ -95,7 +120,6 @@ export default function RegisterPage() {
                         value={formData.ownerName}
                         onChange={handleChange}
                         fullWidth
-                        required
                     />
 
                     <TextField
@@ -105,7 +129,6 @@ export default function RegisterPage() {
                         value={formData.email}
                         onChange={handleChange}
                         fullWidth
-                        required
                     />
 
                     <TextField
@@ -116,7 +139,6 @@ export default function RegisterPage() {
                         value={formData.password}
                         onChange={handleChange}
                         fullWidth
-                        required
                     />
 
                     <TextField
@@ -127,7 +149,6 @@ export default function RegisterPage() {
                         value={formData.phone}
                         onChange={handlePhoneChange}
                         fullWidth
-                        required
                     />
 
                     <FormControl fullWidth className="smartbiz-select">
@@ -136,7 +157,6 @@ export default function RegisterPage() {
                             value={formData.role}
                             onChange={handleChange}
                             displayEmpty
-                            required
                             startAdornment={
                                 <InputAdornment position="start">
                                     <span className="smartbiz-textfield__icon">

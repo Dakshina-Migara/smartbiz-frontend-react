@@ -1,0 +1,149 @@
+.ai-insight-page {
+    display: flex;
+    justify-content: center;
+    padding: 0 0 24px 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.ai-card {
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 32px;
+    width: 100%;
+    max-width: 1000px;
+}
+
+/* Header */
+.ai-card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.ai-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a202c;
+    margin: 0;
+}
+
+/* Tabs */
+.ai-tabs {
+    display: flex;
+    background-color: #f1f5f9;
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 32px;
+}
+
+.ai-tab {
+    flex: 1;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.ai-tab:hover:not(.ai-tab--active) {
+    background-color: #e2e8f0;
+}
+
+.ai-tab--active {
+    background-color: #ffffff;
+    color: #0f172a;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Form Section */
+.ai-section-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1a202c;
+    margin-bottom: 12px;
+}
+
+.ai-input-group {
+    margin-bottom: 20px;
+}
+
+/* Quick Questions */
+.ai-quick-questions {
+    margin-top: 32px;
+}
+
+.quick-questions-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #4a5568;
+    margin-bottom: 16px;
+}
+
+.quick-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.quick-chip {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #4a5568;
+    cursor: pointer;
+    transition: all 0.2sease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.quick-chip:hover {
+    background-color: #f8fafc;
+    border-color: #cbd5e1;
+    color: #1a202c;
+}
+
+/* Response Section */
+.ai-response-container {
+    margin-top: 40px;
+    padding: 24px;
+    background-color: #f8fafc;
+    border-radius: 12px;
+    border-left: 4px solid #8A2BE2;
+}
+
+.ai-response-error {
+    background-color: #fff5f5;
+    border-left-color: #e53e3e;
+}
+
+.response-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    margin-top: 0;
+    color: #1a202c;
+}
+
+.ai-response-error .response-title {
+    color: #c53030;
+}
+
+.response-content p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #334155;
+    margin-bottom: 12px;
+}
+
+.response-content p:last-child {
+    margin-bottom: 0;
+}
