@@ -3,7 +3,6 @@ import AdminLayout from '../../../common/component/AdminLayout/AdminLayout'
 import DataTable from '../../../common/component/DataTable/DataTable'
 import { useAdmin } from '../../../context/AdminContext'
 import SearchIcon from '@mui/icons-material/Search'
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import Modal from '../../../common/component/Modal/Modal'
 import Button from '../../../common/component/Button/Button'
@@ -95,9 +94,6 @@ export default function AdminBusinesses() {
                 const isAdmin = row.role?.toUpperCase() === 'ADMIN';
                 return (
                     <div className="table-actions">
-                        <button className="icon-btn" title="View Details">
-                            <VisibilityOutlinedIcon />
-                        </button>
                         <button
                             className="icon-btn delete-btn"
                             title={isAdmin ? "System Admins cannot be deleted" : "Delete Account"}
