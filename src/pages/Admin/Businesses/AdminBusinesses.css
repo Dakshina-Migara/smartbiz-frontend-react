@@ -92,6 +92,17 @@
     color: #718096;
 }
 
+/* Role Pills */
+.role-pill.admin {
+    background-color: #805ad5;
+    color: #ffffff;
+}
+
+.role-pill.owner {
+    background-color: #319795;
+    color: #ffffff;
+}
+
 /* Actions Row */
 .table-actions {
     display: flex;

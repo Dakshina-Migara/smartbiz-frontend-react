@@ -91,23 +91,6 @@ export function AdminProvider({ children }) {
         }
     }, [user, token])
 
-    const updateBusinessStatus = async (id, status) => {
-        try {
-            const action = status === 'active' ? 'activate' : 'suspend'
-            const response = await API.put(`/admin/businesses/${id}/${action}`)
-            if (response.status === 200) {
-                // Update local state
-                setBusinesses(prev => prev.map(b =>
-                    b.businessId === id ? { ...b, status: status } : b
-                ))
-                return { success: true }
-            }
-            return { success: false }
-        } catch (error) {
-            console.error(`Error ${status === 'active' ? 'activating' : 'suspending'} business:`, error)
-            return { success: false, message: error.message }
-        }
-    }
 
     const deleteBusiness = async (id) => {
         try {
@@ -119,6 +102,23 @@ export function AdminProvider({ children }) {
             return { success: false }
         } catch (error) {
             console.error('Error deleting business:', error)
+            return { success: false, message: error.message }
+        }
+    }
+
+    const updateAccount = async (adminId, accountData) => {
+        try {
+            const response = await API.put(`/admin/accounts/${adminId}`, accountData)
+            if (response.status === 200) {
+                // Update local businesses state
+                setBusinesses(prev => prev.map(b =>
+                    b.adminId === adminId ? { ...b, ...response.data } : b
+                ))
+                return { success: true, data: response.data }
+            }
+            return { success: false }
+        } catch (error) {
+            console.error('Error updating account:', error)
             return { success: false, message: error.message }
         }
     }
@@ -140,8 +140,9 @@ export function AdminProvider({ children }) {
             businessesLoading,
             fetchDashboardData,
             fetchBusinesses,
-            updateBusinessStatus,
-            deleteBusiness
+            updateAccount,
+            deleteBusiness,
+            user
         }}>
             {children}
         </AdminContext.Provider>

@@ -3,20 +3,32 @@ import AdminLayout from '../../../common/component/AdminLayout/AdminLayout'
 import DataTable from '../../../common/component/DataTable/DataTable'
 import { useAdmin } from '../../../context/AdminContext'
 import SearchIcon from '@mui/icons-material/Search'
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import Modal from '../../../common/component/Modal/Modal'
 import Button from '../../../common/component/Button/Button'
+import TextField from '../../../common/component/TextField/TextField'
 import './AdminBusinesses.css'
 
 export default function AdminBusinesses() {
-    const { businesses, businessesLoading, fetchBusinesses, updateBusinessStatus, deleteBusiness } = useAdmin()
+    const { businesses, businessesLoading, fetchBusinesses, deleteBusiness, updateAccount, user } = useAdmin()
     const [searchQuery, setSearchQuery] = useState('')
 
-    // Delete Modal State
+    // Deletion State
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
     const [selectedBusiness, setSelectedBusiness] = useState(null)
     const [isDeleting, setIsDeleting] = useState(false)
+
+    // Editing State
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+    const [isUpdating, setIsUpdating] = useState(false)
+    const [editForm, setEditForm] = useState({
+        name: '',
+        businessOwnerName: '',
+        email: '',
+        phone: '',
+        address: ''
+    })
 
     const handleSearchChange = (e) => {
         const query = e.target.value
@@ -24,14 +36,38 @@ export default function AdminBusinesses() {
         fetchBusinesses(query)
     }
 
-    const handleToggleStatus = async (id, currentStatus) => {
-        const targetStatus = (currentStatus === 'active') ? 'suspended' : 'active'
-        await updateBusinessStatus(id, targetStatus)
-    }
-
     const openDeleteModal = (business) => {
         setSelectedBusiness(business)
         setIsDeleteModalOpen(true)
+    }
+
+    const openEditModal = (account) => {
+        setSelectedBusiness(account)
+        setEditForm({
+            name: account.name || '',
+            businessOwnerName: account.businessOwnerName || '',
+            email: account.email || '',
+            phone: account.phone || '',
+            address: account.address || ''
+        })
+        setIsEditModalOpen(true)
+    }
+
+    const handleEditChange = (e) => {
+        const { name, value } = e.target
+        setEditForm(prev => ({ ...prev, [name]: value }))
+    }
+
+    const handleEditSubmit = async (e) => {
+        e.preventDefault()
+        setIsUpdating(true)
+        const result = await updateAccount(selectedBusiness.adminId, editForm)
+        if (result.success) {
+            setIsEditModalOpen(false)
+        } else {
+            alert(result.message || 'Failed to update account')
+        }
+        setIsUpdating(false)
     }
 
     const handleDeleteConfirm = async () => {
@@ -42,7 +78,7 @@ export default function AdminBusinesses() {
             setIsDeleteModalOpen(false)
             setSelectedBusiness(null)
         } else {
-            alert(result.message || 'Failed to delete business')
+            alert(result.message || 'Failed to delete account')
         }
         setIsDeleting(false)
     }
@@ -58,23 +94,23 @@ export default function AdminBusinesses() {
 
     const columns = useMemo(() => [
         { key: 'name', label: 'Business Name' },
-        { key: 'businessOwnerName', label: 'Owner' },
+        {
+            key: 'role',
+            label: 'Role',
+            render: (val) => (
+                <span className={`table-pill role-pill ${val?.toLowerCase()}`}>
+                    {val || 'OWNER'}
+                </span>
+            )
+        },
+        { key: 'businessOwnerName', label: 'User/Owner' },
         { key: 'email', label: 'Email' },
         {
             key: 'planName',
             label: 'Plan',
             render: (val) => (
                 <span className="table-pill plan-pill">
-                    {val || 'None'}
-                </span>
-            )
-        },
-        {
-            key: 'status',
-            label: 'Status',
-            render: (val) => (
-                <span className={`table-pill status-pill ${val?.toLowerCase()}`}>
-                    {val || 'Unknown'}
+                    {val || 'N/A'}
                 </span>
             )
         },
@@ -90,34 +126,42 @@ export default function AdminBusinesses() {
         },
         {
             key: 'registeredDate',
-            label: 'Registered',
+            label: 'Joined',
             render: (val) => formatDate(val)
         },
         {
             key: 'actions',
             label: 'Actions',
-            render: (_, row) => (
-                <div className="table-actions">
-                    <button className="icon-btn" title="View Details">
-                        <VisibilityOutlinedIcon />
-                    </button>
-                    <button
-                        className={`action-btn ${row.status === 'active' ? 'suspend' : 'activate'}`}
-                        onClick={() => handleToggleStatus(row.businessId, row.status)}
-                    >
-                        {row.status === 'active' ? 'Suspend' : 'Activate'}
-                    </button>
-                    <button
-                        className="icon-btn delete-btn"
-                        title="Delete Business"
-                        onClick={() => openDeleteModal(row)}
-                    >
-                        <DeleteOutlinedIcon />
-                    </button>
-                </div>
-            )
+            render: (_, row) => {
+                const isAdmin = row.role?.toUpperCase() === 'ADMIN';
+                const isOwnAccount = row.adminId === user?.adminId;
+                const canEdit = !isAdmin || isOwnAccount;
+
+                return (
+                    <div className="table-actions">
+                        <button
+                            className="icon-btn"
+                            title={canEdit ? "Edit Account" : "You cannot edit other system admins"}
+                            onClick={() => canEdit && openEditModal(row)}
+                            disabled={!canEdit}
+                            style={!canEdit ? { opacity: 0.3, cursor: 'not-allowed' } : {}}
+                        >
+                            <EditOutlinedIcon />
+                        </button>
+                        <button
+                            className="icon-btn delete-btn"
+                            title={isAdmin ? "System Admins cannot be deleted" : "Delete Account"}
+                            onClick={() => !isAdmin && openDeleteModal(row)}
+                            disabled={isAdmin}
+                            style={isAdmin ? { opacity: 0.3, cursor: 'not-allowed' } : {}}
+                        >
+                            <DeleteOutlinedIcon />
+                        </button>
+                    </div>
+                );
+            }
         }
-    ], [handleToggleStatus])
+    ], [])
 
     return (
         <AdminLayout breadcrumb="Businesses">
@@ -149,15 +193,15 @@ export default function AdminBusinesses() {
                 </div>
             </div>
 
-            {/* Delete Confirmation Modal */}
+            {/* Delete Modal */}
             <Modal
                 isOpen={isDeleteModalOpen}
                 onClose={() => !isDeleting && setIsDeleteModalOpen(false)}
-                title="Confirm Business Deletion"
+                title="Confirm Account Deletion"
             >
                 <div style={{ textAlign: 'center', padding: '20px 0' }}>
                     <div style={{ paddingBottom: '24px', fontSize: '15px', color: '#4a5568' }}>
-                        Are you sure you want to permanently delete <strong>{selectedBusiness?.name}</strong>?<br />
+                        Are you sure you want to permanently delete the account for <strong>{selectedBusiness?.name}</strong>?<br />
                         <span style={{ fontSize: '13px', color: '#e53e3e', marginTop: '10px', display: 'block' }}>
                             Warning: This action will delete all associated data and cannot be undone.
                         </span>
@@ -180,6 +224,79 @@ export default function AdminBusinesses() {
                         </Button>
                     </div>
                 </div>
+            </Modal>
+
+            {/* Edit Modal */}
+            <Modal
+                isOpen={isEditModalOpen}
+                onClose={() => !isUpdating && setIsEditModalOpen(false)}
+                title={`Edit ${selectedBusiness?.role === 'ADMIN' ? 'Admin' : 'Business'} Account`}
+            >
+                <form onSubmit={handleEditSubmit} style={{ padding: '10px 0' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+                        <TextField
+                            label="User/Owner Name"
+                            name="businessOwnerName"
+                            value={editForm.businessOwnerName}
+                            onChange={handleEditChange}
+                            required
+                        />
+                        <TextField
+                            label="Email Address"
+                            name="email"
+                            value={editForm.email}
+                            onChange={handleEditChange}
+                            type="email"
+                            required
+                        />
+                    </div>
+
+                    {selectedBusiness?.role !== 'ADMIN' && (
+                        <>
+                            <div style={{ marginBottom: '16px' }}>
+                                <TextField
+                                    label="Business Name"
+                                    name="name"
+                                    value={editForm.name}
+                                    onChange={handleEditChange}
+                                    required
+                                />
+                            </div>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+                                <TextField
+                                    label="Phone Number"
+                                    name="phone"
+                                    value={editForm.phone}
+                                    onChange={handleEditChange}
+                                />
+                                <TextField
+                                    label="Business Address"
+                                    name="address"
+                                    value={editForm.address}
+                                    onChange={handleEditChange}
+                                />
+                            </div>
+                        </>
+                    )}
+
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '24px' }}>
+                        <Button
+                            type="button"
+                            variant="outlined"
+                            onClick={() => setIsEditModalOpen(false)}
+                            disabled={isUpdating}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            type="submit"
+                            variant="filled"
+                            disabled={isUpdating}
+                        >
+                            {isUpdating ? 'Saving...' : 'Save Changes'}
+                        </Button>
+                    </div>
+                </form>
             </Modal>
         </AdminLayout>
     )
