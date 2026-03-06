@@ -12,9 +12,11 @@ import { CustomerProvider } from '../context/CustomerContext'
 import { SupplierProvider } from '../context/SupplierContext'
 import { SalesProvider } from '../context/SalesContext'
 import { TransactionProvider } from '../context/TransactionContext'
+import { ReportsProvider } from '../context/ReportsContext'
 import BusinessOwnerSupplier from '../pages/Owner/Suppliers/BusinessOwnerSupplier'
 import BusinessOwnerSales from '../pages/Owner/Sales/BusinessOwnerSales'
 import BusinessOwnerTransaction from '../pages/Owner/Transaction/BusinessOwnerTransaction'
+import BusinessOwnerReports from '../pages/Owner/Reports/BusinessOwnerReports'
 
 export default function App() {
   return (
@@ -24,21 +26,24 @@ export default function App() {
           <SupplierProvider>
             <SalesProvider>
               <TransactionProvider>
-                <BrowserRouter>
-                  <Routes>
-                    <Route path="/" element={<LoginPage />} />
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/register" element={<RegisterPage />} />
-                    <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-                    <Route path="/owner/dashboard" element={<BusinessOwnerDashboard />} />
-                    <Route path="/owner/products" element={<OwnerProductsPage />} />
-                    <Route path="/owner/inventory" element={<BusinessOwnerInventory />} />
-                    <Route path="/owner/customers" element={<BusinessOwnerCustomers />} />
-                    <Route path="/owner/suppliers" element={<BusinessOwnerSupplier />} />
-                    <Route path="/owner/sales" element={<BusinessOwnerSales />} />
-                    <Route path="/owner/transactions" element={<BusinessOwnerTransaction />} />
-                  </Routes>
-                </BrowserRouter>
+                <ReportsProvider>
+                  <BrowserRouter>
+                    <Routes>
+                      <Route path="/" element={<LoginPage />} />
+                      <Route path="/login" element={<LoginPage />} />
+                      <Route path="/register" element={<RegisterPage />} />
+                      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                      <Route path="/owner/dashboard" element={<BusinessOwnerDashboard />} />
+                      <Route path="/owner/products" element={<OwnerProductsPage />} />
+                      <Route path="/owner/inventory" element={<BusinessOwnerInventory />} />
+                      <Route path="/owner/customers" element={<BusinessOwnerCustomers />} />
+                      <Route path="/owner/suppliers" element={<BusinessOwnerSupplier />} />
+                      <Route path="/owner/sales" element={<BusinessOwnerSales />} />
+                      <Route path="/owner/transactions" element={<BusinessOwnerTransaction />} />
+                      <Route path="/owner/reports" element={<BusinessOwnerReports />} />
+                    </Routes>
+                  </BrowserRouter>
+                </ReportsProvider>
               </TransactionProvider>
             </SalesProvider>
           </SupplierProvider>
