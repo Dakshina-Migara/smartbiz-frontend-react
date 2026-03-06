@@ -20,6 +20,7 @@ import BusinessOwnerSales from '../pages/Owner/Sales/BusinessOwnerSales'
 import BusinessOwnerTransaction from '../pages/Owner/Transaction/BusinessOwnerTransaction'
 import BusinessOwnerReports from '../pages/Owner/Reports/BusinessOwnerReports'
 import BusinessOwnerAiInsight from '../pages/Owner/AiInsight/BusinessOwnerAiInsight'
+import AdminOverview from '../pages/Admin/Overview/AdminOverview'
 
 function TitleManager() {
   const location = useLocation()
@@ -65,6 +66,8 @@ export default function App() {
                         <Route path="/owner/transactions" element={<BusinessOwnerTransaction />} />
                         <Route path="/owner/reports" element={<BusinessOwnerReports />} />
                         <Route path="/owner/ai-insight" element={<BusinessOwnerAiInsight />} />
+                        <Route path="/admin/overview" element={<AdminOverview />} />
+                        <Route path="/admin/dashboard" element={<AdminOverview />} />
                       </Routes>
                     </BrowserRouter>
                   </AiInsightProvider>
