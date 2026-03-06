@@ -19,6 +19,17 @@ function LoginPage() {
     const handleLogin = async (e) => {
         if (e) e.preventDefault()
         setError('')
+
+        // Custom Validation
+        let missing = []
+        if (!email.trim()) missing.push('Email')
+        if (!password.trim()) missing.push('Password')
+
+        if (missing.length > 0) {
+            setError(`Please provide your: ${missing.join(' and ')}`)
+            return
+        }
+
         setIsLoading(true)
 
         const result = await login(email, password)
@@ -50,7 +61,6 @@ function LoginPage() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         fullWidth
-                        required
                     />
 
                     <TextField
@@ -60,7 +70,6 @@ function LoginPage() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         fullWidth
-                        required
                     />
 
                     <Button
