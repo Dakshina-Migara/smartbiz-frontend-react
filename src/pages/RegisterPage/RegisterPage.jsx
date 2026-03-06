@@ -30,8 +30,19 @@ export default function RegisterPage() {
     const [error, setError] = useState('')
     const [isLoading, setIsLoading] = useState(false)
 
-    const { register } = useAuth()
+    const { register, user, token } = useAuth()
     const navigate = useNavigate()
+
+    useEffect(() => {
+        if (user && token && !isLoading) {
+            const userRole = user.role?.toUpperCase()
+            if (userRole === 'ADMIN') {
+                navigate('/admin/dashboard')
+            } else {
+                navigate('/owner/dashboard')
+            }
+        }
+    }, [user, token, navigate])
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -88,10 +99,16 @@ export default function RegisterPage() {
         const result = await register(formData)
 
         if (result.success) {
-            if (result.data.role === 'ADMIN') {
-                navigate('/admin/dashboard')
+            const homePath = result.data.homePath
+            if (homePath) {
+                navigate(homePath)
             } else {
-                navigate('/owner/dashboard')
+                const userRole = result.data.role?.toUpperCase()
+                if (userRole === 'ADMIN') {
+                    navigate('/admin/dashboard')
+                } else {
+                    navigate('/owner/dashboard')
+                }
             }
         } else {
             setError(result.message)

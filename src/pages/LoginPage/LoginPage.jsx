@@ -14,8 +14,19 @@ function LoginPage() {
     const [error, setError] = useState('')
     const [isLoading, setIsLoading] = useState(false)
 
-    const { login } = useAuth()
+    const { login, user, token } = useAuth()
     const navigate = useNavigate()
+
+    useEffect(() => {
+        if (user && token && !isLoading) {
+            const userRole = user.role?.toUpperCase()
+            if (userRole === 'ADMIN') {
+                navigate('/admin/dashboard')
+            } else {
+                navigate('/owner/dashboard')
+            }
+        }
+    }, [user, token, navigate])
 
     const handleLogin = async (e) => {
         if (e) e.preventDefault()
@@ -38,11 +49,18 @@ function LoginPage() {
         const result = await login(email, password)
 
         if (result.success) {
-            // Check role and navigate accordingly
-            if (result.data.role === 'ADMIN') {
-                navigate('/admin/dashboard')
+            // Priority 1: Use backend provided homePath
+            // Priority 2: Fallback to role-based check
+            const homePath = result.data.homePath
+            if (homePath) {
+                navigate(homePath)
             } else {
-                navigate('/owner/dashboard')
+                const userRole = result.data.role?.toUpperCase()
+                if (userRole === 'ADMIN') {
+                    navigate('/admin/dashboard')
+                } else {
+                    navigate('/owner/dashboard')
+                }
             }
         } else {
             setError(result.message)
