@@ -120,7 +120,7 @@ export default function OwnerProductsPage() {
                 </div>
             )
         }
-    ], [products])
+    ], [products, handleDeleteProduct, handleOpenEditModal])
 
     return (
         <OwnerLayout breadcrumb="Products">

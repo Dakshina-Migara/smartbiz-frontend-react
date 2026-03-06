@@ -168,7 +168,7 @@ export default function BusinessOwnerTransaction() {
                 </div>
             )
         }
-    ], [])
+    ], [handleDelete, handleOpenModal])
 
     return (
         <OwnerLayout breadcrumb="Transactions">

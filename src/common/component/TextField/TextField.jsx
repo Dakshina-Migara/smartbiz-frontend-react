@@ -7,7 +7,21 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import './TextField.css'
 
 export default function TextField({
-    type = 'text', placeholder = '', value, onChange, icon, name, id, disabled = false, required = false, fullWidth = false, className = '', label }) {
+    type = 'text',
+    placeholder = '',
+    value,
+    onChange,
+    icon,
+    name,
+    id,
+    disabled = false,
+    required = false,
+    fullWidth = false,
+    className = '',
+    label,
+    error = false,
+    helperText = ''
+}) {
 
     const [showPassword, setShowPassword] = useState(false)
     const isPasswordField = type === 'password'
@@ -30,6 +44,8 @@ export default function TextField({
             disabled={disabled}
             required={required}
             fullWidth={fullWidth}
+            error={error}
+            helperText={helperText}
             variant="outlined"
             className={classNames}
             slotProps={{
