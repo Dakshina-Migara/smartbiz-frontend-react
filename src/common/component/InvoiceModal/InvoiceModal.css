@@ -4,13 +4,12 @@
 }
 
 .simple-receipt {
-    padding: 20px;
+    padding: 15px;
     font-family: 'Inter', sans-serif;
     color: #333;
     background: #fff;
-    /* ensure exact dimensions for a4 mapping occasionally */
-    max-width: 800px;
-    min-width: 600px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .invoice-header-simple {
@@ -24,19 +23,19 @@
 
 .biz-details h2 {
     margin: 0;
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     color: #1a202c;
     font-weight: 800;
 }
 
 .biz-details p {
-    margin: 6px 0 0 0;
-    font-size: 0.95rem;
+    margin: 4px 0 0 0;
+    font-size: 0.85rem;
     color: #718096;
 }
 
 .cust-details {
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: #4a5568;
     text-align: right;
     margin-top: 5px;
@@ -53,17 +52,17 @@
 
 .receipt-table th {
     text-align: left;
-    padding: 12px 0;
+    padding: 8px 0;
     border-bottom: 2px solid #edf2f7;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: #a0aec0;
     text-transform: uppercase;
 }
 
 .receipt-table td {
-    padding: 16px 0;
+    padding: 10px 0;
     border-bottom: 1px solid #f7fafc;
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: #2d3748;
 }
 
@@ -82,19 +81,19 @@
 }
 
 .total-row-simple span:first-child {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: #718096;
     font-weight: 500;
 }
 
 .grand-total-amount {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 800;
     color: #1a202c;
 }
 
 .payment-note-simple {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: #a0aec0;
     font-style: italic;
 }
