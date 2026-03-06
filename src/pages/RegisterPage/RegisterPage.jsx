@@ -88,7 +88,8 @@ export default function RegisterPage() {
         const result = await register(formData)
 
         if (result.success) {
-            if (result.data.role === 'ADMIN') {
+            const userRole = result.data.role?.toUpperCase()
+            if (userRole === 'ADMIN') {
                 navigate('/admin/dashboard')
             } else {
                 navigate('/owner/dashboard')

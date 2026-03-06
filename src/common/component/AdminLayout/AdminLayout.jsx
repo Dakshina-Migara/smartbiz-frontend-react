@@ -1,29 +1,19 @@
-import { useState } from 'react'
-import AdminSidebar from '../AdminSidebar/AdminSidebar'
-import AdminHeader from '../AdminHeader/AdminHeader'
+import AdminNavbar from '../AdminNavbar/AdminNavbar'
 import './AdminLayout.css'
 
 export default function AdminLayout({ children, breadcrumb }) {
-    const [isCollapsed, setIsCollapsed] = useState(false)
-
     return (
-        <div className={`admin-app-container ${isCollapsed ? 'sidebar-collapsed' : ''}`}>
-            <AdminSidebar
-                isCollapsed={isCollapsed}
-                onToggle={() => setIsCollapsed(!isCollapsed)}
-            />
+        <div className="admin-layout">
+            <div className="admin-layout__header">
+                <h2 className="admin-layout__breadcrumb">{breadcrumb}</h2>
+            </div>
 
-            <main className="admin-main-wrapper">
-                <AdminHeader breadcrumb={breadcrumb} />
-
-                <div className="admin-content-area">
+            <div className="admin-layout__card">
+                <AdminNavbar />
+                <div className="admin-layout__content">
                     {children}
                 </div>
-
-                <footer className="admin-footer-copyright">
-                    © 2026 SmartBiz Systems. All Rights Reserved.
-                </footer>
-            </main>
+            </div>
         </div>
     )
 }

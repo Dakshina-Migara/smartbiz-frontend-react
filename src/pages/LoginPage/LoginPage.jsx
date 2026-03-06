@@ -39,7 +39,8 @@ function LoginPage() {
 
         if (result.success) {
             // Check role and navigate accordingly
-            if (result.data.role === 'ADMIN') {
+            const userRole = result.data.role?.toUpperCase()
+            if (userRole === 'ADMIN') {
                 navigate('/admin/dashboard')
             } else {
                 navigate('/owner/dashboard')
