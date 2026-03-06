@@ -58,14 +58,23 @@ export default function AdminBusinesses() {
 
     const columns = useMemo(() => [
         { key: 'name', label: 'Business Name' },
-        { key: 'businessOwnerName', label: 'Owner' },
+        {
+            key: 'role',
+            label: 'Role',
+            render: (val) => (
+                <span className={`table-pill role-pill ${val?.toLowerCase()}`}>
+                    {val || 'OWNER'}
+                </span>
+            )
+        },
+        { key: 'businessOwnerName', label: 'User/Owner' },
         { key: 'email', label: 'Email' },
         {
             key: 'planName',
             label: 'Plan',
             render: (val) => (
                 <span className="table-pill plan-pill">
-                    {val || 'None'}
+                    {val || 'N/A'}
                 </span>
             )
         },
@@ -90,32 +99,40 @@ export default function AdminBusinesses() {
         },
         {
             key: 'registeredDate',
-            label: 'Registered',
+            label: 'Joined',
             render: (val) => formatDate(val)
         },
         {
             key: 'actions',
             label: 'Actions',
-            render: (_, row) => (
-                <div className="table-actions">
-                    <button className="icon-btn" title="View Details">
-                        <VisibilityOutlinedIcon />
-                    </button>
-                    <button
-                        className={`action-btn ${row.status === 'active' ? 'suspend' : 'activate'}`}
-                        onClick={() => handleToggleStatus(row.businessId, row.status)}
-                    >
-                        {row.status === 'active' ? 'Suspend' : 'Activate'}
-                    </button>
-                    <button
-                        className="icon-btn delete-btn"
-                        title="Delete Business"
-                        onClick={() => openDeleteModal(row)}
-                    >
-                        <DeleteOutlinedIcon />
-                    </button>
-                </div>
-            )
+            render: (_, row) => {
+                const isAdmin = row.role?.toUpperCase() === 'ADMIN';
+                return (
+                    <div className="table-actions">
+                        <button className="icon-btn" title="View Details">
+                            <VisibilityOutlinedIcon />
+                        </button>
+                        <button
+                            className={`action-btn ${row.status === 'active' ? 'suspend' : 'activate'}`}
+                            onClick={() => !isAdmin && handleToggleStatus(row.businessId, row.status)}
+                            disabled={isAdmin}
+                            style={isAdmin ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
+                            title={isAdmin ? "System Admins cannot be suspended" : ""}
+                        >
+                            {row.status === 'active' ? 'Suspend' : 'Activate'}
+                        </button>
+                        <button
+                            className="icon-btn delete-btn"
+                            title={isAdmin ? "System Admins cannot be deleted" : "Delete Account"}
+                            onClick={() => !isAdmin && openDeleteModal(row)}
+                            disabled={isAdmin}
+                            style={isAdmin ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
+                        >
+                            <DeleteOutlinedIcon />
+                        </button>
+                    </div>
+                );
+            }
         }
     ], [handleToggleStatus])
 
