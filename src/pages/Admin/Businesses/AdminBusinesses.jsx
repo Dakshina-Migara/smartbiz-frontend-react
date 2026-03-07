@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import AdminLayout from '../../../common/component/AdminLayout/AdminLayout'
 import DataTable from '../../../common/component/DataTable/DataTable'
 import { useAdmin } from '../../../context/AdminContext'
+import { useAuth } from '../../../context/AuthContext'
 import SearchIcon from '@mui/icons-material/Search'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
@@ -11,7 +12,8 @@ import TextField from '../../../common/component/TextField/TextField'
 import './AdminBusinesses.css'
 
 export default function AdminBusinesses() {
-    const { businesses, businessesLoading, fetchBusinesses, deleteBusiness, updateAccount, user } = useAdmin()
+    const { businesses, businessesLoading, fetchBusinesses, deleteBusiness, deleteAccount, updateAccount, user } = useAdmin()
+    const { logout } = useAuth()
     const [searchQuery, setSearchQuery] = useState('')
 
     // Deletion State
@@ -73,10 +75,22 @@ export default function AdminBusinesses() {
     const handleDeleteConfirm = async () => {
         if (!selectedBusiness) return
         setIsDeleting(true)
-        const result = await deleteBusiness(selectedBusiness.businessId)
+
+        const rowAdminId = selectedBusiness.adminId ? String(selectedBusiness.adminId) : null;
+        const currentAdminId = user?.adminId ? String(user.adminId) : null;
+        const isOwnAccount = (rowAdminId && rowAdminId === currentAdminId) ||
+            (selectedBusiness.email && selectedBusiness.email === user?.email);
+
+        // Use deleteAccount to handle both scenarios (owner with business or solo admin)
+        const result = await deleteAccount(selectedBusiness.adminId)
+
         if (result.success) {
-            setIsDeleteModalOpen(false)
-            setSelectedBusiness(null)
+            if (isOwnAccount) {
+                logout()
+            } else {
+                setIsDeleteModalOpen(false)
+                setSelectedBusiness(null)
+            }
         } else {
             alert(result.message || 'Failed to delete account')
         }
@@ -134,8 +148,16 @@ export default function AdminBusinesses() {
             label: 'Actions',
             render: (_, row) => {
                 const isAdmin = row.role?.toUpperCase() === 'ADMIN';
-                const isOwnAccount = row.adminId === user?.adminId;
+
+                // Compare IDs more strictly with conversion, and use email as a fallback
+                const rowAdminId = row.adminId ? String(row.adminId) : null;
+                const currentAdminId = user?.adminId ? String(user.adminId) : null;
+
+                const isOwnAccount = (rowAdminId && rowAdminId === currentAdminId) ||
+                    (row.email && row.email === user?.email);
+
                 const canEdit = !isAdmin || isOwnAccount;
+                const canDelete = !isAdmin || isOwnAccount;
 
                 return (
                     <div className="table-actions">
@@ -150,10 +172,10 @@ export default function AdminBusinesses() {
                         </button>
                         <button
                             className="icon-btn delete-btn"
-                            title={isAdmin ? "System Admins cannot be deleted" : "Delete Account"}
-                            onClick={() => !isAdmin && openDeleteModal(row)}
-                            disabled={isAdmin}
-                            style={isAdmin ? { opacity: 0.3, cursor: 'not-allowed' } : {}}
+                            title={canDelete ? "Delete Account" : "You cannot delete other system admins"}
+                            onClick={() => canDelete && openDeleteModal(row)}
+                            disabled={!canDelete}
+                            style={!canDelete ? { opacity: 0.3, cursor: 'not-allowed' } : {}}
                         >
                             <DeleteOutlinedIcon />
                         </button>
@@ -161,7 +183,7 @@ export default function AdminBusinesses() {
                 );
             }
         }
-    ], [])
+    ], [user, deleteAccount, updateAccount, fetchBusinesses])
 
     return (
         <AdminLayout breadcrumb="Businesses">
