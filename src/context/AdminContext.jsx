@@ -106,6 +106,20 @@ export function AdminProvider({ children }) {
         }
     }
 
+    const deleteAccount = async (adminId) => {
+        try {
+            const response = await API.delete(`/admin/accounts/${adminId}`)
+            if (response.status === 204 || response.status === 200) {
+                setBusinesses(prev => prev.filter(b => b.adminId !== adminId))
+                return { success: true }
+            }
+            return { success: false }
+        } catch (error) {
+            console.error('Error deleting account:', error)
+            return { success: false, message: error.message }
+        }
+    }
+
     const updateAccount = async (adminId, accountData) => {
         try {
             const response = await API.put(`/admin/accounts/${adminId}`, accountData)
@@ -142,6 +156,7 @@ export function AdminProvider({ children }) {
             fetchBusinesses,
             updateAccount,
             deleteBusiness,
+            deleteAccount,
             user
         }}>
             {children}
