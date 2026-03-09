@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useAdmin } from '../../../context/AdminContext'
 import { useAuth } from '../../../context/AuthContext'
+import OwnerLayout from '../../../common/component/OwnerLayout/OwnerLayout'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import Modal from '../../../common/component/Modal/Modal'
 import Button from '../../../common/component/Button/Button'
@@ -41,7 +42,7 @@ export default function SubscriptionPlans() {
     const formatCurrency = (val) => `$${Number(val).toLocaleString()}`
 
     return (
-        <BusinessLayout breadcrumb="Subscription Plans">
+        <OwnerLayout breadcrumb="Subscription Plans">
             <div className="subscription-plans">
                 <div className="plans-header">
                     <h2>Upgrade Your Business</h2>
@@ -122,6 +123,6 @@ export default function SubscriptionPlans() {
                     </div>
                 </div>
             </Modal>
-        </BusinessLayout>
+        </OwnerLayout>
     )
 }
