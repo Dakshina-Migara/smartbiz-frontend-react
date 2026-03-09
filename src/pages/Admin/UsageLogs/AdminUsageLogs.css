@@ -34,6 +34,37 @@
     color: #a0aec0;
 }
 
+/* Tabs */
+.logs-tabs {
+    display: flex;
+    gap: 8px;
+    background-color: #f7f7f7;
+    padding: 4px;
+    border-radius: 12px;
+}
+
+.tab-btn {
+    border: none;
+    background: transparent;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #718096;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.tab-btn.active {
+    background-color: #ffffff;
+    color: #111827;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.tab-btn:hover:not(.active) {
+    color: #2d3748;
+}
+
 /* Feature Pills */
 .feature-pill {
     background-color: #f7f7f7;
@@ -81,6 +112,16 @@
 .smartbiz-table__cell {
     font-size: 0.85rem;
     color: #4a5568;
+}
+
+.log-prompt-cell {
+    max-width: 400px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.8rem;
+    color: #718096;
+    font-family: inherit;
 }
 
 .smartbiz-table__cell:nth-child(5) {

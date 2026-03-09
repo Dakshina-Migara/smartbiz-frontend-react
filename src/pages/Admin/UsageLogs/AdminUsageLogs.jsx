@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import AdminLayout from '../../../common/component/AdminLayout/AdminLayout'
 import DataTable from '../../../common/component/DataTable/DataTable'
 import { useAdmin } from '../../../context/AdminContext'
 import './AdminUsageLogs.css'
 
 export default function AdminUsageLogs() {
-    const { activityLogs, logsLoading } = useAdmin()
+    const { activityLogs, aiLogs, logsLoading } = useAdmin()
+    const [activeTab, setActiveTab] = useState('ai') // 'ai' or 'activity'
 
     const formatDateTime = (dateString) => {
         if (!dateString) return 'N/A'
@@ -19,7 +20,7 @@ export default function AdminUsageLogs() {
         })
     }
 
-    const columns = [
+    const activityColumns = [
         {
             key: 'timestamp',
             label: 'Timestamp',
@@ -62,23 +63,80 @@ export default function AdminUsageLogs() {
         }
     ]
 
+    const aiColumns = [
+        {
+            key: 'createdAt',
+            label: 'Timestamp',
+            render: (val) => formatDateTime(val)
+        },
+        {
+            key: 'businessName',
+            label: 'Business',
+            render: (val, row) => (
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <span style={{ fontWeight: 600, color: '#2d3748' }}>{val}</span>
+                    <span style={{ fontSize: '0.75rem', color: '#a0aec0' }}>{row.businessOwnerName}</span>
+                </div>
+            )
+        },
+        {
+            key: 'type',
+            label: 'AI Action',
+            render: (val) => (
+                <span className="table-pill feature-pill marketing">
+                    {val || 'General'}
+                </span>
+            )
+        },
+        {
+            key: 'prompt',
+            label: 'AI Usage (Prompt)',
+            render: (val) => (
+                <div className="log-prompt-cell" title={val}>
+                    {val?.length > 60 ? val.substring(0, 60) + '...' : val}
+                </div>
+            )
+        },
+        {
+            key: 'tokenUsed',
+            label: 'AI Tokens',
+            render: (val) => val ? val.toLocaleString() : '-'
+        }
+    ]
+
     return (
         <AdminLayout breadcrumb="Admin-Usage Logs">
             <div className="admin-usage-logs">
-
                 <div className="logs-card">
                     <div className="logs-card__header">
                         <div className="header-text">
                             <h3>Usage & Activity Logs</h3>
                             <p>Monitor system activity and AI usage across all businesses</p>
                         </div>
+                        <div className="logs-tabs">
+                            <button
+                                className={`tab-btn ${activeTab === 'ai' ? 'active' : ''}`}
+                                onClick={() => setActiveTab('ai')}
+                            >
+                                AI Usage
+                            </button>
+                            <button
+                                className={`tab-btn ${activeTab === 'activity' ? 'active' : ''}`}
+                                onClick={() => setActiveTab('activity')}
+                            >
+                                General Activity
+                            </button>
+                        </div>
                     </div>
 
                     <div className="logs-card__content">
                         {logsLoading ? (
-                            <div className="loading-state">Loading activity logs...</div>
+                            <div className="loading-state">Loading logs...</div>
                         ) : (
-                            <DataTable columns={columns} data={activityLogs} />
+                            <DataTable
+                                columns={activeTab === 'ai' ? aiColumns : activityColumns}
+                                data={activeTab === 'ai' ? aiLogs : activityLogs}
+                            />
                         )}
                     </div>
                 </div>

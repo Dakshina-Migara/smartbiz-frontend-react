@@ -21,6 +21,7 @@ export function AdminProvider({ children }) {
     })
     const [businesses, setBusinesses] = useState([])
     const [activityLogs, setActivityLogs] = useState([])
+    const [aiLogs, setAiLogs] = useState([])
     const [loading, setLoading] = useState(true)
     const [businessesLoading, setBusinessesLoading] = useState(false)
     const [logsLoading, setLogsLoading] = useState(false)
@@ -108,6 +109,21 @@ export function AdminProvider({ children }) {
         }
     }, [user, token])
 
+    const fetchAiLogs = useCallback(async () => {
+        const isAdmin = user?.role?.toUpperCase() === 'ADMIN'
+        if (!isAdmin || !token) return
+
+        setLogsLoading(true)
+        try {
+            const response = await API.get('/admin/logs/ai')
+            setAiLogs(response.data || [])
+        } catch (error) {
+            console.error('Error fetching AI logs:', error)
+        } finally {
+            setLogsLoading(false)
+        }
+    }, [user, token])
+
     const deleteBusiness = async (id) => {
         try {
             const response = await API.delete(`/admin/businesses/${id}`)
@@ -159,8 +175,9 @@ export function AdminProvider({ children }) {
             fetchDashboardData()
             fetchBusinesses()
             fetchActivityLogs()
+            fetchAiLogs()
         }
-    }, [user, token, fetchDashboardData, fetchBusinesses, fetchActivityLogs])
+    }, [user, token, fetchDashboardData, fetchBusinesses, fetchActivityLogs, fetchAiLogs])
 
     return (
         <AdminContext.Provider value={{
@@ -168,12 +185,14 @@ export function AdminProvider({ children }) {
             charts,
             businesses,
             activityLogs,
+            aiLogs,
             loading,
             businessesLoading,
             logsLoading,
             fetchDashboardData,
             fetchBusinesses,
             fetchActivityLogs,
+            fetchAiLogs,
             updateAccount,
             deleteBusiness,
             deleteAccount,
