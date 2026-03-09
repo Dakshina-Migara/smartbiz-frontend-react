@@ -96,7 +96,7 @@ export default function AdminPlans() {
     const formatCurrency = (val) => `$${Number(val).toLocaleString()}`
 
     return (
-        <AdminLayout breadcrumb="Admin-Plans">
+        <AdminLayout breadcrumb="Plans">
             <div className="admin-plans">
                 <div className="admin-plans__header">
                     <div className="header-info">

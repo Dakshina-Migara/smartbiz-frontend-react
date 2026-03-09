@@ -105,7 +105,7 @@ export default function AdminUsageLogs() {
     ]
 
     return (
-        <AdminLayout breadcrumb="Admin-Usage Logs">
+        <AdminLayout breadcrumb="Usage Logs">
             <div className="admin-usage-logs">
                 <div className="logs-card">
                     <div className="logs-card__header">
