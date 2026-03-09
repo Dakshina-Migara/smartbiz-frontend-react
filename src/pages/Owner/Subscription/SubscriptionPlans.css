@@ -1,0 +1,190 @@
+.subscription-plans {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.plans-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.plans-header h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 12px;
+}
+
+.plans-header p {
+    font-size: 1.1rem;
+    color: #6b7280;
+}
+
+.plans-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.plan-tier {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 24px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.plan-tier:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    border-color: #3b82f6;
+}
+
+.plan-tier.current {
+    border: 2px solid #3b82f6;
+    background: #f8fbff;
+}
+
+.current-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #3b82f6;
+    color: white;
+    padding: 4px 16px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tier-header {
+    margin-bottom: 30px;
+}
+
+.tier-header h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #4b5563;
+    margin-bottom: 20px;
+}
+
+.tier-price {
+    display: flex;
+    align-items: baseline;
+    color: #111827;
+}
+
+.tier-price .currency {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+.tier-price .amount {
+    font-size: 3.5rem;
+    font-weight: 800;
+}
+
+.tier-price .cycle {
+    font-size: 1.1rem;
+    color: #9ca3af;
+    margin-left: 8px;
+}
+
+.tier-features {
+    flex-grow: 1;
+    margin-bottom: 40px;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    color: #4b5563;
+    font-size: 1rem;
+}
+
+.feature-icon {
+    color: #10b981;
+    font-size: 1.25rem !important;
+}
+
+.select-plan-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    background: #111827;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.select-plan-btn:hover:not(.disabled) {
+    background: #1f2937;
+    transform: scale(1.02);
+}
+
+.select-plan-btn.disabled {
+    background: #e5e7eb;
+    color: #9ca3af;
+    cursor: default;
+}
+
+/* Modal Styling */
+.purchase-modal {
+    padding: 10px 0;
+}
+
+.plan-summary {
+    background: #f9fafb;
+    padding: 20px;
+    border-radius: 16px;
+    margin: 20px 0;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.summary-row:last-child {
+    margin-bottom: 0;
+}
+
+.summary-row span {
+    color: #6b7280;
+}
+
+.summary-row .val {
+    font-weight: 700;
+    color: #111827;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+@media (max-width: 640px) {
+    .plans-header h2 {
+        font-size: 2rem;
+    }
+
+    .tier-price .amount {
+        font-size: 2.5rem;
+    }
+}
