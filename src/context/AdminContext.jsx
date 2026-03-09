@@ -20,8 +20,10 @@ export function AdminProvider({ children }) {
         subscribersByPlan: []
     })
     const [businesses, setBusinesses] = useState([])
+    const [activityLogs, setActivityLogs] = useState([])
     const [loading, setLoading] = useState(true)
     const [businessesLoading, setBusinessesLoading] = useState(false)
+    const [logsLoading, setLogsLoading] = useState(false)
 
     // Dashboard Data Fetch
     const fetchDashboardData = useCallback(async () => {
@@ -91,6 +93,20 @@ export function AdminProvider({ children }) {
         }
     }, [user, token])
 
+    const fetchActivityLogs = useCallback(async () => {
+        const isAdmin = user?.role?.toUpperCase() === 'ADMIN'
+        if (!isAdmin || !token) return
+
+        setLogsLoading(true)
+        try {
+            const response = await API.get('/admin/logs/activity')
+            setActivityLogs(response.data || [])
+        } catch (error) {
+            console.error('Error fetching activity logs:', error)
+        } finally {
+            setLogsLoading(false)
+        }
+    }, [user, token])
 
     const deleteBusiness = async (id) => {
         try {
@@ -142,18 +158,22 @@ export function AdminProvider({ children }) {
         if (isAdmin && token) {
             fetchDashboardData()
             fetchBusinesses()
+            fetchActivityLogs()
         }
-    }, [user, token, fetchDashboardData, fetchBusinesses])
+    }, [user, token, fetchDashboardData, fetchBusinesses, fetchActivityLogs])
 
     return (
         <AdminContext.Provider value={{
             stats,
             charts,
             businesses,
+            activityLogs,
             loading,
             businessesLoading,
+            logsLoading,
             fetchDashboardData,
             fetchBusinesses,
+            fetchActivityLogs,
             updateAccount,
             deleteBusiness,
             deleteAccount,

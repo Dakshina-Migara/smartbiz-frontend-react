@@ -22,6 +22,7 @@ import BusinessOwnerReports from '../pages/Owner/Reports/BusinessOwnerReports'
 import BusinessOwnerAiInsight from '../pages/Owner/AiInsight/BusinessOwnerAiInsight'
 import AdminOverview from '../pages/Admin/Overview/AdminOverview'
 import AdminBusinesses from '../pages/Admin/Businesses/AdminBusinesses'
+import AdminUsageLogs from '../pages/Admin/UsageLogs/AdminUsageLogs'
 import { AdminProvider } from '../context/AdminContext'
 
 function TitleManager() {
@@ -81,6 +82,8 @@ function AppContent() {
         <Route path="/admin/overview" element={<AdminOverview />} />
         <Route path="/admin/dashboard" element={<AdminOverview />} />
         <Route path="/admin/businesses" element={<AdminBusinesses />} />
+        <Route path="/admin/logs" element={<AdminUsageLogs />} />
+        <Route path="/admin/usage-logs" element={<AdminUsageLogs />} />
       </Routes>
     </BrowserRouter>
   )
