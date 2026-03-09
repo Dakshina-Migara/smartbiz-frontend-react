@@ -22,9 +22,11 @@ export function AdminProvider({ children }) {
     const [businesses, setBusinesses] = useState([])
     const [activityLogs, setActivityLogs] = useState([])
     const [aiLogs, setAiLogs] = useState([])
+    const [plans, setPlans] = useState([])
     const [loading, setLoading] = useState(true)
     const [businessesLoading, setBusinessesLoading] = useState(false)
     const [logsLoading, setLogsLoading] = useState(false)
+    const [plansLoading, setPlansLoading] = useState(false)
 
     // Dashboard Data Fetch
     const fetchDashboardData = useCallback(async () => {
@@ -124,6 +126,63 @@ export function AdminProvider({ children }) {
         }
     }, [user, token])
 
+    const fetchPlans = useCallback(async () => {
+        const isAdmin = user?.role?.toUpperCase() === 'ADMIN'
+        if (!isAdmin || !token) return
+
+        setPlansLoading(true)
+        try {
+            const response = await API.get('/admin/subscriptions')
+            setPlans(response.data || [])
+        } catch (error) {
+            console.error('Error fetching plans:', error)
+        } finally {
+            setPlansLoading(false)
+        }
+    }, [user, token])
+
+    const createPlan = async (planData) => {
+        try {
+            const response = await API.post('/admin/subscriptions/create', planData)
+            if (response.status === 201 || response.status === 200) {
+                setPlans(prev => [...prev, response.data])
+                return { success: true, data: response.data }
+            }
+            return { success: false }
+        } catch (error) {
+            console.error('Error creating plan:', error)
+            return { success: false, message: error.message }
+        }
+    }
+
+    const updatePlan = async (id, planData) => {
+        try {
+            const response = await API.put(`/admin/subscriptions/${id}`, planData)
+            if (response.status === 200) {
+                setPlans(prev => prev.map(p => p.subscriptionId === id ? response.data : p))
+                return { success: true, data: response.data }
+            }
+            return { success: false }
+        } catch (error) {
+            console.error('Error updating plan:', error)
+            return { success: false, message: error.message }
+        }
+    }
+
+    const deletePlan = async (id) => {
+        try {
+            const response = await API.delete(`/admin/subscriptions/${id}`)
+            if (response.status === 204 || response.status === 200) {
+                setPlans(prev => prev.filter(p => p.subscriptionId !== id))
+                return { success: true }
+            }
+            return { success: false }
+        } catch (error) {
+            console.error('Error deleting plan:', error)
+            return { success: false, message: error.message }
+        }
+    }
+
     const deleteBusiness = async (id) => {
         try {
             const response = await API.delete(`/admin/businesses/${id}`)
@@ -176,8 +235,9 @@ export function AdminProvider({ children }) {
             fetchBusinesses()
             fetchActivityLogs()
             fetchAiLogs()
+            fetchPlans()
         }
-    }, [user, token, fetchDashboardData, fetchBusinesses, fetchActivityLogs, fetchAiLogs])
+    }, [user, token, fetchDashboardData, fetchBusinesses, fetchActivityLogs, fetchAiLogs, fetchPlans])
 
     return (
         <AdminContext.Provider value={{
@@ -186,13 +246,19 @@ export function AdminProvider({ children }) {
             businesses,
             activityLogs,
             aiLogs,
+            plans,
             loading,
             businessesLoading,
             logsLoading,
+            plansLoading,
             fetchDashboardData,
             fetchBusinesses,
             fetchActivityLogs,
             fetchAiLogs,
+            fetchPlans,
+            createPlan,
+            updatePlan,
+            deletePlan,
             updateAccount,
             deleteBusiness,
             deleteAccount,

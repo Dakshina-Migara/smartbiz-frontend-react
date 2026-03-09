@@ -23,6 +23,7 @@ import BusinessOwnerAiInsight from '../pages/Owner/AiInsight/BusinessOwnerAiInsi
 import AdminOverview from '../pages/Admin/Overview/AdminOverview'
 import AdminBusinesses from '../pages/Admin/Businesses/AdminBusinesses'
 import AdminUsageLogs from '../pages/Admin/UsageLogs/AdminUsageLogs'
+import AdminPlans from '../pages/Admin/Plans/AdminPlans'
 import { AdminProvider } from '../context/AdminContext'
 
 function TitleManager() {
@@ -84,6 +85,7 @@ function AppContent() {
         <Route path="/admin/businesses" element={<AdminBusinesses />} />
         <Route path="/admin/logs" element={<AdminUsageLogs />} />
         <Route path="/admin/usage-logs" element={<AdminUsageLogs />} />
+        <Route path="/admin/plans" element={<AdminPlans />} />
       </Routes>
     </BrowserRouter>
   )
