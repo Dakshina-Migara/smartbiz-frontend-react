@@ -127,8 +127,7 @@ export function AdminProvider({ children }) {
     }, [user, token])
 
     const fetchPlans = useCallback(async () => {
-        const isAdmin = user?.role?.toUpperCase() === 'ADMIN'
-        if (!isAdmin || !token) return
+        if (!token) return
 
         setPlansLoading(true)
         try {
@@ -179,6 +178,19 @@ export function AdminProvider({ children }) {
             return { success: false }
         } catch (error) {
             console.error('Error deleting plan:', error)
+            return { success: false, message: error.message }
+        }
+    }
+
+    const purchasePlan = async (businessId, planId) => {
+        try {
+            const response = await API.post(`/business/${businessId}/subscribe?planId=${planId}`)
+            if (response.status === 200) {
+                return { success: true }
+            }
+            return { success: false }
+        } catch (error) {
+            console.error('Error purchasing plan:', error)
             return { success: false, message: error.message }
         }
     }
@@ -259,6 +271,7 @@ export function AdminProvider({ children }) {
             createPlan,
             updatePlan,
             deletePlan,
+            purchasePlan,
             updateAccount,
             deleteBusiness,
             deleteAccount,

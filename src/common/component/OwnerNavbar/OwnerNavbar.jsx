@@ -9,6 +9,7 @@ import PointOfSaleOutlinedIcon from '@mui/icons-material/PointOfSaleOutlined'
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined'
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined'
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined'
+import CardMembershipOutlinedIcon from '@mui/icons-material/CardMembershipOutlined'
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined'
 import { useAuth } from '../../../context/AuthContext'
 import Modal from '../Modal/Modal'
@@ -25,6 +26,7 @@ const navItems = [
     { label: 'Transactions', icon: <ReceiptLongOutlinedIcon />, path: '/owner/transactions' },
     { label: 'Reports', icon: <AssessmentOutlinedIcon />, path: '/owner/reports' },
     { label: 'AI-Insight', icon: <AutoAwesomeOutlinedIcon />, path: '/owner/ai-insight' },
+    { label: 'Subscription', icon: <CardMembershipOutlinedIcon />, path: '/owner/subscription' },
 ]
 
 export default function OwnerNavbar() {
