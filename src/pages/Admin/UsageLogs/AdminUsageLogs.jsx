@@ -25,7 +25,16 @@ export default function AdminUsageLogs() {
             label: 'Timestamp',
             render: (val) => formatDateTime(val)
         },
-        { key: 'businessName', label: 'Business' },
+        {
+            key: 'businessName',
+            label: 'Business',
+            render: (val, row) => (
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <span style={{ fontWeight: 600, color: '#2d3748' }}>{val}</span>
+                    <span style={{ fontSize: '0.75rem', color: '#a0aec0' }}>{row.businessOwnerName}</span>
+                </div>
+            )
+        },
         {
             key: 'feature',
             label: 'Feature',
