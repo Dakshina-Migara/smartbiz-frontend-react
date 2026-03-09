@@ -20,8 +20,11 @@ import BusinessOwnerSales from '../pages/Owner/Sales/BusinessOwnerSales'
 import BusinessOwnerTransaction from '../pages/Owner/Transaction/BusinessOwnerTransaction'
 import BusinessOwnerReports from '../pages/Owner/Reports/BusinessOwnerReports'
 import BusinessOwnerAiInsight from '../pages/Owner/AiInsight/BusinessOwnerAiInsight'
+import SubscriptionPlans from '../pages/Owner/Subscription/SubscriptionPlans'
 import AdminOverview from '../pages/Admin/Overview/AdminOverview'
 import AdminBusinesses from '../pages/Admin/Businesses/AdminBusinesses'
+import AdminUsageLogs from '../pages/Admin/UsageLogs/AdminUsageLogs'
+import AdminPlans from '../pages/Admin/Plans/AdminPlans'
 import { AdminProvider } from '../context/AdminContext'
 
 function TitleManager() {
@@ -78,9 +81,13 @@ function AppContent() {
         <Route path="/owner/transactions" element={<BusinessOwnerTransaction />} />
         <Route path="/owner/reports" element={<BusinessOwnerReports />} />
         <Route path="/owner/ai-insight" element={<BusinessOwnerAiInsight />} />
+        <Route path="/owner/subscription" element={<SubscriptionPlans />} />
         <Route path="/admin/overview" element={<AdminOverview />} />
         <Route path="/admin/dashboard" element={<AdminOverview />} />
         <Route path="/admin/businesses" element={<AdminBusinesses />} />
+        <Route path="/admin/logs" element={<AdminUsageLogs />} />
+        <Route path="/admin/usage-logs" element={<AdminUsageLogs />} />
+        <Route path="/admin/plans" element={<AdminPlans />} />
       </Routes>
     </BrowserRouter>
   )
