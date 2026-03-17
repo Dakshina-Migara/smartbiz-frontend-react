@@ -29,7 +29,8 @@ API.interceptors.response.use(
             // Optional: Trigger logout if token is invalid/expired
             localStorage.removeItem('token')
             localStorage.removeItem('user')
-            window.location.href = '/login'
+            localStorage.removeItem('expirationTime')
+            window.location.assign('/login')
         }
         return Promise.reject(error)
     }
