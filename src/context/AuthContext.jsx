@@ -10,8 +10,22 @@ export function AuthProvider({ children }) {
 
     useEffect(() => {
         const savedUser = localStorage.getItem('user')
-        if (savedUser && token) {
-            setUser(JSON.parse(savedUser))
+        const expirationTime = localStorage.getItem('expirationTime')
+
+        if (savedUser && token && expirationTime) {
+            const currentTime = Date.now()
+            const timeLeft = parseInt(expirationTime) - currentTime
+
+            if (timeLeft <= 0) {
+                logout()
+            } else {
+                const timer = setTimeout(() => {
+                    console.log('Session expired. Logging out...')
+                    logout()
+                }, timeLeft)
+                setUser(JSON.parse(savedUser))
+                return () => clearTimeout(timer)
+            }
         }
         setLoading(false)
     }, [token])
@@ -21,8 +35,11 @@ export function AuthProvider({ children }) {
             const response = await API.post('/auth/login', { email, password })
             const data = response.data
 
+            const expirationTime = Date.now() + (data.expiresIn || 3600000)
             localStorage.setItem('token', data.token)
             localStorage.setItem('user', JSON.stringify(data))
+            localStorage.setItem('expirationTime', expirationTime.toString())
+
             setToken(data.token)
             setUser(data)
             return { success: true, data }
@@ -39,8 +56,11 @@ export function AuthProvider({ children }) {
             const response = await API.post('/auth/register', formData)
             const data = response.data
 
+            const expirationTime = Date.now() + (data.expiresIn || 3600000)
             localStorage.setItem('token', data.token)
             localStorage.setItem('user', JSON.stringify(data))
+            localStorage.setItem('expirationTime', expirationTime.toString())
+
             setToken(data.token)
             setUser(data)
             return { success: true, data }
@@ -55,9 +75,10 @@ export function AuthProvider({ children }) {
     const logout = () => {
         localStorage.removeItem('token')
         localStorage.removeItem('user')
+        localStorage.removeItem('expirationTime')
         setToken(null)
         setUser(null)
-        window.location.href = '/login'
+        window.location.assign('/login')
     }
 
     const updateUser = (newData) => {
