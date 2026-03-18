@@ -5,6 +5,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import LockResetOutlinedIcon from '@mui/icons-material/LockResetOutlined'
 import Button from '../../common/component/Button/Button'
 import TextField from '../../common/component/TextField/TextField'
+import API from '../../api/axios'
 import './ForgotPasswordPage.css'
 
 export default function ForgotPasswordPage() {
@@ -13,8 +14,9 @@ export default function ForgotPasswordPage() {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [error, setError] = useState('')
     const [success, setSuccess] = useState(false)
+    const [loading, setLoading] = useState(false)
 
-    const handleReset = () => {
+    const handleReset = async () => {
         setError('')
 
         if (!email) {
@@ -34,8 +36,22 @@ export default function ForgotPasswordPage() {
             return
         }
 
-        console.log('Password reset:', { email, newPassword })
-        setSuccess(true)
+        setLoading(true)
+        try {
+            const response = await API.post('/auth/reset-password', {
+                email,
+                newPassword,
+            })
+            console.log('Password reset response:', response.data)
+            setSuccess(true)
+        } catch (err) {
+            console.error('Password reset error:', err)
+            const message =
+                err.response?.data?.message || 'Failed to reset password. Please try again.'
+            setError(message)
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (
@@ -81,8 +97,13 @@ export default function ForgotPasswordPage() {
 
                             {error && <p className="forgot-card__error">{error}</p>}
 
-                            <Button variant="filled" fullWidth onClick={handleReset}>
-                                Reset Password
+                            <Button
+                                variant="filled"
+                                fullWidth
+                                onClick={handleReset}
+                                disabled={loading}
+                            >
+                                {loading ? 'Resetting...' : 'Reset Password'}
                             </Button>
                         </div>
                     </>
