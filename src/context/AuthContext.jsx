@@ -24,6 +24,7 @@ export function AuthProvider({ children }) {
                     logout()
                 }, timeLeft)
                 setUser(JSON.parse(savedUser))
+                setLoading(false)
                 return () => clearTimeout(timer)
             }
         }
