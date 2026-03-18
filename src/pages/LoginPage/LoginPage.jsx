@@ -114,7 +114,7 @@ function LoginPage() {
 
                     <Link to="/forgot-password" style={{ textDecoration: 'none' }}>
                         <Button variant="text">
-                            Forget Password/Email?
+                            Forget Password?
                         </Button>
                     </Link>
                 </form>
