@@ -14,27 +14,24 @@ export function AiInsightProvider({ children }) {
         if (!user?.businessId || !token) return { success: false, error: 'Not authenticated' }
         setLoading(true)
         try {
-            // Simulated delay for dummy response
-            await new Promise(resolve => setTimeout(resolve, 1500))
-
-            let dummyResponse = ''
-            if (activeType === 'business_report') {
-                dummyResponse = "Based on your recent data, your top performing product is 'Wireless Mouse'. Your overall profit margin has increased by 12% compared to last month. Consider reducing marketing spend on low-performing campaigns to further optimize costs."
-            } else if (activeType === 'email') {
-                dummyResponse = "Subject: Special 20% Discount Just for You!\n\nHi [Customer Name],\n\nWe noticed you've been a loyal customer of SmartBiz, and we want to thank you! Use code SMART20 at checkout for a 20% discount on your next purchase.\n\nBest regards,\nThe SmartBiz Team"
-            } else {
-                dummyResponse = "🚀 Exciting news from SmartBiz! We've just restocked our most popular items. Don't miss out on upgrading your workspace today. Shop now at the link in our bio! #Workspace #Tech #SmartBiz"
+            let endpoint = `/business/${user.businessId}/ai/query`
+            if (activeType === 'email') {
+                endpoint = `/business/${user.businessId}/ai/generate-email`
+            } else if (activeType === 'marketing') {
+                endpoint = `/business/${user.businessId}/ai/generate-post`
             }
+
+            const response = await API.post(endpoint, { prompt })
 
             return {
                 success: true,
                 data: {
-                    response: dummyResponse
+                    response: response.data.response
                 }
             }
         } catch (error) {
             console.error('Failed to generate insight:', error)
-            return { success: false, error: error.response?.data?.message || error.message }
+            return { success: false, error: error.response?.data?.message || 'Failed to connect to AI server' }
         } finally {
             setLoading(false)
         }

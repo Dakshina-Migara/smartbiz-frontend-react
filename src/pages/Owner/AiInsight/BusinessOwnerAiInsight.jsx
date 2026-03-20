@@ -11,9 +11,8 @@ export default function BusinessOwnerAiInsight() {
     const { generateInsight, loading } = useAiInsight()
 
     const [activeTab, setActiveTab] = useState('business_report')
+    const [messages, setMessages] = useState([])
     const [prompt, setPrompt] = useState('')
-    const [response, setResponse] = useState(null)
-    const [error, setError] = useState(null)
 
     const tabs = [
         { id: 'business_report', label: 'Business Reports' },
@@ -27,10 +26,9 @@ export default function BusinessOwnerAiInsight() {
         'marketing': ['Facebook Post', 'Instagram Captions', 'Holiday Promo']
     }
 
-    // Clear response when switching tabs
+    // Clear messages when switching tabs
     useEffect(() => {
-        setResponse(null)
-        setError(null)
+        setMessages([])
         setPrompt('')
     }, [activeTab])
 
@@ -38,15 +36,17 @@ export default function BusinessOwnerAiInsight() {
         const query = typeof queryOverride === 'string' ? queryOverride : prompt
         if (!query.trim()) return
 
-        setError(null)
-        setResponse(null)
-        setPrompt(query)
+        const userMessage = { role: 'user', content: query }
+        setMessages(prev => [...prev, userMessage])
+        setPrompt('')
 
         const result = await generateInsight(query, activeTab)
         if (result.success) {
-            setResponse(result.data.response)
+            const aiMessage = { role: 'ai', content: result.data.response }
+            setMessages(prev => [...prev, aiMessage])
         } else {
-            setError(result.error)
+            const errorMessage = { role: 'error', content: result.error || 'Failed to generate response' }
+            setMessages(prev => [...prev, errorMessage])
         }
     }
 
@@ -59,8 +59,8 @@ export default function BusinessOwnerAiInsight() {
                             <AutoAwesomeIcon sx={{ color: '#8A2BE2', fontSize: 24 }} />
                             <h2 className="ai-title">AI Insights</h2>
                         </div>
-                        <div className="status-badge" style={{ backgroundColor: '#fff3cd', color: '#856404', padding: '6px 12px', borderRadius: '4px', fontSize: '12px', fontWeight: 'bold' }}>
-                            Demo Mode (Disabled)
+                        <div className="status-badge" style={{ backgroundColor: '#dcfce7', color: '#166534', padding: '6px 12px', borderRadius: '4px', fontSize: '12px', fontWeight: 'bold' }}>
+                            Live
                         </div>
                     </div>
 
@@ -76,17 +76,57 @@ export default function BusinessOwnerAiInsight() {
                         ))}
                     </div>
 
+                    <div className="ai-chat-display" style={{ 
+                        height: '400px', 
+                        overflowY: 'auto', 
+                        border: '1px solid #E5E7EB', 
+                        borderRadius: '8px', 
+                        padding: '16px', 
+                        marginBottom: '20px',
+                        backgroundColor: '#F9FAFB',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '12px'
+                    }}>
+                        {messages.length === 0 && (
+                            <div style={{ textAlign: 'center', color: '#6B7280', margin: 'auto' }}>
+                                <AutoAwesomeIcon sx={{ opacity: 0.3, fontSize: 40, mb: 1 }} />
+                                <p>No messages yet. Ask something about your business!</p>
+                            </div>
+                        )}
+                        {messages.map((msg, i) => (
+                            <div key={i} style={{ 
+                                alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start',
+                                maxWidth: '80%',
+                                padding: '12px 16px',
+                                borderRadius: '12px',
+                                backgroundColor: msg.role === 'user' ? '#8A2BE2' : (msg.role === 'error' ? '#FEE2E2' : '#FFFFFF'),
+                                color: msg.role === 'user' ? 'white' : (msg.role === 'error' ? '#991B1B' : '#1F2937'),
+                                boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+                                border: msg.role === 'ai' ? '1px solid #E5E7EB' : 'none',
+                                whiteSpace: 'pre-wrap'
+                            }}>
+                                {msg.content}
+                            </div>
+                        ))}
+                        {loading && (
+                            <div style={{ alignSelf: 'flex-start', padding: '12px 16px', color: '#6B7280' }}>
+                                Considering your data...
+                            </div>
+                        )}
+                    </div>
+
                     <div className="ai-form-section">
-                        <h3 className="ai-section-title">Ask a question about your business</h3>
-                        <div className="ai-input-group">
+                        <div className="ai-input-group" style={{ display: 'flex', gap: '8px' }}>
                             <MuiTextField
                                 value={prompt}
                                 onChange={(e) => setPrompt(e.target.value)}
-                                placeholder="e.g., How did I perform last month?"
+                                onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleGenerate()}
+                                placeholder="Type your command or question..."
                                 variant="outlined"
                                 fullWidth
                                 multiline
-                                rows={2}
+                                rows={1}
                                 sx={{
                                     '& .MuiOutlinedInput-root': {
                                         borderRadius: '8px',
@@ -94,29 +134,24 @@ export default function BusinessOwnerAiInsight() {
                                     }
                                 }}
                             />
+                            <Button
+                                variant="filled"
+                                onClick={() => handleGenerate()}
+                                disabled={loading || !prompt.trim()}
+                                sx={{
+                                    backgroundColor: '#0B0F19',
+                                    color: '#FFF',
+                                    minWidth: '100px',
+                                    borderRadius: '8px',
+                                    textTransform: 'none'
+                                }}
+                            >
+                                <SendIcon sx={{ transform: 'rotate(-45deg)' }} />
+                            </Button>
                         </div>
-
-                        <Button
-                            variant="filled"
-                            fullWidth
-                            startIcon={<SendIcon sx={{ transform: 'rotate(-45deg)', mt: '-2px' }} />}
-                            onClick={() => handleGenerate()}
-                            disabled={loading || !prompt.trim()}
-                            sx={{
-                                backgroundColor: '#0B0F19',
-                                color: '#FFF',
-                                borderRadius: '8px',
-                                padding: '12px',
-                                mt: 2,
-                                textTransform: 'none',
-                                fontSize: '15px'
-                            }}
-                        >
-                            {loading ? 'Generating...' : 'Generate AI Report'}
-                        </Button>
                     </div>
 
-                    <div className="ai-quick-questions">
+                    <div className="ai-quick-questions" style={{ marginTop: '20px' }}>
                         <h4 className="quick-questions-title">Quick Questions</h4>
                         <div className="quick-chips">
                             {quickQuestions[activeTab]?.map((q, idx) => (
@@ -130,16 +165,6 @@ export default function BusinessOwnerAiInsight() {
                             ))}
                         </div>
                     </div>
-
-                    {(response || error) && (
-                        <div className={`ai-response-container ${error ? 'ai-response-error' : ''}`}>
-                            <h4 className="response-title">{error ? 'Error Generating Insight' : 'AI Response'}</h4>
-                            <div className="response-content">
-                                {error ? error : response?.split('\n').map((line, i) => <p key={i}>{line}</p>)}
-                            </div>
-                        </div>
-                    )}
-
                 </div>
             </div>
         </OwnerLayout >
