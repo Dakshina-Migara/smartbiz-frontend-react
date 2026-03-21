@@ -175,3 +175,20 @@
         width: 100%;
     }
 }
+
+/* AI Usage Cell */
+.ai-usage-cell {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.ai-usage-cell .current {
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.ai-usage-cell .limit {
+    font-size: 0.75rem;
+    color: #a0aec0;
+}
