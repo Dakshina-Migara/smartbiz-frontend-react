@@ -3,6 +3,7 @@ import TrendingDownIcon from '@mui/icons-material/TrendingDown'
 import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 import GroupIcon from '@mui/icons-material/Group'
 import InventoryIcon from '@mui/icons-material/Inventory'
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
 import StatCard from '../../../common/component/StatCard/StatCard'
 import DataTable from '../../../common/component/DataTable/DataTable'
 import OwnerLayout from '../../../common/component/OwnerLayout/OwnerLayout'
@@ -31,7 +32,10 @@ export default function BusinessOwnerDashboard() {
         profitMargin: 0,
         lowStockAlerts: 0,
         totalCustomers: 0,
-        inventoryValue: 0
+        inventoryValue: 0,
+        aiTokensUsedMonthly: 0,
+        aiTokenLimit: 0,
+        planName: 'None'
     }
 
     const formatCurrency = (val) => `$${Number(val).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
@@ -87,6 +91,13 @@ export default function BusinessOwnerDashboard() {
                         subtitle="Total stock value"
                         icon={<InventoryIcon />}
                         iconColor="#9b59b6"
+                    />
+                    <StatCard
+                        title="AI Tokens Used"
+                        value={Number(stats.aiTokensUsedMonthly || 0).toLocaleString()}
+                        subtitle={`${stats.planName} (Limit: ${Number(stats.aiTokenLimit || 0).toLocaleString()})`}
+                        icon={<AutoAwesomeIcon />}
+                        iconColor="#8e44ad"
                     />
                 </div>
 
