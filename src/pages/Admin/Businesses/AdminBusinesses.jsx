@@ -130,8 +130,15 @@ export default function AdminBusinesses() {
         },
         {
             key: 'aiUsage',
-            label: 'AI Usage',
-            render: (val) => (val || 0).toLocaleString()
+            label: 'AI Usage (Monthly)',
+            render: (val, row) => (
+                <div className="ai-usage-cell">
+                    <span className="current">{(val || 0).toLocaleString()}</span>
+                    {row.aiTokenLimit && (
+                        <span className="limit"> / {row.aiTokenLimit.toLocaleString()}</span>
+                    )}
+                </div>
+            )
         },
         {
             key: 'revenue',
