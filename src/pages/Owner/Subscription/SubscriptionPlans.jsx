@@ -10,6 +10,7 @@ import './SubscriptionPlans.css'
 export default function SubscriptionPlans() {
     const { plans, plansLoading, fetchPlans, purchasePlan } = useAdmin()
     const { user, updateUser } = useAuth()
+    const { refreshData } = useProducts() // Assuming useProducts is available or needed here
     const [selectedPlan, setSelectedPlan] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -31,6 +32,7 @@ export default function SubscriptionPlans() {
 
         if (result.success) {
             updateUser({ planName: selectedPlan.planName })
+            if (refreshData) refreshData() // Refresh dashboard stats with new plan limits
             alert(`Successfully subscribed to ${selectedPlan.planName}!`)
             setIsModalOpen(false)
         } else {
