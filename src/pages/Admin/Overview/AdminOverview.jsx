@@ -13,6 +13,8 @@ import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined'
 import { useAdmin } from '../../../context/AdminContext'
 import './AdminOverview.css'
 
+const DASHBOARD_COLORS = ['#6366f1', '#a855f7', '#ec4899', '#f59e0b', '#10b981', '#3b82f6']
+
 export default function AdminOverview() {
     const { stats, charts, loading } = useAdmin()
 
@@ -75,15 +77,25 @@ export default function AdminOverview() {
                                 <AreaChart data={charts.tokenUsage}>
                                     <defs>
                                         <linearGradient id="colorUsage" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-                                            <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+                                            <stop offset="0%" stopColor="#6366f1" stopOpacity={0.9} />
+                                            <stop offset="50%" stopColor="#a855f7" stopOpacity={0.5} />
+                                            <stop offset="100%" stopColor="#ec4899" stopOpacity={0} />
                                         </linearGradient>
                                     </defs>
                                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee" />
                                     <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#888' }} />
                                     <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#888' }} />
                                     <Tooltip />
-                                    <Area type="monotone" dataKey="usage" stroke="#8884d8" fillOpacity={1} fill="url(#colorUsage)" />
+                                    <Area
+                                        type="monotone"
+                                        dataKey="usage"
+                                        stroke="#6366f1"
+                                        strokeWidth={3}
+                                        fillOpacity={1}
+                                        fill="url(#colorUsage)"
+                                        dot={{ r: 4, fill: '#6366f1', strokeWidth: 2, stroke: '#fff' }}
+                                        activeDot={{ r: 6, strokeWidth: 0 }}
+                                    />
                                 </AreaChart>
                             </ResponsiveContainer>
                         </div>
@@ -141,7 +153,11 @@ export default function AdminOverview() {
                                         cursor={{ fill: 'rgba(200, 200, 200, 0.2)' }}
                                         contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                                     />
-                                    <Bar dataKey="count" fill="#38a169" radius={[4, 4, 0, 0]} barSize={100} />
+                                    <Bar dataKey="count" radius={[8, 8, 0, 0]} barSize={80}>
+                                        {charts.subscribersByPlan.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={DASHBOARD_COLORS[index % DASHBOARD_COLORS.length]} />
+                                        ))}
+                                    </Bar>
                                 </BarChart>
                             </ResponsiveContainer>
                         </div>
