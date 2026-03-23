@@ -16,48 +16,67 @@
 
 .smartbiz-modal-container {
     background-color: #ffffff;
-    border-radius: 20px;
+    border-radius: 40px;
     width: 100%;
-    max-width: 500px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    max-width: 550px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     max-height: 90vh;
-    animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: slideUp 0.35s cubic-bezier(0.4, 0, 0.1, 1);
+    overflow: hidden;
+    border: 1px solid #eee;
 }
 
 .smartbiz-modal-header {
-    padding: 20px 25px;
+    padding: 24px 32px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f2f2f2;
 }
 
 .smartbiz-modal-title {
-    font-size: 1.25rem;
+    font-size: 1.45rem;
     font-weight: 700;
-    color: #222222;
+    color: #1a1a1a;
+    letter-spacing: -0.01em;
 }
 
 .smartbiz-modal-close {
-    background: none;
+    background: #f8f8f8;
     border: none;
     cursor: pointer;
-    color: #888888;
+    color: #888;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: color 0.2s;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .smartbiz-modal-close:hover {
-    color: #e74c3c;
+    background: #eee;
+    color: #000;
+    transform: rotate(90deg);
 }
 
 .smartbiz-modal-body {
-    padding: 25px;
+    padding: 32px;
     overflow-y: auto;
+}
+
+/* Ensure buttons inside modals follow the capsule design */
+.smartbiz-modal-container .smartbiz-btn {
+    border-radius: 30px !important;
+    padding-left: 28px !important;
+    padding-right: 28px !important;
+    font-weight: 700;
+    height: 52px;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
 }
 
 @keyframes fadeIn {
@@ -72,12 +91,12 @@
 
 @keyframes slideUp {
     from {
-        transform: translateY(20px);
+        transform: translateY(30px) scale(0.98);
         opacity: 0;
     }
 
     to {
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
         opacity: 1;
     }
 }

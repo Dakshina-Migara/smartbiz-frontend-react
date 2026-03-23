@@ -124,6 +124,7 @@ export default function BusinessOwnerSupplier() {
         {
             key: 'actions',
             label: 'Actions',
+            align: 'center',
             render: (_, row) => (
                 <div className="action-buttons">
                     <button
@@ -230,7 +231,7 @@ export default function BusinessOwnerSupplier() {
                             Cancel
                         </Button>
                         <Button type="submit" variant="filled" disabled={isSubmitting}>
-                            {isSubmitting ? 'Saving...' : (editingSupplier ? 'Update Supplier' : 'Add Supplier')}
+                            {isSubmitting ? 'SAVING...' : (editingSupplier ? 'UPDATE SUPPLIER' : 'ADD SUPPLIER')}
                         </Button>
                     </div>
                 </form>

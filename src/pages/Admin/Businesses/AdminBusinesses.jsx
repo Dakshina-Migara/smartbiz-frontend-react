@@ -231,14 +231,15 @@ export default function AdminBusinesses() {
                 onClose={() => !isDeleting && setIsDeleteModalOpen(false)}
                 title="Confirm Account Deletion"
             >
-                <div style={{ textAlign: 'center', padding: '20px 0' }}>
-                    <div style={{ paddingBottom: '24px', fontSize: '15px', color: '#4a5568' }}>
-                        Are you sure you want to permanently delete the account for <strong>{selectedBusiness?.name}</strong>?<br />
-                        <span style={{ fontSize: '13px', color: '#e53e3e', marginTop: '10px', display: 'block' }}>
+                <div style={{ textAlign: 'center', padding: '10px 0' }}>
+                    <div style={{ paddingBottom: '32px', fontSize: '1.1rem', color: '#4a5568', lineHeight: 1.5 }}>
+                        Are you sure you want to permanently delete the account for <br />
+                        <strong style={{ color: '#1a1a1a', fontSize: '1.2rem' }}>{selectedBusiness?.name}</strong>?
+                        <div style={{ fontSize: '0.95rem', color: '#e53e3e', marginTop: '20px', fontWeight: 500 }}>
                             Warning: This action will delete all associated data and cannot be undone.
-                        </span>
+                        </div>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'center', gap: '16px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
                         <Button
                             variant="outlined"
                             onClick={() => setIsDeleteModalOpen(false)}
@@ -247,12 +248,11 @@ export default function AdminBusinesses() {
                             Cancel
                         </Button>
                         <Button
-                            variant="filled"
+                            variant="danger"
                             onClick={handleDeleteConfirm}
                             disabled={isDeleting}
-                            sx={{ backgroundColor: '#e53e3e', color: 'white', '&:hover': { backgroundColor: '#c53030' } }}
                         >
-                            {isDeleting ? 'Deleting...' : 'Permanently Delete'}
+                            {isDeleting ? 'DELETING...' : 'PERMANENTLY DELETE'}
                         </Button>
                     </div>
                 </div>
@@ -325,7 +325,7 @@ export default function AdminBusinesses() {
                             variant="filled"
                             disabled={isUpdating}
                         >
-                            {isUpdating ? 'Saving...' : 'Save Changes'}
+                            {isUpdating ? 'SAVING...' : 'SAVE CHANGES'}
                         </Button>
                     </div>
                 </form>

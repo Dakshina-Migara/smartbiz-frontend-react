@@ -24,6 +24,30 @@
     box-shadow: 0 2px 8px rgba(61, 50, 41, 0.3);
 }
 
+/* Danger — red background (Delete) */
+.smartbiz-btn--danger.MuiButton-contained {
+    background-color: #ef4444;
+    color: #ffffff;
+    border-radius: 30px;
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    transition: all 0.3s ease;
+}
+
+.smartbiz-btn--danger.MuiButton-contained:hover {
+    background-color: #dc2626;
+    box-shadow: 0 6px 18px rgba(239, 68, 68, 0.45);
+    transform: translateY(-1px);
+}
+
+.smartbiz-btn--danger.MuiButton-contained:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
 /* Outlined — border with dark text (Create Your Account) */
 .smartbiz-btn--outlined.MuiButton-outlined {
     background-color: transparent;

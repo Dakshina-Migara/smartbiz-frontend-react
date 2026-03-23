@@ -82,10 +82,10 @@ export default function InvoiceModal({ isOpen, onClose, sale, businessName }) {
 
                 <div className="invoice-actions no-print">
                     <Button variant="outlined" onClick={handleDownloadPdf}>
-                        Download PDF
+                        DOWNLOAD PDF
                     </Button>
                     <Button variant="filled" onClick={onClose}>
-                        Close
+                        CLOSE
                     </Button>
                 </div>
             </div>
