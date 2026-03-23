@@ -209,7 +209,7 @@ export default function AdminPlans() {
                     <div className="form-buttons">
                         <Button variant="outlined" onClick={() => setIsModalOpen(false)} disabled={isSubmitting}>Cancel</Button>
                         <Button type="submit" variant="filled" disabled={isSubmitting}>
-                            {isSubmitting ? "Saving..." : (selectedPlan ? "Save Changes" : "Create Plan")}
+                            {isSubmitting ? "SAVING..." : (selectedPlan ? "SAVE CHANGES" : "CREATE PLAN")}
                         </Button>
                     </div>
                 </form>
@@ -221,13 +221,13 @@ export default function AdminPlans() {
                 onClose={() => !isSubmitting && setIsDeleteModalOpen(false)}
                 title="Confirm Deletion"
             >
-                <div className="delete-confirm">
-                    <p>Are you sure you want to delete the <strong>{selectedPlan?.planName}</strong> plan?</p>
-                    <p className="warning">This action might affect existing businesses on this plan.</p>
-                    <div className="form-buttons">
+                <div className="delete-confirm" style={{ textAlign: 'center' }}>
+                    <p style={{ fontSize: '1.1rem', marginBottom: '16px' }}>Are you sure you want to delete the <strong>{selectedPlan?.planName}</strong> plan?</p>
+                    <p style={{ color: '#e53e3e', marginBottom: '24px', fontWeight: 500 }}>Warning: This action might affect existing businesses on this plan.</p>
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '16px' }}>
                         <Button variant="outlined" onClick={() => setIsDeleteModalOpen(false)} disabled={isSubmitting}>Cancel</Button>
-                        <Button variant="filled" onClick={handleDelete} disabled={isSubmitting} sx={{ bgcolor: '#e53e3e', color: 'white' }}>
-                            {isSubmitting ? "Deleting..." : "Delete Plan"}
+                        <Button variant="filled" onClick={handleDelete} disabled={isSubmitting} sx={{ bgcolor: '#332e29', color: 'white' }}>
+                            {isSubmitting ? "DELETING..." : "DELETE PLAN"}
                         </Button>
                     </div>
                 </div>
