@@ -16,7 +16,7 @@ import './BusinessOwnerSupplier.css'
 
 export default function BusinessOwnerSupplier() {
     const { suppliers, loading, addSupplier, updateSupplier, deleteSupplier } = useSuppliers()
-    const { showNotification } = useNotification()
+    const { showNotification, showConfirm } = useNotification()
     const [searchQuery, setSearchQuery] = useState('')
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editingSupplier, setEditingSupplier] = useState(null)
@@ -61,7 +61,8 @@ export default function BusinessOwnerSupplier() {
     }
 
     const handleDeleteSupplier = async (id) => {
-        if (window.confirm('Are you sure you want to delete this supplier?')) {
+        const confirmed = await showConfirm('Are you sure you want to delete this supplier?')
+        if (confirmed) {
             const result = await deleteSupplier(id)
             if (result.success) {
                 showNotification('Supplier deleted successfully', 'success')
