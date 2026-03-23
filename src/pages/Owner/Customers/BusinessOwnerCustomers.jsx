@@ -120,11 +120,13 @@ export default function BusinessOwnerCustomers() {
         {
             key: 'totalPurchases',
             label: 'Total Purchases',
+            align: 'right',
             render: (val) => <span className="purchases-cell">${Number(val || 0).toFixed(2)}</span>
         },
         {
             key: 'actions',
             label: 'Actions',
+            align: 'center',
             render: (_, row) => (
                 <div className="action-buttons">
                     <button
@@ -230,8 +232,8 @@ export default function BusinessOwnerCustomers() {
                         <Button variant="outlined" onClick={() => setIsModalOpen(false)} disabled={isSubmitting}>
                             Cancel
                         </Button>
-                        <Button type="submit" variant="filled" disabled={isSubmitting}>
-                            {isSubmitting ? 'Saving...' : (editingCustomer ? 'Update Customer' : 'Add Customer')}
+                        <Button type="submit" variant="filled" disabled={isSubmitting} className="submit-btn">
+                            {isSubmitting ? 'SAVING...' : (editingCustomer ? 'UPDATE CUSTOMER' : 'ADD CUSTOMER')}
                         </Button>
                     </div>
                 </form>

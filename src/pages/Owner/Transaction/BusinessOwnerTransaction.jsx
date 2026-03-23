@@ -145,6 +145,7 @@ export default function BusinessOwnerTransaction() {
         {
             key: 'amount',
             label: 'Amount',
+            align: 'right',
             render: (val, row) => (
                 <span className={`amount-cell amount-cell--${row.type}`}>
                     {row.type === 'income' ? '+' : '-'}${Number(val).toFixed(2)}
@@ -154,6 +155,7 @@ export default function BusinessOwnerTransaction() {
         {
             key: 'actions',
             label: 'Actions',
+            align: 'center',
             render: (_, row) => (
                 <div className="action-buttons">
                     <button
@@ -167,7 +169,6 @@ export default function BusinessOwnerTransaction() {
                         className="action-btn action-btn--delete"
                         title="Delete Transaction"
                         onClick={() => handleDelete(row)}
-                        style={{ color: '#e53e3e', marginLeft: '8px' }}
                     >
                         <DeleteOutlineIcon sx={{ fontSize: 20 }} />
                     </button>
@@ -301,9 +302,8 @@ export default function BusinessOwnerTransaction() {
                             variant="filled"
                             onClick={handleSubmit}
                             disabled={isSubmitting}
-                            sx={{ minWidth: '150px' }}
                         >
-                            {isSubmitting ? 'Saving...' : 'Save'}
+                            {isSubmitting ? 'SAVING...' : 'SAVE TRANSACTION'}
                         </Button>
                     </div>
                 </div>

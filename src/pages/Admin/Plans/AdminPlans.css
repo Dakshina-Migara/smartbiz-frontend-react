@@ -93,9 +93,14 @@
     color: #1a202c;
 }
 
+.plan-card__actions button.delete,
+.plan-card__actions button.delete svg {
+    color: #ef4444 !important;
+}
+
 .plan-card__actions button.delete:hover {
     background: #fff5f5;
-    color: #e53e3e;
+    color: #b91c1c;
 }
 
 .plan-name {

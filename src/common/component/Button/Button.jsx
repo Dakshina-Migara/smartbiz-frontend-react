@@ -18,7 +18,8 @@ export default function Button({
     const muiVariantMap = {
         filled: 'contained',
         outlined: 'outlined',
-        text: 'text'
+        text: 'text',
+        danger: 'contained'
     }
 
     const classNames = [
