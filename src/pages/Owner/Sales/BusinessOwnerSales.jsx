@@ -27,7 +27,7 @@ export default function BusinessOwnerSales() {
     const { sales, loading, searchSales, recordSale, getSaleDetails, deleteSale } = useSales()
     const { products, refreshData: refreshProducts } = useProducts()
     const { customers, refreshCustomers } = useCustomers()
-    const { showNotification } = useNotification()
+    const { showNotification, showConfirm } = useNotification()
 
     useEffect(() => {
         refreshProducts()
@@ -72,19 +72,21 @@ export default function BusinessOwnerSales() {
         }
     }
 
-    const handleDeleteSale = async (sale) => {
-        if (!sale) return
-        const sid = sale.saleId || sale.id
-        if (window.confirm('Are you sure you want to delete this sale? Product stock levels will be restored automatically.')) {
+    const handleDelete = async (targetSale) => {
+        if (!targetSale) return
+        const confirmed = await showConfirm('Are you sure you want to delete this sale? Product stock levels will be restored automatically.')
+        if (confirmed) {
             try {
-                const res = await deleteSale(sid)
-                if (res.success) {
+                const id = targetSale.saleId || targetSale.id
+                const result = await deleteSale(id)
+                if (result.success) {
                     showNotification('Sale deleted successfully', 'success')
+                    if (refreshProducts) refreshProducts()
                 } else {
-                    showNotification('Error: ' + (res.error || 'Failed to delete sale'), 'error')
+                    showNotification('Error deleting sale: ' + (result.error || 'Failed to delete sale'), 'error')
                 }
-            } catch {
-                showNotification('An unexpected error occurred.', 'error')
+            } catch (error) {
+                showNotification('An unexpected error occurred: ' + error.message, 'error')
             }
         }
     }
