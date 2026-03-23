@@ -72,7 +72,7 @@ export default function BusinessOwnerSales() {
         }
     }
 
-    const handleDelete = async (targetSale) => {
+    const handleDeleteSale = async (targetSale) => {
         if (!targetSale) return
         const confirmed = await showConfirm('Are you sure you want to delete this sale? Product stock levels will be restored automatically.')
         if (confirmed) {
@@ -390,7 +390,7 @@ export default function BusinessOwnerSales() {
                             disabled={isSubmitting || cart.length === 0}
                             sx={{ minWidth: '150px' }}
                         >
-                            {isSubmitting ? 'Recording...' : 'Record Sale'}
+                            {isSubmitting ? 'RECORDING...' : 'RECORD SALE'}
                         </Button>
                     </div>
                 </div>

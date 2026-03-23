@@ -238,7 +238,7 @@ export default function OwnerProductsPage() {
                     <div className="form-actions">
                         <Button variant="outlined" onClick={() => setIsModalOpen(false)} disabled={isSubmitting}>Cancel</Button>
                         <Button type="submit" variant="filled" disabled={isSubmitting}>
-                            {isSubmitting ? 'Saving...' : (editingProduct ? "Update Product" : "Save Product")}
+                            {isSubmitting ? 'SAVING...' : (editingProduct ? 'SAVE CHANGES' : 'ADD PRODUCT')}
                         </Button>
                     </div>
                 </form>
