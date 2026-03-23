@@ -14,10 +14,12 @@ import InputLabel from '@mui/material/InputLabel'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp'
 import TrendingDownIcon from '@mui/icons-material/TrendingDown'
 import { useTransactions } from '../../../context/TransactionContext'
+import { useNotification } from '../../../context/NotificationContext'
 import './BusinessOwnerTransaction.css'
 
 export default function BusinessOwnerTransaction() {
     const { transactions, loading, addTransaction, editTransaction, deleteTransaction } = useTransactions()
+    const { showNotification } = useNotification()
 
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -70,15 +72,17 @@ export default function BusinessOwnerTransaction() {
         if (window.confirm('Are you sure you want to delete this transaction?')) {
             const id = transaction.transactionId || transaction.id
             const res = await deleteTransaction(id)
-            if (!res.success) {
-                alert('Error: ' + res.error)
+            if (res.success) {
+                showNotification('Transaction deleted successfully', 'success')
+            } else {
+                showNotification('Error: ' + res.error, 'error')
             }
         }
     }
 
     const handleSubmit = async () => {
         if (!formData.description || !formData.amount || !formData.category) {
-            alert('Please fill all required fields')
+            showNotification('Please fill all required fields', 'error')
             return
         }
 
@@ -99,12 +103,13 @@ export default function BusinessOwnerTransaction() {
 
             if (result.success) {
                 setIsModalOpen(false)
+                showNotification(`Transaction ${editingTransaction ? 'updated' : 'added'} successfully!`, 'success')
             } else {
-                alert('Error processing transaction: ' + result.error)
+                showNotification('Error processing transaction: ' + result.error, 'error')
             }
         } catch (err) {
             console.error(err)
-            alert('An unexpected error occurred.')
+            showNotification('An unexpected error occurred.', 'error')
         } finally {
             setIsSubmitting(false)
         }
