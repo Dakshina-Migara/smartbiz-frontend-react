@@ -301,9 +301,8 @@ export default function BusinessOwnerTransaction() {
                             variant="filled"
                             onClick={handleSubmit}
                             disabled={isSubmitting}
-                            sx={{ minWidth: '150px' }}
                         >
-                            {isSubmitting ? 'Saving...' : 'Save'}
+                            {isSubmitting ? 'SAVING...' : 'SAVE TRANSACTION'}
                         </Button>
                     </div>
                 </div>

@@ -230,8 +230,8 @@ export default function BusinessOwnerCustomers() {
                         <Button variant="outlined" onClick={() => setIsModalOpen(false)} disabled={isSubmitting}>
                             Cancel
                         </Button>
-                        <Button type="submit" variant="filled" disabled={isSubmitting}>
-                            {isSubmitting ? 'Saving...' : (editingCustomer ? 'Update Customer' : 'Add Customer')}
+                        <Button type="submit" variant="filled" disabled={isSubmitting} className="submit-btn">
+                            {isSubmitting ? 'SAVING...' : (editingCustomer ? 'UPDATE CUSTOMER' : 'ADD CUSTOMER')}
                         </Button>
                     </div>
                 </form>
