@@ -125,9 +125,14 @@
     color: #0369a1;
 }
 
+.action-btn--delete, 
+.action-btn--delete svg {
+    color: #ef4444 !important;
+}
+
 .action-btn--delete:hover {
     background-color: #fef2f2;
-    color: #991b1b;
+    color: #b91c1c;
 }
 
 .action-btn--view:hover {

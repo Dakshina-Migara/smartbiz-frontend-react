@@ -169,7 +169,6 @@ export default function BusinessOwnerTransaction() {
                         className="action-btn action-btn--delete"
                         title="Delete Transaction"
                         onClick={() => handleDelete(row)}
-                        style={{ color: '#e53e3e', marginLeft: '8px' }}
                     >
                         <DeleteOutlineIcon sx={{ fontSize: 20 }} />
                     </button>

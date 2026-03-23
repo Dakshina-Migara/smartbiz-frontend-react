@@ -142,21 +142,23 @@
     text-align: center;
 }
 
-.remove-item {
+.remove-item,
+.remove-item svg {
     background: transparent;
     border: none;
-    color: #e53e3e;
+    color: #ef4444 !important;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 4px;
     border-radius: 4px;
-    transition: background 0.2s;
+    transition: all 0.2s;
 }
 
 .remove-item:hover {
-    background: #fed7d7;
+    background: #fef2f2;
+    color: #b91c1c;
 }
 
 .cart-footer {

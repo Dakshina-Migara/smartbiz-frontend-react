@@ -55,7 +55,7 @@ export function NotificationProvider({ children }) {
         switch (type) {
             case 'success': return <CheckCircleOutlineIcon sx={{ ...iconStyle, color: '#27ae60' }} />
             case 'error': return <ErrorOutlineIcon sx={{ ...iconStyle, color: '#e74c3c' }} />
-            case 'confirm': return <HelpOutlineIcon sx={{ ...iconStyle, color: '#332e29' }} />
+            case 'confirm': return <HelpOutlineIcon sx={{ ...iconStyle, color: '#ef4444' }} />
             default: return <InfoOutlinedIcon sx={{ ...iconStyle, color: '#3498db' }} />
         }
     }
@@ -85,9 +85,8 @@ export function NotificationProvider({ children }) {
                                 Cancel
                             </Button>
                             <Button 
-                                variant="filled" 
+                                variant="danger" 
                                 onClick={() => hideNotification(true)}
-                                sx={{ backgroundColor: '#332e29', color: 'white' }}
                             >
                                 CONFIRM
                             </Button>

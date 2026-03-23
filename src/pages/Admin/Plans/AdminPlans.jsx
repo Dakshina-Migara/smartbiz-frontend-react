@@ -226,7 +226,7 @@ export default function AdminPlans() {
                     <p style={{ color: '#e53e3e', marginBottom: '24px', fontWeight: 500 }}>Warning: This action might affect existing businesses on this plan.</p>
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '16px' }}>
                         <Button variant="outlined" onClick={() => setIsDeleteModalOpen(false)} disabled={isSubmitting}>Cancel</Button>
-                        <Button variant="filled" onClick={handleDelete} disabled={isSubmitting} sx={{ bgcolor: '#332e29', color: 'white' }}>
+                        <Button variant="danger" onClick={handleDelete} disabled={isSubmitting}>
                             {isSubmitting ? "DELETING..." : "DELETE PLAN"}
                         </Button>
                     </div>

@@ -248,10 +248,9 @@ export default function AdminBusinesses() {
                             Cancel
                         </Button>
                         <Button
-                            variant="filled"
+                            variant="danger"
                             onClick={handleDeleteConfirm}
                             disabled={isDeleting}
-                            sx={{ backgroundColor: '#332e29', color: 'white', '&:hover': { backgroundColor: '#1a1815' } }}
                         >
                             {isDeleting ? 'DELETING...' : 'PERMANENTLY DELETE'}
                         </Button>
