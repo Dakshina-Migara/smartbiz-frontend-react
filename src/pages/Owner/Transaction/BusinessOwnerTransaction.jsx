@@ -19,7 +19,7 @@ import './BusinessOwnerTransaction.css'
 
 export default function BusinessOwnerTransaction() {
     const { transactions, loading, addTransaction, editTransaction, deleteTransaction } = useTransactions()
-    const { showNotification } = useNotification()
+    const { showNotification, showConfirm } = useNotification()
 
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -69,7 +69,8 @@ export default function BusinessOwnerTransaction() {
     }
 
     const handleDelete = async (transaction) => {
-        if (window.confirm('Are you sure you want to delete this transaction?')) {
+        const confirmed = await showConfirm('Are you sure you want to delete this transaction?')
+        if (confirmed) {
             const id = transaction.transactionId || transaction.id
             const res = await deleteTransaction(id)
             if (res.success) {
