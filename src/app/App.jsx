@@ -26,6 +26,7 @@ import AdminBusinesses from '../pages/Admin/Businesses/AdminBusinesses'
 import AdminUsageLogs from '../pages/Admin/UsageLogs/AdminUsageLogs'
 import AdminPlans from '../pages/Admin/Plans/AdminPlans'
 import { AdminProvider } from '../context/AdminContext'
+import { NotificationProvider } from '../context/NotificationContext'
 
 function TitleManager() {
   const location = useLocation()
@@ -96,23 +97,25 @@ function AppContent() {
 export default function App() {
   return (
     <AuthProvider>
-      <ProductProvider>
-        <CustomerProvider>
-          <SupplierProvider>
-            <SalesProvider>
-              <TransactionProvider>
-                <ReportsProvider>
-                  <AiInsightProvider>
-                    <AdminProvider>
-                      <AppContent />
-                    </AdminProvider>
-                  </AiInsightProvider>
-                </ReportsProvider>
-              </TransactionProvider>
-            </SalesProvider>
-          </SupplierProvider>
-        </CustomerProvider>
-      </ProductProvider>
+      <NotificationProvider>
+        <ProductProvider>
+          <CustomerProvider>
+            <SupplierProvider>
+              <SalesProvider>
+                <TransactionProvider>
+                  <ReportsProvider>
+                    <AiInsightProvider>
+                      <AdminProvider>
+                        <AppContent />
+                      </AdminProvider>
+                    </AiInsightProvider>
+                  </ReportsProvider>
+                </TransactionProvider>
+              </SalesProvider>
+            </SupplierProvider>
+          </CustomerProvider>
+        </ProductProvider>
+      </NotificationProvider>
     </AuthProvider>
   )
 }
