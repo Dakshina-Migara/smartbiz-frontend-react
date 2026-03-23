@@ -10,7 +10,6 @@ import TextField from '../../../common/component/TextField/TextField'
 import { useNotification } from '../../../context/NotificationContext'
 import './AdminPlans.css'
 
-
 export default function AdminPlans() {
     const {
         plans,
