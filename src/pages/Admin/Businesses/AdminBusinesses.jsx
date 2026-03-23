@@ -9,12 +9,8 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import Modal from '../../../common/component/Modal/Modal'
 import Button from '../../../common/component/Button/Button'
 import TextField from '../../../common/component/TextField/TextField'
-import './AdminBusinesses.css'
-
-import { useAdmin } from '../../../context/AdminContext'
-import { useAuth } from '../../../context/AuthContext'
 import { useNotification } from '../../../context/NotificationContext'
-import SearchIcon from '@mui/icons-material/Search'
+import './AdminBusinesses.css'
 
 export default function AdminBusinesses() {
     const { businesses, businessesLoading, fetchBusinesses, deleteBusiness, deleteAccount, updateAccount, user } = useAdmin()
