@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { useAdmin } from '../../../context/AdminContext'
-import { useAuth } from '../../../context/AuthContext'
-import { useProducts } from '../../../context/ProductContext'
 import OwnerLayout from '../../../common/component/OwnerLayout/OwnerLayout'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import Modal from '../../../common/component/Modal/Modal'
@@ -12,7 +9,6 @@ import { useAdmin } from '../../../context/AdminContext'
 import { useAuth } from '../../../context/AuthContext'
 import { useProducts } from '../../../context/ProductContext'
 import { useNotification } from '../../../context/NotificationContext'
-import OwnerLayout from '../../../common/component/OwnerLayout/OwnerLayout'
 
 export default function SubscriptionPlans() {
     const { plans, plansLoading, fetchPlans, purchasePlan } = useAdmin()
