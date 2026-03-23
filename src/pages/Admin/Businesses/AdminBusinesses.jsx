@@ -11,9 +11,15 @@ import Button from '../../../common/component/Button/Button'
 import TextField from '../../../common/component/TextField/TextField'
 import './AdminBusinesses.css'
 
+import { useAdmin } from '../../../context/AdminContext'
+import { useAuth } from '../../../context/AuthContext'
+import { useNotification } from '../../../context/NotificationContext'
+import SearchIcon from '@mui/icons-material/Search'
+
 export default function AdminBusinesses() {
     const { businesses, businessesLoading, fetchBusinesses, deleteBusiness, deleteAccount, updateAccount, user } = useAdmin()
     const { logout } = useAuth()
+    const { showNotification } = useNotification()
     const [searchQuery, setSearchQuery] = useState('')
 
     // Deletion State
@@ -66,8 +72,9 @@ export default function AdminBusinesses() {
         const result = await updateAccount(selectedBusiness.adminId, editForm)
         if (result.success) {
             setIsEditModalOpen(false)
+            showNotification('Account updated successfully!', 'success')
         } else {
-            alert(result.message || 'Failed to update account')
+            showNotification(result.message || 'Failed to update account', 'error')
         }
         setIsUpdating(false)
     }
@@ -81,10 +88,10 @@ export default function AdminBusinesses() {
         const isOwnAccount = (rowAdminId && rowAdminId === currentAdminId) ||
             (selectedBusiness.email && selectedBusiness.email === user?.email);
 
-        // Use deleteAccount to handle both scenarios (owner with business or solo admin)
         const result = await deleteAccount(selectedBusiness.adminId)
 
         if (result.success) {
+            showNotification('Account deleted successfully', 'success')
             if (isOwnAccount) {
                 logout()
             } else {
@@ -92,7 +99,7 @@ export default function AdminBusinesses() {
                 setSelectedBusiness(null)
             }
         } else {
-            alert(result.message || 'Failed to delete account')
+            showNotification(result.message || 'Failed to delete account', 'error')
         }
         setIsDeleting(false)
     }

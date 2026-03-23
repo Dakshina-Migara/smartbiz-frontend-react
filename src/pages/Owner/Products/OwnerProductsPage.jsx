@@ -9,10 +9,12 @@ import AddIcon from '@mui/icons-material/Add'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { useProducts } from '../../../context/ProductContext'
+import { useNotification } from '../../../context/NotificationContext'
 import './OwnerProductsPage.css'
 
 export default function OwnerProductsPage() {
     const { products, loading, addProduct, updateProduct, deleteProduct } = useProducts()
+    const { showNotification } = useNotification()
     const [searchQuery, setSearchQuery] = useState('')
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editingProduct, setEditingProduct] = useState(null)
@@ -60,7 +62,12 @@ export default function OwnerProductsPage() {
 
     const handleDeleteProduct = async (id) => {
         if (window.confirm('Are you sure you want to delete this product?')) {
-            await deleteProduct(id)
+            const result = await deleteProduct(id)
+            if (result.success) {
+                showNotification('Product deleted successfully', 'success')
+            } else {
+                showNotification('Failed to delete product.', 'error')
+            }
         }
     }
 
@@ -85,8 +92,9 @@ export default function OwnerProductsPage() {
 
         if (result.success) {
             setIsModalOpen(false)
+            showNotification(`Product ${editingProduct ? 'updated' : 'added'} successfully!`, 'success')
         } else {
-            alert('Failed to save product. Please try again.')
+            showNotification('Failed to save product. Please try again.', 'error')
         }
         setIsSubmitting(false)
     }
