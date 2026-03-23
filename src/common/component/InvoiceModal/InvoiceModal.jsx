@@ -3,9 +3,11 @@ import Modal from '../Modal/Modal'
 import Button from '../Button/Button'
 import jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
+import { useNotification } from '../../../context/NotificationContext'
 import './InvoiceModal.css'
 
 export default function InvoiceModal({ isOpen, onClose, sale, businessName }) {
+    const { showNotification } = useNotification()
     const receiptRef = useRef(null)
 
     const handleDownloadPdf = async () => {
@@ -26,7 +28,7 @@ export default function InvoiceModal({ isOpen, onClose, sale, businessName }) {
             pdf.save(`Invoice_${sale.invoiceNumber}.pdf`)
         } catch (error) {
             console.error('Failed to generate PDF:', error)
-            alert('Failed to download PDF.')
+            showNotification('Failed to download PDF.', 'error')
         }
     }
 
