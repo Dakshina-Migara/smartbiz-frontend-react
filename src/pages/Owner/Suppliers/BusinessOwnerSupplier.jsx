@@ -11,10 +11,12 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
 import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined'
 import { useSuppliers } from '../../../context/SupplierContext'
+import { useNotification } from '../../../context/NotificationContext'
 import './BusinessOwnerSupplier.css'
 
 export default function BusinessOwnerSupplier() {
     const { suppliers, loading, addSupplier, updateSupplier, deleteSupplier } = useSuppliers()
+    const { showNotification } = useNotification()
     const [searchQuery, setSearchQuery] = useState('')
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editingSupplier, setEditingSupplier] = useState(null)
@@ -60,7 +62,12 @@ export default function BusinessOwnerSupplier() {
 
     const handleDeleteSupplier = async (id) => {
         if (window.confirm('Are you sure you want to delete this supplier?')) {
-            await deleteSupplier(id)
+            const result = await deleteSupplier(id)
+            if (result.success) {
+                showNotification('Supplier deleted successfully', 'success')
+            } else {
+                showNotification('Failed to delete supplier.', 'error')
+            }
         }
     }
 
@@ -77,8 +84,9 @@ export default function BusinessOwnerSupplier() {
 
         if (result.success) {
             setIsModalOpen(false)
+            showNotification(`Supplier ${editingSupplier ? 'updated' : 'added'} successfully!`, 'success')
         } else {
-            alert('Failed to save supplier. Please try again.')
+            showNotification('Failed to save supplier. Please try again.', 'error')
         }
         setIsSubmitting(false)
     }
