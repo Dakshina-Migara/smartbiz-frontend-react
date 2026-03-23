@@ -19,6 +19,7 @@ import { useSales } from '../../../context/SalesContext'
 import { useProducts } from '../../../context/ProductContext'
 import { useCustomers } from '../../../context/CustomerContext'
 import { useAuth } from '../../../context/AuthContext'
+import { useNotification } from '../../../context/NotificationContext'
 import './BusinessOwnerSales.css'
 
 export default function BusinessOwnerSales() {
@@ -26,6 +27,7 @@ export default function BusinessOwnerSales() {
     const { sales, loading, searchSales, recordSale, getSaleDetails, deleteSale } = useSales()
     const { products, refreshData: refreshProducts } = useProducts()
     const { customers, refreshCustomers } = useCustomers()
+    const { showNotification, showConfirm } = useNotification()
 
     useEffect(() => {
         refreshProducts()
@@ -53,7 +55,7 @@ export default function BusinessOwnerSales() {
         if (!sale) return
         const sid = sale.saleId || sale.id
         if (!sid) {
-            alert('Invalid sale ID')
+            showNotification('Invalid sale ID', 'error')
             return
         }
 
@@ -63,24 +65,28 @@ export default function BusinessOwnerSales() {
                 setSelectedSale(details)
                 setIsInvoiceModalOpen(true)
             } else {
-                alert('Invoice details not found.')
+                showNotification('Invoice details not found.', 'error')
             }
         } catch (error) {
-            alert('Failed to load invoice: ' + error.message)
+            showNotification('Failed to load invoice: ' + error.message, 'error')
         }
     }
 
-    const handleDeleteSale = async (sale) => {
-        if (!sale) return
-        const sid = sale.saleId || sale.id
-        if (window.confirm('Are you sure you want to delete this sale? Product stock levels will be restored automatically.')) {
+    const handleDelete = async (targetSale) => {
+        if (!targetSale) return
+        const confirmed = await showConfirm('Are you sure you want to delete this sale? Product stock levels will be restored automatically.')
+        if (confirmed) {
             try {
-                const res = await deleteSale(sid)
-                if (!res.success) {
-                    alert('Error: ' + (res.error || 'Failed to delete sale'))
+                const id = targetSale.saleId || targetSale.id
+                const result = await deleteSale(id)
+                if (result.success) {
+                    showNotification('Sale deleted successfully', 'success')
+                    if (refreshProducts) refreshProducts()
+                } else {
+                    showNotification('Error deleting sale: ' + (result.error || 'Failed to delete sale'), 'error')
                 }
-            } catch {
-                alert('An unexpected error occurred.')
+            } catch (error) {
+                showNotification('An unexpected error occurred: ' + error.message, 'error')
             }
         }
     }
@@ -117,7 +123,7 @@ export default function BusinessOwnerSales() {
         // Final validation to prevent "Null ID" backend error
         const invalidItems = cart.filter(item => !item.id)
         if (invalidItems.length > 0) {
-            alert('One or more items are invalid. Please re-add them.')
+            showNotification('One or more items are invalid. Please re-add them.', 'error')
             console.error('Missing ID for items:', invalidItems)
             return
         }
@@ -148,12 +154,11 @@ export default function BusinessOwnerSales() {
             setCart([])
             setSelectedCustomer(null)
             setPaymentMethod('cash')
-
-            // Just notify or refresh, don't auto-open invoice based on new request
+            showNotification('Sale recorded successfully!', 'success')
             console.log('Sale recorded successfully')
         } else {
             console.error('Sale recording failed:', result.error)
-            alert('Failed to record sale: ' + (result.error || 'Unknown error'))
+            showNotification('Failed to record sale: ' + (result.error || 'Unknown error'), 'error')
         }
         setIsSubmitting(false)
     }

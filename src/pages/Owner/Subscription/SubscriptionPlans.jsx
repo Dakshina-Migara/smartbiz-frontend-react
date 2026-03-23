@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import { useAdmin } from '../../../context/AdminContext'
-import { useAuth } from '../../../context/AuthContext'
-import { useProducts } from '../../../context/ProductContext'
 import OwnerLayout from '../../../common/component/OwnerLayout/OwnerLayout'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import Modal from '../../../common/component/Modal/Modal'
 import Button from '../../../common/component/Button/Button'
 import './SubscriptionPlans.css'
 
+import { useAdmin } from '../../../context/AdminContext'
+import { useAuth } from '../../../context/AuthContext'
+import { useProducts } from '../../../context/ProductContext'
+import { useNotification } from '../../../context/NotificationContext'
+
 export default function SubscriptionPlans() {
     const { plans, plansLoading, fetchPlans, purchasePlan } = useAdmin()
     const { user, updateUser } = useAuth()
-    const { refreshData } = useProducts() // Assuming useProducts is available or needed here
+    const { refreshData } = useProducts()
+    const { showNotification } = useNotification()
     const [selectedPlan, setSelectedPlan] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -33,11 +36,11 @@ export default function SubscriptionPlans() {
 
         if (result.success) {
             updateUser({ planName: selectedPlan.planName })
-            if (refreshData) refreshData() // Refresh dashboard stats with new plan limits
-            alert(`Successfully subscribed to ${selectedPlan.planName}!`)
+            if (refreshData) refreshData()
+            showNotification(`Successfully subscribed to ${selectedPlan.planName}!`, 'success')
             setIsModalOpen(false)
         } else {
-            alert(result.message || 'Purchase failed')
+            showNotification(result.message || 'Purchase failed', 'error')
         }
         setIsSubmitting(false)
     }

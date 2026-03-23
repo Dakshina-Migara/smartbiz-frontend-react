@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react'
 import { useAuth } from './AuthContext'
+import { useProducts } from './ProductContext'
 import API from '../api/axios'
 
 const SalesContext = createContext()
@@ -8,6 +9,7 @@ export function SalesProvider({ children }) {
     const [sales, setSales] = useState([])
     const [loading, setLoading] = useState(false)
     const { user, token } = useAuth()
+    const { refreshData } = useProducts()
 
     const fetchSales = useCallback(async () => {
         if (!user?.businessId || !token) return
@@ -64,6 +66,7 @@ export function SalesProvider({ children }) {
             })
             if (response.status === 201 || response.status === 200) {
                 fetchSales()
+                if (refreshData) refreshData()
                 return { success: true, data: response.data }
             }
             return { success: false }
@@ -77,6 +80,7 @@ export function SalesProvider({ children }) {
         try {
             await API.delete(`/business/${user.businessId}/sales/${saleId}`)
             fetchSales() // Refresh the list
+            if (refreshData) refreshData()
             return { success: true }
         } catch (error) {
             console.error('Failed to delete sale:', error)
