@@ -14,7 +14,7 @@ import './OwnerProductsPage.css'
 
 export default function OwnerProductsPage() {
     const { products, loading, addProduct, updateProduct, deleteProduct } = useProducts()
-    const { showNotification } = useNotification()
+    const { showNotification, showConfirm } = useNotification()
     const [searchQuery, setSearchQuery] = useState('')
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editingProduct, setEditingProduct] = useState(null)
@@ -61,7 +61,8 @@ export default function OwnerProductsPage() {
     }
 
     const handleDeleteProduct = async (id) => {
-        if (window.confirm('Are you sure you want to delete this product?')) {
+        const confirmed = await showConfirm('Are you sure you want to delete this product?')
+        if (confirmed) {
             const result = await deleteProduct(id)
             if (result.success) {
                 showNotification('Product deleted successfully', 'success')
