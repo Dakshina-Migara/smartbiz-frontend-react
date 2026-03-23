@@ -16,7 +16,7 @@ import './BusinessOwnerCustomers.css'
 
 export default function BusinessOwnerCustomers() {
     const { customers, loading, addCustomer, updateCustomer, deleteCustomer } = useCustomers()
-    const { showNotification } = useNotification()
+    const { showNotification, showConfirm } = useNotification()
     const [searchQuery, setSearchQuery] = useState('')
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editingCustomer, setEditingCustomer] = useState(null)
@@ -61,7 +61,8 @@ export default function BusinessOwnerCustomers() {
     }
 
     const handleDeleteCustomer = async (id) => {
-        if (window.confirm('Are you sure you want to delete this customer?')) {
+        const confirmed = await showConfirm('Are you sure you want to delete this customer?')
+        if (confirmed) {
             const result = await deleteCustomer(id)
             if (result.success) {
                 showNotification('Customer deleted successfully', 'success')
