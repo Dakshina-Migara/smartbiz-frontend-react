@@ -105,12 +105,12 @@ export default function OwnerProductsPage() {
         { key: 'name', label: 'Name' },
         { key: 'sku', label: 'SKU' },
         { key: 'category', label: 'Category' },
-        { key: 'price', label: 'Price', render: (val) => `$${Number(val || 0).toFixed(2)}` },
-        { key: 'cost', label: 'Cost', render: (val) => `$${Number(val || 0).toFixed(2)}` },
-        { key: 'stock', label: 'Stock' },
-        { key: 'minStock', label: 'Min Stock' },
+        { key: 'price', label: 'Price', align: 'right', render: (val) => `$${Number(val || 0).toFixed(2)}` },
+        { key: 'cost', label: 'Cost', align: 'right', render: (val) => `$${Number(val || 0).toFixed(2)}` },
+        { key: 'stock', label: 'Stock', align: 'right' },
+        { key: 'minStock', label: 'Min Stock', align: 'right' },
         {
-            key: 'action', label: 'Action', render: (_, row) => (
+            key: 'action', label: 'Actions', align: 'center', render: (_, row) => (
                 <div className="action-buttons">
                     <button
                         className="action-btn action-btn--edit"

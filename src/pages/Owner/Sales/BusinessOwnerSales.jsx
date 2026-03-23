@@ -177,11 +177,13 @@ export default function BusinessOwnerSales() {
         {
             key: 'itemsCount',
             label: 'Items',
+            align: 'right',
             render: (val) => <span>{val || 0} item(s)</span>
         },
         {
             key: 'totalAmount',
             label: 'Total',
+            align: 'right',
             render: (val) => <span className="total-cell">${Number(val || 0).toFixed(2)}</span>
         },
         {
@@ -192,6 +194,7 @@ export default function BusinessOwnerSales() {
         {
             key: 'status',
             label: 'Status',
+            align: 'center',
             render: (val) => (
                 <span className={`status-badge status-badge--${(val || 'completed').toLowerCase()}`}>
                     {val || 'Completed'}
@@ -206,6 +209,7 @@ export default function BusinessOwnerSales() {
         {
             key: 'actions',
             label: 'Actions',
+            align: 'center',
             render: (_, row) => (
                 <div className="action-buttons">
                     <button

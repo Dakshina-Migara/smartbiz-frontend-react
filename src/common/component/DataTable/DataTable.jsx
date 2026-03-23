@@ -7,7 +7,10 @@ export default function DataTable({ columns = [], data = [] }) {
                 <thead>
                     <tr>
                         {columns.map((col, i) => (
-                            <th key={i} className="smartbiz-table__head-cell">
+                            <th 
+                                key={i} 
+                                className={`smartbiz-table__head-cell ${col.align ? `smartbiz-table__head-cell--${col.align}` : ''}`}
+                            >
                                 {col.label}
                             </th>
                         ))}
@@ -18,7 +21,10 @@ export default function DataTable({ columns = [], data = [] }) {
                         data.map((row, rowIndex) => (
                             <tr key={rowIndex} className="smartbiz-table__row">
                                 {columns.map((col, colIndex) => (
-                                    <td key={colIndex} className="smartbiz-table__cell">
+                                    <td 
+                                        key={colIndex} 
+                                        className={`smartbiz-table__cell ${col.align ? `smartbiz-table__cell--${col.align}` : ''}`}
+                                    >
                                         {col.render ? col.render(row[col.key], row) : row[col.key]}
                                     </td>
                                 ))}

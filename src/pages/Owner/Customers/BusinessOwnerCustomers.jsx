@@ -120,11 +120,13 @@ export default function BusinessOwnerCustomers() {
         {
             key: 'totalPurchases',
             label: 'Total Purchases',
+            align: 'right',
             render: (val) => <span className="purchases-cell">${Number(val || 0).toFixed(2)}</span>
         },
         {
             key: 'actions',
             label: 'Actions',
+            align: 'center',
             render: (_, row) => (
                 <div className="action-buttons">
                     <button

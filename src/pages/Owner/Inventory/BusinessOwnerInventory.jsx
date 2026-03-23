@@ -52,16 +52,18 @@ export default function BusinessOwnerInventory() {
         {
             key: 'stock',
             label: 'Current Stock',
+            align: 'right',
             render: (val, row) => (
                 <span style={{ fontWeight: 700, color: val <= row.minStock ? '#e74c3c' : '#2b3a4a' }}>
                     {val}
                 </span>
             )
         },
-        { key: 'minStock', label: 'Min Stock' },
+        { key: 'minStock', label: 'Min Stock', align: 'right' },
         {
             key: 'status',
             label: 'Status',
+            align: 'center',
             render: (_, row) => {
                 const info = getStatusInfo(row.stock, row.minStock)
                 return <span className={`status-badge ${info.class}`}>{info.label}</span>
@@ -70,16 +72,19 @@ export default function BusinessOwnerInventory() {
         {
             key: 'price',
             label: 'Unit Price',
+            align: 'right',
             render: (val) => `$${Number(val || 0).toFixed(2)}`
         },
         {
             key: 'totalValue',
             label: 'Stock Value',
+            align: 'right',
             render: (_, row) => `$${(row.price * row.stock).toFixed(2)}`
         },
         {
             key: 'adjust',
             label: 'Quick Adjust',
+            align: 'center',
             render: (_, row) => (
                 <div className="quick-adjust-buttons">
                     <button

@@ -145,6 +145,7 @@ export default function BusinessOwnerTransaction() {
         {
             key: 'amount',
             label: 'Amount',
+            align: 'right',
             render: (val, row) => (
                 <span className={`amount-cell amount-cell--${row.type}`}>
                     {row.type === 'income' ? '+' : '-'}${Number(val).toFixed(2)}
@@ -154,6 +155,7 @@ export default function BusinessOwnerTransaction() {
         {
             key: 'actions',
             label: 'Actions',
+            align: 'center',
             render: (_, row) => (
                 <div className="action-buttons">
                     <button

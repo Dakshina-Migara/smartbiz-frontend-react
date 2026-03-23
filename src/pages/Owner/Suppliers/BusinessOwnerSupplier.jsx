@@ -124,6 +124,7 @@ export default function BusinessOwnerSupplier() {
         {
             key: 'actions',
             label: 'Actions',
+            align: 'center',
             render: (_, row) => (
                 <div className="action-buttons">
                     <button

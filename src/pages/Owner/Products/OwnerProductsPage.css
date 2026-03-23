@@ -64,20 +64,8 @@
     min-width: 600px;
 }
 
-/* Table Specific Style Overrides */
-.table-container .smartbiz-table__head-cell {
-    padding: 15px 10px;
-    border-bottom: 2px solid #f0f0f0;
-    text-align: center;
-    font-size: 0.85rem;
-}
 
-.table-container .smartbiz-table__cell {
-    padding: 12px 8px;
-    font-size: 0.85rem;
-    border-right: 1px solid #f0f0f0;
-    text-align: center;
-}
+/* ===== Add Product Form Styles ===== */
 
 /* ===== Add Product Form Styles ===== */
 .add-product-form {
@@ -124,34 +112,8 @@
     color: #e74c3c;
 }
 
-/* Action Buttons */
-.action-buttons {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-}
 
-.action-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.action-btn:hover {
-    transform: scale(1.2);
-}
-
-.action-btn--edit {
-    color: #7f8c8d;
-}
-
-.action-btn--delete {
-    color: #e74c3c;
-}
+/* Responsive Overrides */
 
 /* Responsive Overrides */
 @media (max-width: 768px) {
