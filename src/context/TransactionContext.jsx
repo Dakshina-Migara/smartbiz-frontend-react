@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react'
 import { useAuth } from './AuthContext'
+import { useProducts } from './ProductContext'
 import API from '../api/axios'
 
 const TransactionContext = createContext()
@@ -8,6 +9,7 @@ export function TransactionProvider({ children }) {
     const [transactions, setTransactions] = useState([])
     const [loading, setLoading] = useState(false)
     const { user, token } = useAuth()
+    const { refreshData } = useProducts()
 
     const fetchTransactions = useCallback(async () => {
         if (!user?.businessId || !token) return
@@ -37,6 +39,7 @@ export function TransactionProvider({ children }) {
             const response = await API.post(`/business/${user.businessId}/transactions/addTransaction`, payload)
             if (response.status === 201 || response.status === 200) {
                 fetchTransactions()
+                if (refreshData) refreshData()
                 return { success: true, data: response.data }
             }
             return { success: false, error: 'Failed to record transaction' }
@@ -52,6 +55,7 @@ export function TransactionProvider({ children }) {
             const response = await API.put(`/business/${user.businessId}/transactions/${id}`, payload)
             if (response.status === 200) {
                 fetchTransactions()
+                if (refreshData) refreshData()
                 return { success: true, data: response.data }
             }
             return { success: false, error: 'Failed to update transaction' }
@@ -65,6 +69,7 @@ export function TransactionProvider({ children }) {
         try {
             await API.delete(`/business/${user.businessId}/transactions/${id}`)
             fetchTransactions() // Refresh the list
+            if (refreshData) refreshData()
             return { success: true }
         } catch (error) {
             console.error('Failed to delete transaction:', error)

@@ -11,10 +11,12 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
 import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined'
 import { useCustomers } from '../../../context/CustomerContext'
+import { useNotification } from '../../../context/NotificationContext'
 import './BusinessOwnerCustomers.css'
 
 export default function BusinessOwnerCustomers() {
     const { customers, loading, addCustomer, updateCustomer, deleteCustomer } = useCustomers()
+    const { showNotification, showConfirm } = useNotification()
     const [searchQuery, setSearchQuery] = useState('')
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editingCustomer, setEditingCustomer] = useState(null)
@@ -59,8 +61,14 @@ export default function BusinessOwnerCustomers() {
     }
 
     const handleDeleteCustomer = async (id) => {
-        if (window.confirm('Are you sure you want to delete this customer?')) {
-            await deleteCustomer(id)
+        const confirmed = await showConfirm('Are you sure you want to delete this customer?')
+        if (confirmed) {
+            const result = await deleteCustomer(id)
+            if (result.success) {
+                showNotification('Customer deleted successfully', 'success')
+            } else {
+                showNotification('Failed to delete customer.', 'error')
+            }
         }
     }
 
@@ -77,8 +85,9 @@ export default function BusinessOwnerCustomers() {
 
         if (result.success) {
             setIsModalOpen(false)
+            showNotification(`Customer ${editingCustomer ? 'updated' : 'added'} successfully!`, 'success')
         } else {
-            alert('Failed to save customer. Please try again.')
+            showNotification('Failed to save customer. Please try again.', 'error')
         }
         setIsSubmitting(false)
     }

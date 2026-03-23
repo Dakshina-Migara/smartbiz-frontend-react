@@ -7,6 +7,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import Modal from '../../../common/component/Modal/Modal'
 import Button from '../../../common/component/Button/Button'
 import TextField from '../../../common/component/TextField/TextField'
+import { useNotification } from '../../../context/NotificationContext'
 import './AdminPlans.css'
 
 export default function AdminPlans() {
@@ -18,6 +19,7 @@ export default function AdminPlans() {
         deletePlan
     } = useAdmin()
 
+    const { showNotification } = useNotification()
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
     const [selectedPlan, setSelectedPlan] = useState(null)
@@ -76,8 +78,9 @@ export default function AdminPlans() {
 
         if (result.success) {
             setIsModalOpen(false)
+            showNotification(`Plan ${selectedPlan ? 'updated' : 'created'} successfully!`, 'success')
         } else {
-            alert(result.message || 'Action failed')
+            showNotification(result.message || 'Action failed', 'error')
         }
         setIsSubmitting(false)
     }
@@ -87,8 +90,9 @@ export default function AdminPlans() {
         const result = await deletePlan(selectedPlan.subscriptionId)
         if (result.success) {
             setIsDeleteModalOpen(false)
+            showNotification('Plan deleted successfully', 'success')
         } else {
-            alert(result.message || 'Deletion failed')
+            showNotification(result.message || 'Deletion failed', 'error')
         }
         setIsSubmitting(false)
     }
