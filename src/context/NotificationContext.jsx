@@ -7,11 +7,13 @@ export function NotificationProvider({ children }) {
     const [msg, setMsg] = useState(null)
     const [type, setType] = useState('info')
     const [isVisible, setIsVisible] = useState(false)
+    const [confirmResolver, setConfirmResolver] = useState(null)
 
     const showNotification = useCallback((message, notificationType = 'info', duration = 4000) => {
         setMsg(message)
         setType(notificationType)
         setIsVisible(true)
+        setConfirmResolver(null)
 
         if (duration > 0) {
             setTimeout(() => {
@@ -20,12 +22,35 @@ export function NotificationProvider({ children }) {
         }
     }, [])
 
-    const hideNotification = () => setIsVisible(false)
+    const showConfirm = useCallback((message) => {
+        setMsg(message)
+        setType('confirm')
+        setIsVisible(true)
+        
+        return new Promise((resolve) => {
+            setConfirmResolver(() => resolve)
+        })
+    }, [])
+
+    const hideNotification = (result = false) => {
+        setIsVisible(false)
+        if (confirmResolver) {
+            confirmResolver(result)
+            setConfirmResolver(null)
+        }
+    }
 
     return (
-        <NotificationContext.Provider value={{ showNotification }}>
+        <NotificationContext.Provider value={{ showNotification, showConfirm }}>
             {children}
-            {isVisible && <Notification message={msg} type={type} onClose={hideNotification} />}
+            {isVisible && (
+                <Notification 
+                    message={msg} 
+                    type={type} 
+                    onClose={() => hideNotification(false)} 
+                    onConfirm={() => hideNotification(true)}
+                />
+            )}
         </NotificationContext.Provider>
     )
 }
