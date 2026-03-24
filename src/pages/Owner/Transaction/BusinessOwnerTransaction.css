@@ -15,8 +15,33 @@
 }
 
 @media (max-width: 768px) {
+    .transactions-page {
+        padding: 0 0 12px 0;
+        gap: 15px;
+    }
+
     .summary-cards {
         grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .summary-card {
+        padding: 20px;
+    }
+
+    .summary-card-value {
+        font-size: 24px;
+    }
+
+    .transactions-section {
+        padding: 15px;
+        border-radius: 12px;
+    }
+
+    .transactions-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
     }
 }
 

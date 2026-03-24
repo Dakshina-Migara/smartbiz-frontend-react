@@ -40,6 +40,12 @@
 
 /* ===== Responsive Breakpoints ===== */
 
+@media (max-width: 1200px) {
+    .owner-layout {
+        padding: 20px 30px;
+    }
+}
+
 @media (max-width: 1024px) {
     .owner-layout {
         padding: 15px 20px;
@@ -61,13 +67,14 @@
     }
 
     .owner-layout__breadcrumb {
-        font-size: 0.9rem;
+        font-size: 0.95rem;
         margin-left: 5px;
+        margin-bottom: 5px;
     }
 
     .owner-layout__card {
-        border-radius: 20px;
-        padding-bottom: 20px;
+        border-radius: 24px;
+        padding-bottom: 15px;
     }
 
     .owner-layout__content {
@@ -78,10 +85,21 @@
 /* Mobile specific fixes */
 @media (max-width: 480px) {
     .owner-layout {
-        padding: 5px;
+        padding: 8px 5px;
+        gap: 8px;
     }
 
     .owner-layout__card {
-        border-radius: 15px;
+        border-radius: 16px;
+        padding-bottom: 10px;
+    }
+
+    .owner-layout__content {
+        margin: 0 8px 8px 8px;
+    }
+
+    .owner-layout__breadcrumb {
+        font-size: 0.85rem;
+        margin-left: 8px;
     }
 }

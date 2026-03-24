@@ -108,38 +108,39 @@
     }
 
     .owner-navbar__item {
-        padding: 10px 14px;
-        min-width: 75px;
+        padding: 8px 12px;
+        min-width: 70px;
     }
 }
 
 /* ===== Responsive - Small Mobile ===== */
 @media (max-width: 600px) {
     .owner-navbar {
-        border-radius: 20px;
+        border-radius: 12px;
         /* Less rounded for better screen usage */
-        width: calc(100% - 20px);
-        margin: 10px auto;
+        width: 100%;
+        margin: 10px 0;
         padding: 4px;
         gap: 2px;
         background-color: #ffffff;
         /* Contrast on mobile */
-        border: 1px solid #eeeeee;
+        border-bottom: 1px solid #eeeeee;
+        box-shadow: none;
     }
 
     .owner-navbar__item {
-        padding: 8px 10px;
-        min-width: 65px;
-        gap: 2px;
+        padding: 6px 8px;
+        min-width: 60px;
+        gap: 1px;
     }
 
     .owner-navbar__icon svg {
-        width: 20px;
-        height: 20px;
+        width: 18px;
+        height: 18px;
     }
 
     .owner-navbar__label {
-        font-size: 0.55rem;
+        font-size: 0.5rem;
     }
 }
 

@@ -27,6 +27,29 @@
     }
 }
 
+@media (max-width: 768px) {
+    .reports-page {
+        padding: 0 0 15px 0;
+    }
+    
+    .report-card {
+        padding: 15px;
+        height: 320px;
+    }
+
+    .report-title {
+        font-size: 14px;
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .report-card {
+        height: 280px;
+        border-radius: 8px;
+    }
+}
+
 .report-card {
     background-color: #ffffff;
     border-radius: 12px;

@@ -265,7 +265,7 @@ export default function AdminBusinesses() {
                 title={`Edit ${selectedBusiness?.role === 'ADMIN' ? 'Admin' : 'Business'} Account`}
             >
                 <form onSubmit={handleEditSubmit} style={{ padding: '10px 0' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+                    <div className="edit-form-grid">
                         <TextField
                             label="User/Owner Name"
                             name="businessOwnerName"
@@ -294,7 +294,7 @@ export default function AdminBusinesses() {
                                     required
                                 />
                             </div>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+                            <div className="edit-form-grid">
                                 <TextField
                                     label="Phone Number"
                                     name="phone"
@@ -311,7 +311,7 @@ export default function AdminBusinesses() {
                         </>
                     )}
 
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '24px' }}>
+                    <div className="modal-actions" style={{ marginTop: '24px' }}>
                         <Button
                             type="button"
                             variant="outlined"
