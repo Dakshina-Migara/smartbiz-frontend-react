@@ -100,3 +100,31 @@
         opacity: 1;
     }
 }
+
+@media (max-width: 600px) {
+    .smartbiz-modal-container {
+        border-radius: 24px;
+        margin-top: auto;
+        /* Slide from bottom on mobile */
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        max-height: 95vh;
+    }
+
+    .smartbiz-modal-header {
+        padding: 16px 20px;
+    }
+
+    .smartbiz-modal-title {
+        font-size: 1.2rem;
+    }
+
+    .smartbiz-modal-body {
+        padding: 20px;
+    }
+
+    .smartbiz-modal-overlay {
+        padding: 0;
+        align-items: flex-end;
+    }
+}
