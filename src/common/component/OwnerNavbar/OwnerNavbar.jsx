@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined'
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined'
@@ -34,10 +34,24 @@ export default function OwnerNavbar() {
     const location = useLocation()
     const { logout } = useAuth()
     const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
+    const navbarRef = useRef(null)
+
+    useEffect(() => {
+        if (navbarRef.current) {
+            const activeItem = navbarRef.current.querySelector('.owner-navbar__item--active')
+            if (activeItem) {
+                activeItem.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest',
+                    inline: 'center',
+                })
+            }
+        }
+    }, [location.pathname])
 
     return (
         <>
-            <nav className="owner-navbar">
+            <nav className="owner-navbar" ref={navbarRef}>
                 {navItems.map((item, index) => {
                     const isActive = location.pathname === item.path
                     return (
