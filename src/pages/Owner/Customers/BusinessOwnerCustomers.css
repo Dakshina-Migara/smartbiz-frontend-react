@@ -81,8 +81,47 @@
     margin-top: 8px;
 }
 
+@media (max-width: 900px) {
+    .customers-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .customers-header button {
+        width: 100%;
+    }
+}
+
 @media (max-width: 768px) {
+    .customers-page {
+        padding: 12px;
+    }
+
+    .customers-section {
+        padding: 20px;
+        border-radius: 12px;
+    }
+
+    .customers-title {
+        font-size: 1.2rem;
+    }
+
     .form-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .customers-page {
+        padding: 8px;
+    }
+
+    .customers-section {
+        padding: 15px;
+    }
+
+    .customers-title {
+        font-size: 1.1rem;
     }
 }

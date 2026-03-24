@@ -147,3 +147,68 @@
 .response-content p:last-child {
     margin-bottom: 0;
 }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .ai-card {
+        padding: 20px;
+        border-radius: 12px;
+    }
+
+    .ai-tabs {
+        margin-bottom: 24px;
+    }
+
+    .ai-tab {
+        padding: 8px;
+        font-size: 13px;
+    }
+
+    .ai-chat-display {
+        height: 350px !important;
+        padding: 12px !important;
+    }
+
+    .ai-title {
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ai-insight-page {
+        padding: 8px;
+    }
+
+    .ai-card {
+        padding: 15px;
+    }
+
+    .ai-tabs {
+        flex-direction: column;
+        gap: 4px;
+        background: transparent;
+        padding: 0;
+    }
+
+    .ai-tab {
+        width: 100%;
+        background-color: #f1f5f9;
+        border-radius: 8px;
+    }
+
+    .ai-tab--active {
+        background-color: #8A2BE2;
+        color: white;
+    }
+
+    .ai-chat-display {
+        height: 300px !important;
+    }
+
+    .quick-chip {
+        flex: 1 1 40%;
+        padding: 6px 10px;
+        font-size: 12px;
+        text-align: center;
+    }
+}
