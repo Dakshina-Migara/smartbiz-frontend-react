@@ -33,12 +33,35 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
+    .dashboard-stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .dashboard-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .dashboard-content {
+        gap: 15px;
+    }
+
     .dashboard-stats-grid {
         grid-template-columns: 1fr;
+        gap: 12px;
     }
 
     .dashboard-section {
         padding: 15px;
+        border-radius: 12px;
+    }
+
+    .dashboard-section__title {
+        font-size: 1.1rem;
+        margin-bottom: 12px;
     }
 }

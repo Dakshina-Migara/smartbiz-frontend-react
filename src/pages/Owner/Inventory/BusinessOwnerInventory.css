@@ -157,9 +157,29 @@
 }
 
 /* Responsive */
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
     .inventory-stats-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .inventory-page {
+        padding: 12px;
+        gap: 20px;
+    }
+
+    .inventory-section {
+        padding: 20px;
+        border-radius: 12px;
+    }
+
+    .inventory-section__title {
+        font-size: 1.25rem;
+    }
+
+    .inventory-stat-card {
+        padding: 15px;
     }
 }
 
@@ -170,9 +190,28 @@
 
     .inventory-toolbar {
         flex-direction: column;
+        align-items: stretch;
     }
 
     .inventory-filter-box {
         width: 100%;
+    }
+
+    .inventory-search-box {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .inventory-page {
+        padding: 8px;
+    }
+
+    .inventory-section {
+        padding: 15px;
+    }
+
+    .inventory-stat-card__value {
+        font-size: 1.5rem;
     }
 }

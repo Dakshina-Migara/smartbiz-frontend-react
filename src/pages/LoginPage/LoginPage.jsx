@@ -21,7 +21,7 @@ function LoginPage() {
         if (user && token && !isLoading) {
             const userRole = user.role?.toUpperCase()
             if (userRole === 'ADMIN') {
-                navigate('/admin/dashboard')
+                navigate('/admin/overview')
             } else {
                 navigate('/owner/dashboard')
             }
@@ -57,7 +57,7 @@ function LoginPage() {
             } else {
                 const userRole = result.data.role?.toUpperCase()
                 if (userRole === 'ADMIN') {
-                    navigate('/admin/dashboard')
+                    navigate('/admin/overview')
                 } else {
                     navigate('/owner/dashboard')
                 }

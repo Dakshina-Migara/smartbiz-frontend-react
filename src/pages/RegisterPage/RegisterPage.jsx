@@ -37,7 +37,7 @@ export default function RegisterPage() {
         if (user && token && !isLoading) {
             const userRole = user.role?.toUpperCase()
             if (userRole === 'ADMIN') {
-                navigate('/admin/dashboard')
+                navigate('/admin/overview')
             } else {
                 navigate('/owner/dashboard')
             }
@@ -111,7 +111,7 @@ export default function RegisterPage() {
             } else {
                 const userRole = result.data.role?.toUpperCase()
                 if (userRole === 'ADMIN') {
-                    navigate('/admin/dashboard')
+                    navigate('/admin/overview')
                 } else {
                     navigate('/owner/dashboard')
                 }

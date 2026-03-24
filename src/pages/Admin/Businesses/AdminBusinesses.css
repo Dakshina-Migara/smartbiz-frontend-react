@@ -169,6 +169,12 @@
 }
 
 /* Responsive Overrides */
+@media (max-width: 1024px) {
+    .businesses-card {
+        padding: 18px;
+    }
+}
+
 @media (max-width: 768px) {
     .businesses-card__header {
         flex-direction: column;
@@ -176,8 +182,37 @@
         gap: 15px;
     }
 
+    .header-text h3 {
+        font-size: 1rem;
+    }
+
     .search-bar {
         width: 100%;
+        padding: 6px 14px;
+    }
+
+    .businesses-card {
+        border-radius: 16px;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .businesses-card {
+        border-radius: 12px;
+        padding: 12px;
+    }
+
+    .header-text p {
+        font-size: 0.75rem;
+    }
+
+    .search-bar {
+        padding: 4px 12px;
+    }
+
+    .search-bar__icon {
+        font-size: 18px !important;
     }
 }
 
@@ -196,4 +231,27 @@
 .ai-usage-cell .limit {
     font-size: 0.75rem;
     color: #a0aec0;
+}
+
+/* Edit Modal Grid */
+.edit-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+@media (max-width: 600px) {
+    .edit-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-actions {
+        flex-direction: column-reverse;
+        gap: 10px;
+    }
+
+    .modal-actions button {
+        width: 100%;
+    }
 }
