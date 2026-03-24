@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined'
 import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined'
@@ -22,10 +22,24 @@ export default function AdminNavbar() {
     const location = useLocation()
     const { logout } = useAuth()
     const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
+    const navbarRef = useRef(null)
+
+    useEffect(() => {
+        if (navbarRef.current) {
+            const activeItem = navbarRef.current.querySelector('.admin-navbar__item--active')
+            if (activeItem) {
+                activeItem.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest',
+                    inline: 'center',
+                })
+            }
+        }
+    }, [location.pathname])
 
     return (
         <>
-            <nav className="admin-navbar">
+            <nav className="admin-navbar" ref={navbarRef}>
                 {navItems.map((item, index) => {
                     const isActive = location.pathname === item.path
                     return (
