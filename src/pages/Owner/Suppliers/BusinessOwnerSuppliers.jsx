@@ -23,12 +23,12 @@ export default function BusinessOwnerSuppliers() {
     const [isSubmitting, setIsSubmitting] = useState(false)
 
     const [formData, setFormData] = useState({
-        name: '', contactPerson: '', email: '', phone: '', address: ''
+        name: '', email: '', phone: '', address: ''
     })
 
     const filteredSuppliers = suppliers.filter(s =>
         s.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        s.contactPerson?.toLowerCase().includes(searchQuery.toLowerCase())
+        s.email?.toLowerCase().includes(searchQuery.toLowerCase())
     )
 
     const handleInputChange = (e) => {
@@ -38,7 +38,7 @@ export default function BusinessOwnerSuppliers() {
 
     const handleOpenAddModal = () => {
         setEditingSupplier(null)
-        setFormData({ name: '', contactPerson: '', email: '', phone: '', address: '' })
+        setFormData({ name: '', email: '', phone: '', address: '' })
         setIsModalOpen(true)
     }
 
@@ -46,7 +46,6 @@ export default function BusinessOwnerSuppliers() {
         setEditingSupplier(supplier)
         setFormData({
             name: supplier.name || '',
-            contactPerson: supplier.contactPerson || '',
             email: supplier.email || '',
             phone: supplier.phone || '',
             address: supplier.address || ''
@@ -82,7 +81,6 @@ export default function BusinessOwnerSuppliers() {
 
     const columns = useMemo(() => [
         { key: 'name', label: 'Company Name' },
-        { key: 'contactPerson', label: 'Contact Person' },
         { key: 'email', label: 'Email' },
         { key: 'phone', label: 'Phone' },
         { key: 'address', label: 'Address' },
@@ -128,7 +126,6 @@ export default function BusinessOwnerSuppliers() {
                 <Box component="form" onSubmit={handleSubmit}>
                     <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 2, mb: 3 }}>
                         <TextField label="Company Name" name="name" value={formData.name} onChange={handleInputChange} required />
-                        <TextField label="Contact Person" name="contactPerson" value={formData.contactPerson} onChange={handleInputChange} required />
                         <TextField label="Email" name="email" type="email" value={formData.email} onChange={handleInputChange} required />
                         <TextField label="Phone" name="phone" value={formData.phone} onChange={handleInputChange} />
                         <Box sx={{ gridColumn: { sm: '1 / -1' } }}>
