@@ -18,8 +18,9 @@ export default function DataTable({ columns = [], data = [] }) {
             sx={{
                 border: '1px solid #f0f0f0',
                 borderRadius: '12px',
-                overflow: 'hidden',
+                overflowX: 'auto',
                 boxShadow: '0 4px 20px rgba(0, 0, 0, 0.04)',
+                WebkitOverflowScrolling: 'touch',
             }}
         >
             <Table sx={{ minWidth: 650 }}>

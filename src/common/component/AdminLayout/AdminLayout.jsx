@@ -40,7 +40,7 @@ export default function AdminLayout({ children, breadcrumb }) {
                     flexGrow: 1,
                     display: 'flex',
                     flexDirection: 'column',
-                    overflow: 'hidden',
+                    overflow: 'visible',
                     pb: { xs: '10px', sm: '15px', md: '30px' },
                     width: '100%',
                 }}
