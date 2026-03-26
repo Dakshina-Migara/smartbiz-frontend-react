@@ -1,3 +1,5 @@
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp'
 import TrendingDownIcon from '@mui/icons-material/TrendingDown'
 import WarningAmberIcon from '@mui/icons-material/WarningAmber'
@@ -8,7 +10,6 @@ import StatCard from '../../../common/component/StatCard/StatCard'
 import DataTable from '../../../common/component/DataTable/DataTable'
 import OwnerLayout from '../../../common/component/OwnerLayout/OwnerLayout'
 import { useProducts } from '../../../context/ProductContext'
-import './BusinessOwnerDashboard.css'
 
 const productColumns = [
     { key: 'name', label: 'Name' },
@@ -23,7 +24,6 @@ const productColumns = [
 export default function BusinessOwnerDashboard() {
     const { products, dashboardStats, loading } = useProducts()
 
-    // Default values if stats aren't loaded yet
     const stats = dashboardStats || {
         totalRevenue: 0,
         salesCount: 0,
@@ -41,14 +41,21 @@ export default function BusinessOwnerDashboard() {
     const formatCurrency = (val) => `$${Number(val).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
 
     if (loading && !dashboardStats) {
-        return <OwnerLayout breadcrumb="Dashboard"><div>Loading dashboard...</div></OwnerLayout>
+        return <OwnerLayout breadcrumb="Dashboard"><Box sx={{ p: 3, color: '#7a6e64' }}>Loading dashboard...</Box></OwnerLayout>
     }
 
     return (
         <OwnerLayout breadcrumb="Dashboard">
-            <div className="dashboard-content">
+            <Box>
                 {/* Stats Grid */}
-                <div className="dashboard-stats-grid">
+                <Box
+                    sx={{
+                        display: 'grid',
+                        gridTemplateColumns: { xs: '1fr 1fr', sm: 'repeat(3, 1fr)', lg: 'repeat(4, 1fr)' },
+                        gap: { xs: 1.5, sm: 2 },
+                        mb: 3,
+                    }}
+                >
                     <StatCard
                         title="Total Revenue"
                         value={formatCurrency(stats.totalRevenue)}
@@ -99,16 +106,18 @@ export default function BusinessOwnerDashboard() {
                         icon={<AutoAwesomeIcon />}
                         iconColor="#8e44ad"
                     />
-                </div>
+                </Box>
 
                 {/* Table Section */}
-                <div className="dashboard-section">
-                    <h2 className="dashboard-section__title">Recent Products</h2>
-                    <div className="dashboard-table-container">
+                <Box>
+                    <Typography variant="h6" sx={{ fontWeight: 700, color: '#1a1a1a', mb: 2 }}>
+                        Recent Products
+                    </Typography>
+                    <Box sx={{ overflowX: 'auto' }}>
                         <DataTable columns={productColumns} data={products.slice(0, 5)} />
-                    </div>
-                </div>
-            </div>
+                    </Box>
+                </Box>
+            </Box>
         </OwnerLayout>
     )
 }

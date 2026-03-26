@@ -1,4 +1,7 @@
 import { useState, useMemo } from 'react'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import IconButton from '@mui/material/IconButton'
 import OwnerLayout from '../../../common/component/OwnerLayout/OwnerLayout'
 import DataTable from '../../../common/component/DataTable/DataTable'
 import TextField from '../../../common/component/TextField/TextField'
@@ -10,7 +13,6 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { useProducts } from '../../../context/ProductContext'
 import { useNotification } from '../../../context/NotificationContext'
-import './OwnerProductsPage.css'
 
 export default function OwnerProductsPage() {
     const { products, loading, addProduct, updateProduct, deleteProduct } = useProducts()
@@ -20,15 +22,8 @@ export default function OwnerProductsPage() {
     const [editingProduct, setEditingProduct] = useState(null)
     const [isSubmitting, setIsSubmitting] = useState(false)
 
-    // Form State
     const [formData, setFormData] = useState({
-        name: '',
-        sku: '',
-        category: '',
-        price: '',
-        cost: '',
-        stock: '',
-        minStock: ''
+        name: '', sku: '', category: '', price: '', cost: '', stock: '', minStock: ''
     })
 
     const filteredProducts = products.filter(p =>
@@ -36,7 +31,6 @@ export default function OwnerProductsPage() {
         (p.sku?.toLowerCase().includes(searchQuery.toLowerCase()))
     )
 
-    // Handlers
     const handleInputChange = (e) => {
         const { name, value } = e.target
         setFormData(prev => ({ ...prev, [name]: value }))
@@ -100,7 +94,6 @@ export default function OwnerProductsPage() {
         setIsSubmitting(false)
     }
 
-    // Column Definitions moved inside component to access handlers
     const productColumns = useMemo(() => [
         { key: 'name', label: 'Name' },
         { key: 'sku', label: 'SKU' },
@@ -111,137 +104,77 @@ export default function OwnerProductsPage() {
         { key: 'minStock', label: 'Min Stock', align: 'right' },
         {
             key: 'action', label: 'Actions', align: 'center', render: (_, row) => (
-                <div className="action-buttons">
-                    <button
-                        className="action-btn action-btn--edit"
-                        title="Edit"
+                <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center' }}>
+                    <IconButton
+                        size="small"
                         onClick={() => handleOpenEditModal(row)}
+                        sx={{ color: '#4a5568', '&:hover': { backgroundColor: '#ebf8ff', color: '#0369a1' } }}
                     >
-                        <EditOutlinedIcon />
-                    </button>
-                    <button
-                        className="action-btn action-btn--delete"
-                        title="Delete"
+                        <EditOutlinedIcon fontSize="small" />
+                    </IconButton>
+                    <IconButton
+                        size="small"
                         onClick={() => handleDeleteProduct(row.id)}
+                        sx={{ color: '#ef4444', '&:hover': { backgroundColor: '#fef2f2', color: '#b91c1c' } }}
                     >
-                        <DeleteOutlineIcon />
-                    </button>
-                </div>
+                        <DeleteOutlineIcon fontSize="small" />
+                    </IconButton>
+                </Box>
             )
         }
     ], [products, handleDeleteProduct, handleOpenEditModal])
 
     return (
         <OwnerLayout breadcrumb="Products">
-            <div className="owner-products-inner-content">
-                <div className="content-toolbar">
-                    <h1 className="content-title">Product And Inventory</h1>
-                    <Button
-                        type="primary"
-                        startIcon={<AddIcon />}
-                        className="add-product-btn"
-                        onClick={handleOpenAddModal}
-                    >
+            <Box>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2, flexWrap: 'wrap', gap: 1 }}>
+                    <Typography variant="h5" sx={{ fontWeight: 700 }}>Product And Inventory</Typography>
+                    <Button startIcon={<AddIcon />} onClick={handleOpenAddModal}>
                         Add Product
                     </Button>
-                </div>
+                </Box>
 
-                <div className="search-bar-container">
+                <Box sx={{ mb: 2 }}>
                     <TextField
                         placeholder="Search Product"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         icon={<SearchIcon />}
                         fullWidth
-                        className="product-search-field"
                     />
-                </div>
+                </Box>
 
-                <div className="table-container">
+                <Box sx={{ overflowX: 'auto' }}>
                     {loading && products.length === 0 ? (
-                        <div style={{ padding: '20px', textAlign: 'center' }}>Loading products...</div>
+                        <Typography sx={{ p: 3, textAlign: 'center', color: '#7a6e64' }}>Loading products...</Typography>
                     ) : (
                         <DataTable columns={productColumns} data={filteredProducts} />
                     )}
-                </div>
-            </div>
+                </Box>
+            </Box>
 
-            {/* Product Modal (Add/Edit) */}
             <Modal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 title={editingProduct ? "Edit Product" : "Add New Product"}
             >
-                <form className="add-product-form" onSubmit={handleSubmit}>
-                    <div className="form-grid">
-                        <TextField
-                            name="name"
-                            placeholder="Enter Product Name"
-                            label="Name"
-                            value={formData.name}
-                            onChange={handleInputChange}
-                            required
-                        />
-                        <TextField
-                            name="sku"
-                            placeholder="Enter SKU Code"
-                            label="SKU"
-                            value={formData.sku}
-                            onChange={handleInputChange}
-                            required
-                        />
-                        <TextField
-                            name="category"
-                            placeholder="Enter Category"
-                            label="Category"
-                            value={formData.category}
-                            onChange={handleInputChange}
-                            required
-                        />
-                        <TextField
-                            name="price"
-                            type="number"
-                            placeholder="Enter Selling Price"
-                            label="Price"
-                            value={formData.price}
-                            onChange={handleInputChange}
-                            required
-                        />
-                        <TextField
-                            name="cost"
-                            type="number"
-                            placeholder="Enter Cost Price"
-                            label="Cost"
-                            value={formData.cost}
-                            onChange={handleInputChange}
-                            required
-                        />
-                        <TextField
-                            name="stock"
-                            type="number"
-                            placeholder="Enter Initial Stock"
-                            label="Stock"
-                            value={formData.stock}
-                            onChange={handleInputChange}
-                            required
-                        />
-                        <TextField
-                            name="minStock"
-                            type="number"
-                            placeholder="Enter Min Stock Level"
-                            label="Min Stock"
-                            value={formData.minStock}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </div>
-                    <div className="form-actions">
+                <Box component="form" onSubmit={handleSubmit}>
+                    <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 2, mb: 3 }}>
+                        <TextField name="name" placeholder="Enter Product Name" label="Name" value={formData.name} onChange={handleInputChange} required />
+                        <TextField name="sku" placeholder="Enter SKU Code" label="SKU" value={formData.sku} onChange={handleInputChange} required />
+                        <TextField name="category" placeholder="Enter Category" label="Category" value={formData.category} onChange={handleInputChange} required />
+                        <TextField name="price" type="number" placeholder="Enter Selling Price" label="Price" value={formData.price} onChange={handleInputChange} required />
+                        <TextField name="cost" type="number" placeholder="Enter Cost Price" label="Cost" value={formData.cost} onChange={handleInputChange} required />
+                        <TextField name="stock" type="number" placeholder="Enter Initial Stock" label="Stock" value={formData.stock} onChange={handleInputChange} required />
+                        <TextField name="minStock" type="number" placeholder="Enter Min Stock Level" label="Min Stock" value={formData.minStock} onChange={handleInputChange} required />
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
                         <Button variant="outlined" onClick={() => setIsModalOpen(false)} disabled={isSubmitting}>Cancel</Button>
                         <Button type="submit" variant="filled" disabled={isSubmitting}>
                             {isSubmitting ? 'SAVING...' : (editingProduct ? 'SAVE CHANGES' : 'ADD PRODUCT')}
                         </Button>
-                    </div>
-                </form>
+                    </Box>
+                </Box>
             </Modal>
         </OwnerLayout>
     )

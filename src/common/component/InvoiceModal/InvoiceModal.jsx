@@ -1,10 +1,17 @@
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import Modal from '../Modal/Modal'
 import Button from '../Button/Button'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+import Divider from '@mui/material/Divider'
 import jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
 import { useNotification } from '../../../context/NotificationContext'
-import './InvoiceModal.css'
 
 export default function InvoiceModal({ isOpen, onClose, sale, businessName }) {
     const { showNotification } = useNotification()
@@ -36,59 +43,71 @@ export default function InvoiceModal({ isOpen, onClose, sale, businessName }) {
 
     return (
         <Modal isOpen={isOpen} onClose={onClose} title="Invoice Details">
-            <div className="invoice-modal-wrapper">
-                <div className="simple-receipt" ref={receiptRef}>
-                    <div className="invoice-header-simple">
-                        <div className="biz-details">
-                            <h2>{businessName || 'SmartBiz'}</h2>
-                            <p>#{sale.invoiceNumber?.split('-').pop() || '0000'} | {new Date(sale.saleDate).toLocaleDateString()}</p>
-                        </div>
-                        <div className="cust-details">
-                            <strong>Customer:</strong> {sale.customerName || 'Walk-in'}
-                        </div>
-                    </div>
+            <Box>
+                <Box ref={receiptRef} sx={{ p: 3, backgroundColor: '#fff' }}>
+                    {/* Header */}
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+                        <Box>
+                            <Typography variant="h5" sx={{ fontWeight: 700, color: '#1a1a1a' }}>
+                                {businessName || 'SmartBiz'}
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: '#7a6e64', mt: 0.5 }}>
+                                #{sale.invoiceNumber?.split('-').pop() || '0000'} | {new Date(sale.saleDate).toLocaleDateString()}
+                            </Typography>
+                        </Box>
+                        <Box>
+                            <Typography variant="body2" sx={{ fontWeight: 600, color: '#4a5568' }}>
+                                Customer: {sale.customerName || 'Walk-in'}
+                            </Typography>
+                        </Box>
+                    </Box>
 
-                    <div className="invoice-body-simple">
-                        <table className="receipt-table">
-                            <thead>
-                                <tr>
-                                    <th>Item</th>
-                                    <th style={{ textAlign: 'center' }}>Qty</th>
-                                    <th style={{ textAlign: 'right' }}>Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {sale.items?.map((item, idx) => (
-                                    <tr key={idx}>
-                                        <td>{item.productName || 'Product'}</td>
-                                        <td style={{ textAlign: 'center' }}>{item.qty}</td>
-                                        <td style={{ textAlign: 'right' }}>${(item.qty * item.price).toFixed(2)}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                    <Divider sx={{ mb: 2 }} />
 
-                    <div className="invoice-footer-simple">
-                        <div className="total-row-simple">
-                            <span>Total Amount:</span>
-                            <span className="grand-total-amount">${Number(sale.totalAmount).toFixed(2)}</span>
-                        </div>
-                        <div className="payment-note-simple">
-                            Paid with {sale.paymentMethod?.toUpperCase() || 'CASH'} | Status: {sale.status?.toUpperCase() || 'COMPLETED'}
-                        </div>
-                    </div>
-                </div>
+                    {/* Items Table */}
+                    <Table size="small">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell sx={{ fontWeight: 700, color: '#4a5568' }}>Item</TableCell>
+                                <TableCell align="center" sx={{ fontWeight: 700, color: '#4a5568' }}>Qty</TableCell>
+                                <TableCell align="right" sx={{ fontWeight: 700, color: '#4a5568' }}>Amount</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {sale.items?.map((item, idx) => (
+                                <TableRow key={idx}>
+                                    <TableCell>{item.productName || 'Product'}</TableCell>
+                                    <TableCell align="center">{item.qty}</TableCell>
+                                    <TableCell align="right">${(item.qty * item.price).toFixed(2)}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
 
-                <div className="invoice-actions no-print">
+                    <Divider sx={{ my: 2 }} />
+
+                    {/* Footer */}
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                        <Typography variant="body1" sx={{ fontWeight: 600 }}>Total Amount:</Typography>
+                        <Typography variant="h6" sx={{ fontWeight: 700, color: '#1a1a1a' }}>
+                            ${Number(sale.totalAmount).toFixed(2)}
+                        </Typography>
+                    </Box>
+                    <Typography variant="caption" sx={{ color: '#9a8e84' }}>
+                        Paid with {sale.paymentMethod?.toUpperCase() || 'CASH'} | Status: {sale.status?.toUpperCase() || 'COMPLETED'}
+                    </Typography>
+                </Box>
+
+                {/* Actions */}
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 3 }}>
                     <Button variant="outlined" onClick={handleDownloadPdf}>
                         DOWNLOAD PDF
                     </Button>
                     <Button variant="filled" onClick={onClose}>
                         CLOSE
                     </Button>
-                </div>
-            </div>
+                </Box>
+            </Box>
         </Modal>
     )
 }
