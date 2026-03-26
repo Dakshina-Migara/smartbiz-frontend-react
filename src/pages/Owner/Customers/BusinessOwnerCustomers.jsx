@@ -61,7 +61,7 @@ export default function BusinessOwnerCustomers() {
         setIsSubmitting(true)
         let result
         if (editingCustomer) {
-            result = await updateCustomer(editingCustomer.id, formData)
+            result = await updateCustomer(editingCustomer.customerId, formData)
         } else {
             result = await addCustomer(formData)
         }
@@ -87,7 +87,7 @@ export default function BusinessOwnerCustomers() {
                         sx={{ color: '#4a5568', '&:hover': { backgroundColor: '#ebf8ff', color: '#0369a1' } }}>
                         <EditOutlinedIcon fontSize="small" />
                     </IconButton>
-                    <IconButton size="small" onClick={() => handleDelete(row.id)}
+                    <IconButton size="small" onClick={() => handleDelete(row.customerId)}
                         sx={{ color: '#ef4444', '&:hover': { backgroundColor: '#fef2f2', color: '#b91c1c' } }}>
                         <DeleteOutlineIcon fontSize="small" />
                     </IconButton>
