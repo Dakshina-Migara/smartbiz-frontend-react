@@ -1,117 +1,61 @@
-/* ===== Table Wrapper ===== */
-.smartbiz-table-wrapper {
-    width: 100%;
-    overflow-x: auto;
-    border-radius: 14px;
-    background-color: #ffffff;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-    -webkit-overflow-scrolling: touch;
+/* Table Container Styles */
+.sb-table-container {
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
 
-/* ===== Table ===== */
-.smartbiz-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: 'Segoe UI', 'Roboto', sans-serif;
-    min-width: 600px;
+/* Base Cell Styles */
+.sb-table td, 
+.sb-table th {
+    padding: 16px 20px !important;
+    font-size: 0.88rem !important;
+    color: #2d3748 !important;
 }
 
-/* ===== Header ===== */
-.smartbiz-table__head-cell {
-    text-align: left;
-    padding: 14px 18px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #1a1a1a;
-    border-bottom: 2px solid #f0ebe7;
-    white-space: nowrap;
+/* Header Specific Styles */
+.sb-table th {
+    font-weight: 700 !important;
+    font-size: 0.75rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    color: #718096 !important;
+    border-bottom: 2px solid #f0f0f0 !important;
 }
 
-.smartbiz-table__head-cell--center {
-    text-align: center !important;
+/* Row Hover Effect */
+.sb-table tr:hover {
+    background-color: #f8fafc !important;
 }
 
-.smartbiz-table__head-cell--right {
-    text-align: right !important;
-}
-
-/* ===== Body Row ===== */
-.smartbiz-table__row {
-    transition: background-color 0.2s ease;
-}
-
-.smartbiz-table__row:hover {
-    background-color: #faf7f5;
-}
-
-.smartbiz-table__row:not(:last-child) .smartbiz-table__cell {
-    border-bottom: 1px solid #f0ebe7;
-}
-
-/* ===== Body Cell ===== */
-.smartbiz-table__cell {
-    padding: 14px 18px;
-    font-size: 0.88rem;
-    color: #2a2118;
-    white-space: nowrap;
-}
-
-.smartbiz-table__cell--center {
-    text-align: center !important;
-}
-
-/* Ensure flex containers inside centered cells are centered */
-.smartbiz-table__cell--center > .action-buttons,
-.smartbiz-table__cell--center > .quick-adjust-buttons,
-.smartbiz-table__cell--center > div[style*="flex"],
-.smartbiz-table__cell--center > div[style*="grid"] {
-    justify-content: center !important;
-    margin-left: auto;
-    margin-right: auto;
-    width: max-content;
-}
-
-.smartbiz-table__cell--right {
-    text-align: right !important;
-}
-
-/* ===== Empty State ===== */
-.smartbiz-table__empty {
-    padding: 40px 18px;
-    text-align: center;
-    font-size: 0.9rem;
-    color: #9a8e84;
-}
-
-/* ===== Common Action Buttons Alignment ===== */
-.smartbiz-table__cell--center .action-buttons,
-.smartbiz-table__cell--center .quick-adjust-buttons {
+/* Action Button Alignment Utilities */
+.sb-table-container .MuiTableCell-alignCenter > .action-buttons,
+.sb-table-container .MuiTableCell-alignCenter > div[style*="flex"] {
     justify-content: center;
 }
 
-.smartbiz-table__cell--right .action-buttons,
-.smartbiz-table__cell--right .quick-adjust-buttons {
+.sb-table-container .MuiTableCell-alignRight > .action-buttons,
+.sb-table-container .MuiTableCell-alignRight > div[style*="flex"] {
     justify-content: flex-end;
 }
 
-/* ===== Action Buttons Container ===== */
+/* Action Buttons Container */
 .action-buttons {
     display: flex;
     gap: 8px;
     align-items: center;
 }
 
-/* ===== Action Button Style ===== */
+/* Action Button Style */
 .action-btn {
-    background: transparent;
     border: none;
+    background: transparent;
     cursor: pointer;
-    padding: 6px;
+    padding: 8px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 8px;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
     color: #4a5568;
 }
 
@@ -120,53 +64,7 @@
     color: #1e293b;
 }
 
-.action-btn--edit:hover {
-    background-color: #f0f9ff;
-    color: #0369a1;
-}
-
-.action-btn--delete, 
-.action-btn--delete svg {
-    color: #ef4444 !important;
-}
-
-.action-btn--delete:hover {
-    background-color: #fef2f2;
-    color: #b91c1c;
-}
-
-.action-btn--view:hover {
-    background-color: #f0fdf4;
-    color: #166534;
-}
-
-/* ===== Responsive - Tablet ===== */
-@media (max-width: 768px) {
-    .smartbiz-table-wrapper {
-        border-radius: 10px;
-    }
-
-    .smartbiz-table__head-cell,
-    .smartbiz-table__cell {
-        padding: 12px 14px;
-        font-size: 0.82rem;
-    }
-}
-
-/* ===== Responsive - Mobile ===== */
-@media (max-width: 480px) {
-    .smartbiz-table-wrapper {
-        border-radius: 8px;
-    }
-
-    .smartbiz-table__head-cell,
-    .smartbiz-table__cell {
-        padding: 10px 12px;
-        font-size: 0.78rem;
-    }
-
-    .smartbiz-table__empty {
-        padding: 28px 12px;
-        font-size: 0.82rem;
-    }
-}
+.action-btn--edit:hover { background-color: #ebf8ff; color: #0369a1; }
+.action-btn--delete:hover { background-color: #fef2f2; color: #b91c1c; }
+.action-btn--delete svg { color: #ef4444; }
+.action-btn--view:hover { background-color: #f0fdf4; color: #166534; }

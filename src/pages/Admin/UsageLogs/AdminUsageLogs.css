@@ -109,7 +109,7 @@
     font-size: 0.9rem;
 }
 
-.smartbiz-table__cell {
+.sb-table td {
     font-size: 0.85rem;
     color: #4a5568;
 }
@@ -124,13 +124,13 @@
     font-family: inherit;
 }
 
-.smartbiz-table__cell:nth-child(5) {
+.sb-table td:nth-child(5) {
     font-weight: 700;
     color: #2d3748;
     text-align: right;
 }
 
-.smartbiz-table__head-cell:nth-child(5) {
+.sb-table th:nth-child(5) {
     text-align: right;
 }
 
