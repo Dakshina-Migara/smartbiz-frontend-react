@@ -72,6 +72,9 @@ export default function BusinessOwnerAiInsight() {
                     <Tabs
                         value={activeTab}
                         onChange={(_, newVal) => setActiveTab(newVal)}
+                        variant="scrollable"
+                        scrollButtons="auto"
+                        allowScrollButtonsMobile
                         sx={{
                             mb: 2,
                             '& .MuiTab-root': {
