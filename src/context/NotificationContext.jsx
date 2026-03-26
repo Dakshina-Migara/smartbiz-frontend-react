@@ -1,4 +1,6 @@
 import { createContext, useContext, useState, useCallback, useRef } from 'react'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 import Modal from '../common/component/Modal/Modal'
 import Button from '../common/component/Button/Button'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
@@ -68,19 +70,19 @@ export function NotificationProvider({ children }) {
                 onClose={() => hideNotification(false)}
                 title={type === 'confirm' ? "Confirm Action" : "Notification"}
             >
-                <div style={{ textAlign: 'center', padding: '10px 0' }}>
+                <Box sx={{ textAlign: 'center', py: '10px' }}>
                     {getIcon()}
-                    <p style={{ 
+                    <Typography sx={{ 
                         fontSize: '1.1rem', 
                         color: '#4a5568', 
-                        marginBottom: type === 'confirm' ? '32px' : '0',
+                        mb: type === 'confirm' ? '32px' : 0,
                         fontWeight: 500
                     }}>
                         {msg}
-                    </p>
+                    </Typography>
 
                     {type === 'confirm' && (
-                        <div style={{ display: 'flex', justifyContent: 'center', gap: '16px' }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
                             <Button variant="outlined" onClick={() => hideNotification(false)}>
                                 Cancel
                             </Button>
@@ -90,9 +92,9 @@ export function NotificationProvider({ children }) {
                             >
                                 CONFIRM
                             </Button>
-                        </div>
+                        </Box>
                     )}
-                </div>
+                </Box>
             </Modal>
         </NotificationContext.Provider>
     )
