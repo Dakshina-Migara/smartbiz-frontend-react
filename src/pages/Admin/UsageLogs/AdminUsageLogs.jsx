@@ -1,8 +1,11 @@
 import React from 'react'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import Paper from '@mui/material/Paper'
+import Chip from '@mui/material/Chip'
 import AdminLayout from '../../../common/component/AdminLayout/AdminLayout'
 import DataTable from '../../../common/component/DataTable/DataTable'
 import { useAdmin } from '../../../context/AdminContext'
-import './AdminUsageLogs.css'
 
 export default function AdminUsageLogs() {
     const { aiLogs, logsLoading } = useAdmin()
@@ -10,79 +13,60 @@ export default function AdminUsageLogs() {
     const formatDateTime = (dateString) => {
         if (!dateString) return 'N/A'
         return new Date(dateString).toLocaleString('en-US', {
-            month: 'numeric',
-            day: 'numeric',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true
+            month: 'numeric', day: 'numeric', year: 'numeric',
+            hour: '2-digit', minute: '2-digit', hour12: true
         })
     }
 
     const aiColumns = [
+        { key: 'createdAt', label: 'Timestamp', render: (val) => formatDateTime(val) },
         {
-            key: 'createdAt',
-            label: 'Timestamp',
-            render: (val) => formatDateTime(val)
-        },
-        {
-            key: 'businessName',
-            label: 'Business',
+            key: 'businessName', label: 'Business',
             render: (val, row) => (
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <span style={{ fontWeight: 600, color: '#2d3748' }}>{val}</span>
-                    <span style={{ fontSize: '0.75rem', color: '#a0aec0' }}>{row.businessOwnerName}</span>
-                </div>
+                <Box>
+                    <Typography sx={{ fontWeight: 600, color: '#2d3748', fontSize: '0.88rem' }}>{val}</Typography>
+                    <Typography variant="caption" sx={{ color: '#a0aec0' }}>{row.businessOwnerName}</Typography>
+                </Box>
             )
         },
         {
-            key: 'type',
-            label: 'AI Action',
-            render: (val) => (
-                <span className="table-pill feature-pill marketing">
-                    {val || 'General'}
-                </span>
-            )
+            key: 'type', label: 'AI Action',
+            render: (val) => <Chip label={val || 'General'} size="small" variant="outlined" color="secondary" sx={{ textTransform: 'capitalize' }} />
         },
         {
-            key: 'prompt',
-            label: 'AI Usage (Prompt)',
+            key: 'prompt', label: 'AI Usage (Prompt)',
             render: (val) => (
-                <div className="log-prompt-cell" title={val}>
+                <Typography title={val} sx={{ fontSize: '0.85rem', color: '#4a5568', maxWidth: 300, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {val?.length > 60 ? val.substring(0, 60) + '...' : val}
-                </div>
+                </Typography>
             )
         },
         {
-            key: 'tokenUsed',
-            label: 'AI Tokens',
-            render: (val) => val ? val.toLocaleString() : '-'
+            key: 'tokenUsed', label: 'AI Tokens',
+            render: (val) => (
+                <Typography sx={{ fontWeight: 600 }}>{val ? val.toLocaleString() : '-'}</Typography>
+            )
         }
     ]
 
     return (
         <AdminLayout breadcrumb="Usage Logs">
-            <div className="admin-usage-logs">
-                <div className="logs-card">
-                    <div className="logs-card__header">
-                        <div className="header-text">
-                            <h3>AI Usage Logs</h3>
-                            <p>Monitor system-wide AI activity and token consumption</p>
-                        </div>
-                    </div>
+            <Box>
+                <Paper elevation={0} sx={{ borderRadius: '14px', boxShadow: '0 1px 4px rgba(0,0,0,0.05)', p: 3 }}>
+                    <Box sx={{ mb: 2 }}>
+                        <Typography variant="h6" sx={{ fontWeight: 700 }}>AI Usage Logs</Typography>
+                        <Typography variant="body2" sx={{ color: '#7a6e64' }}>Monitor system-wide AI activity and token consumption</Typography>
+                    </Box>
 
-                    <div className="logs-card__content">
+                    <Box sx={{ overflowX: 'auto' }}>
                         {logsLoading ? (
-                            <div className="loading-state">Loading logs...</div>
+                            <Typography sx={{ p: 3, textAlign: 'center', color: '#7a6e64' }}>Loading logs...</Typography>
                         ) : (
-                            <DataTable
-                                columns={aiColumns}
-                                data={aiLogs}
-                            />
+                            <DataTable columns={aiColumns} data={aiLogs} />
                         )}
-                    </div>
-                </div>
-            </div>
+                    </Box>
+                </Paper>
+            </Box>
         </AdminLayout>
     )
 }

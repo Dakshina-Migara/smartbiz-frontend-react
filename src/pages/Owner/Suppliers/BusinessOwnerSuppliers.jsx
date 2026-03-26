@@ -11,24 +11,24 @@ import SearchIcon from '@mui/icons-material/Search'
 import AddIcon from '@mui/icons-material/Add'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
-import { useCustomers } from '../../../context/CustomerContext'
+import { useSuppliers } from '../../../context/SupplierContext'
 import { useNotification } from '../../../context/NotificationContext'
 
-export default function BusinessOwnerCustomers() {
-    const { customers, loading, addCustomer, updateCustomer, deleteCustomer } = useCustomers()
+export default function BusinessOwnerSuppliers() {
+    const { suppliers, loading, addSupplier, updateSupplier, deleteSupplier } = useSuppliers()
     const { showNotification, showConfirm } = useNotification()
     const [searchQuery, setSearchQuery] = useState('')
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const [editingCustomer, setEditingCustomer] = useState(null)
+    const [editingSupplier, setEditingSupplier] = useState(null)
     const [isSubmitting, setIsSubmitting] = useState(false)
 
     const [formData, setFormData] = useState({
-        name: '', email: '', phone: '', address: ''
+        name: '', contactPerson: '', email: '', phone: '', address: ''
     })
 
-    const filteredCustomers = customers.filter(c =>
-        c.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        c.email?.toLowerCase().includes(searchQuery.toLowerCase())
+    const filteredSuppliers = suppliers.filter(s =>
+        s.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        s.contactPerson?.toLowerCase().includes(searchQuery.toLowerCase())
     )
 
     const handleInputChange = (e) => {
@@ -37,22 +37,28 @@ export default function BusinessOwnerCustomers() {
     }
 
     const handleOpenAddModal = () => {
-        setEditingCustomer(null)
-        setFormData({ name: '', email: '', phone: '', address: '' })
+        setEditingSupplier(null)
+        setFormData({ name: '', contactPerson: '', email: '', phone: '', address: '' })
         setIsModalOpen(true)
     }
 
-    const handleOpenEditModal = (customer) => {
-        setEditingCustomer(customer)
-        setFormData({ name: customer.name || '', email: customer.email || '', phone: customer.phone || '', address: customer.address || '' })
+    const handleOpenEditModal = (supplier) => {
+        setEditingSupplier(supplier)
+        setFormData({
+            name: supplier.name || '',
+            contactPerson: supplier.contactPerson || '',
+            email: supplier.email || '',
+            phone: supplier.phone || '',
+            address: supplier.address || ''
+        })
         setIsModalOpen(true)
     }
 
     const handleDelete = async (id) => {
-        const confirmed = await showConfirm('Are you sure you want to delete this customer?')
+        const confirmed = await showConfirm('Are you sure you want to delete this supplier?')
         if (confirmed) {
-            const result = await deleteCustomer(id)
-            showNotification(result.success ? 'Customer deleted' : 'Failed to delete', result.success ? 'success' : 'error')
+            const result = await deleteSupplier(id)
+            showNotification(result.success ? 'Supplier deleted' : 'Failed to delete', result.success ? 'success' : 'error')
         }
     }
 
@@ -60,22 +66,23 @@ export default function BusinessOwnerCustomers() {
         e.preventDefault()
         setIsSubmitting(true)
         let result
-        if (editingCustomer) {
-            result = await updateCustomer(editingCustomer.id, formData)
+        if (editingSupplier) {
+            result = await updateSupplier(editingSupplier.id, formData)
         } else {
-            result = await addCustomer(formData)
+            result = await addSupplier(formData)
         }
         if (result.success) {
             setIsModalOpen(false)
-            showNotification(`Customer ${editingCustomer ? 'updated' : 'added'} successfully!`, 'success')
+            showNotification(`Supplier ${editingSupplier ? 'updated' : 'added'} successfully!`, 'success')
         } else {
-            showNotification('Failed to save customer.', 'error')
+            showNotification('Failed to save supplier.', 'error')
         }
         setIsSubmitting(false)
     }
 
     const columns = useMemo(() => [
-        { key: 'name', label: 'Full Name' },
+        { key: 'name', label: 'Company Name' },
+        { key: 'contactPerson', label: 'Contact Person' },
         { key: 'email', label: 'Email' },
         { key: 'phone', label: 'Phone' },
         { key: 'address', label: 'Address' },
@@ -97,38 +104,41 @@ export default function BusinessOwnerCustomers() {
     ], [])
 
     return (
-        <OwnerLayout breadcrumb="Customers">
+        <OwnerLayout breadcrumb="Suppliers">
             <Box>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2, flexWrap: 'wrap', gap: 1 }}>
-                    <Typography variant="h5" sx={{ fontWeight: 700 }}>Customer Management</Typography>
-                    <Button startIcon={<AddIcon />} onClick={handleOpenAddModal}>Add Customer</Button>
+                    <Typography variant="h5" sx={{ fontWeight: 700 }}>Supplier Management</Typography>
+                    <Button startIcon={<AddIcon />} onClick={handleOpenAddModal}>Add Supplier</Button>
                 </Box>
 
                 <Box sx={{ mb: 2 }}>
-                    <TextField placeholder="Search Customers" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} icon={<SearchIcon />} fullWidth />
+                    <TextField placeholder="Search Suppliers" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} icon={<SearchIcon />} fullWidth />
                 </Box>
 
                 <Box sx={{ overflowX: 'auto' }}>
-                    {loading && customers.length === 0 ? (
-                        <Typography sx={{ p: 3, textAlign: 'center', color: '#7a6e64' }}>Loading customers...</Typography>
+                    {loading && suppliers.length === 0 ? (
+                        <Typography sx={{ p: 3, textAlign: 'center', color: '#7a6e64' }}>Loading suppliers...</Typography>
                     ) : (
-                        <DataTable columns={columns} data={filteredCustomers} />
+                        <DataTable columns={columns} data={filteredSuppliers} />
                     )}
                 </Box>
             </Box>
 
-            <Modal isOpen={isModalOpen} onClose={() => !isSubmitting && setIsModalOpen(false)} title={editingCustomer ? "Edit Customer" : "Add Customer"}>
+            <Modal isOpen={isModalOpen} onClose={() => !isSubmitting && setIsModalOpen(false)} title={editingSupplier ? "Edit Supplier" : "Add Supplier"}>
                 <Box component="form" onSubmit={handleSubmit}>
                     <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 2, mb: 3 }}>
-                        <TextField label="Full Name" name="name" value={formData.name} onChange={handleInputChange} required />
+                        <TextField label="Company Name" name="name" value={formData.name} onChange={handleInputChange} required />
+                        <TextField label="Contact Person" name="contactPerson" value={formData.contactPerson} onChange={handleInputChange} required />
                         <TextField label="Email" name="email" type="email" value={formData.email} onChange={handleInputChange} required />
                         <TextField label="Phone" name="phone" value={formData.phone} onChange={handleInputChange} />
-                        <TextField label="Address" name="address" value={formData.address} onChange={handleInputChange} />
+                        <Box sx={{ gridColumn: { sm: '1 / -1' } }}>
+                            <TextField label="Address" name="address" value={formData.address} onChange={handleInputChange} fullWidth />
+                        </Box>
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
                         <Button variant="outlined" onClick={() => setIsModalOpen(false)} disabled={isSubmitting}>Cancel</Button>
                         <Button type="submit" variant="filled" disabled={isSubmitting}>
-                            {isSubmitting ? 'SAVING...' : (editingCustomer ? 'SAVE CHANGES' : 'ADD CUSTOMER')}
+                            {isSubmitting ? 'SAVING...' : (editingSupplier ? 'SAVE CHANGES' : 'ADD SUPPLIER')}
                         </Button>
                     </Box>
                 </Box>

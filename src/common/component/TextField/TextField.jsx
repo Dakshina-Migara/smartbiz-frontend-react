@@ -4,7 +4,6 @@ import InputAdornment from '@mui/material/InputAdornment'
 import IconButton from '@mui/material/IconButton'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
-import './TextField.css'
 
 export default function TextField({
     type = 'text',
@@ -20,17 +19,14 @@ export default function TextField({
     className = '',
     label,
     error = false,
-    helperText = ''
+    helperText = '',
+    multiline = false,
+    rows,
+    sx = {},
+    ...rest
 }) {
-
     const [showPassword, setShowPassword] = useState(false)
     const isPasswordField = type === 'password'
-
-    const classNames = [
-        'smartbiz-textfield',
-        disabled ? 'smartbiz-textfield--disabled' : '',
-        className
-    ].filter(Boolean).join(' ')
 
     return (
         <MuiTextField
@@ -47,7 +43,25 @@ export default function TextField({
             error={error}
             helperText={helperText}
             variant="outlined"
-            className={classNames}
+            className={className}
+            multiline={multiline}
+            rows={rows}
+            sx={{
+                opacity: disabled ? 0.5 : 1,
+                '& .Mui-error .MuiInputAdornment-root .MuiSvgIcon-root': {
+                    color: '#e53e3e',
+                },
+                '& .Mui-focused .MuiInputAdornment-root .MuiSvgIcon-root': {
+                    color: '#3d3229',
+                },
+                '& .MuiInputAdornment-root .MuiSvgIcon-root': {
+                    width: 20,
+                    height: 20,
+                    color: '#7a6e64',
+                    transition: 'color 0.3s ease',
+                },
+                ...sx,
+            }}
             slotProps={{
                 inputLabel: {
                     shrink: true,
@@ -55,7 +69,7 @@ export default function TextField({
                 input: {
                     startAdornment: icon ? (
                         <InputAdornment position="start">
-                            <span className="smartbiz-textfield__icon">{icon}</span>
+                            {icon}
                         </InputAdornment>
                     ) : null,
                     endAdornment: isPasswordField ? (
@@ -63,14 +77,22 @@ export default function TextField({
                             <IconButton
                                 onClick={() => setShowPassword(!showPassword)}
                                 edge="end"
-                                className="smartbiz-textfield__eye-btn"
+                                sx={{
+                                    color: '#7a6e64',
+                                    transition: 'color 0.3s ease',
+                                    '&:hover': {
+                                        color: '#3d3229',
+                                        backgroundColor: 'rgba(61, 50, 41, 0.08)',
+                                    },
+                                }}
                             >
                                 {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
                             </IconButton>
                         </InputAdornment>
                     ) : null,
-                }
+                },
             }}
+            {...rest}
         />
     )
 }

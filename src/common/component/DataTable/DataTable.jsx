@@ -1,4 +1,3 @@
-import React from 'react'
 import {
     Table,
     TableBody,
@@ -8,19 +7,22 @@ import {
     TableRow,
     Paper,
     Typography,
-    Box
+    IconButton,
 } from '@mui/material'
-import './DataTable.css'
 
 export default function DataTable({ columns = [], data = [] }) {
     return (
         <TableContainer
             component={Paper}
             elevation={0}
-            className="sb-table-container"
-            sx={{ border: '1px solid #f0f0f0', borderRadius: '12px', overflow: 'hidden' }}
+            sx={{
+                border: '1px solid #f0f0f0',
+                borderRadius: '12px',
+                overflow: 'hidden',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.04)',
+            }}
         >
-            <Table sx={{ minWidth: 650 }} className="sb-table">
+            <Table sx={{ minWidth: 650 }}>
                 <TableHead sx={{ backgroundColor: '#fafafa' }}>
                     <TableRow>
                         {columns.map((col, i) => (

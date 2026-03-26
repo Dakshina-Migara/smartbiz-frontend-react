@@ -1,5 +1,4 @@
 import MuiButton from '@mui/material/Button'
-import './Button.css'
 
 export default function Button({
     children,
@@ -12,9 +11,9 @@ export default function Button({
     startIcon,
     endIcon,
     className = '',
+    sx = {},
     ...props
 }) {
-    // Map our custom variants to MUI variants
     const muiVariantMap = {
         filled: 'contained',
         outlined: 'outlined',
@@ -22,12 +21,19 @@ export default function Button({
         danger: 'contained'
     }
 
-    const classNames = [
-        'smartbiz-btn',
-        `smartbiz-btn--${variant}`,
-        `smartbiz-btn--${size}`,
-        className
-    ].filter(Boolean).join(' ')
+    const dangerSx = variant === 'danger' ? {
+        backgroundColor: '#ef4444',
+        boxShadow: '0 4px 12px rgba(239, 68, 68, 0.3)',
+        '&:hover': {
+            backgroundColor: '#dc2626',
+            boxShadow: '0 6px 18px rgba(239, 68, 68, 0.45)',
+            transform: 'translateY(-1px)',
+        },
+        '&:active': {
+            transform: 'translateY(0)',
+            boxShadow: '0 2px 8px rgba(239, 68, 68, 0.3)',
+        },
+    } : {}
 
     return (
         <MuiButton
@@ -39,8 +45,9 @@ export default function Button({
             onClick={onClick}
             startIcon={startIcon}
             endIcon={endIcon}
-            className={classNames}
+            className={className}
             disableElevation
+            sx={{ ...dangerSx, ...sx }}
             {...props}
         >
             {children}

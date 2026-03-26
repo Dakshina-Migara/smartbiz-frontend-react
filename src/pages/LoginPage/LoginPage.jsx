@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import Box from '@mui/material/Box'
+import Paper from '@mui/material/Paper'
+import Typography from '@mui/material/Typography'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Button from '../../common/component/Button/Button'
 import TextField from '../../common/component/TextField/TextField'
 import { useAuth } from '../../context/AuthContext'
-import './LoginPage.css'
 
 function LoginPage() {
     const [email, setEmail] = useState('')
@@ -33,7 +35,6 @@ function LoginPage() {
         setError('')
         setFieldErrors({})
 
-        // Custom Validation
         let errors = {}
         if (!email.trim()) errors.email = 'Email is required'
         if (!password.trim()) errors.password = 'Password is required'
@@ -49,8 +50,6 @@ function LoginPage() {
         const result = await login(email, password)
 
         if (result.success) {
-            // Priority 1: Use backend provided homePath
-            // Priority 2: Fallback to role-based check
             const homePath = result.data.homePath
             if (homePath) {
                 navigate(homePath)
@@ -69,12 +68,54 @@ function LoginPage() {
     }
 
     return (
-        <div className="login-page">
-            <div className="login-card">
-                <h1 className="login-card__title">Login</h1>
+        <Box
+            sx={{
+                minHeight: '100vh',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: 'background.default',
+                p: 2,
+            }}
+        >
+            <Paper
+                elevation={0}
+                sx={{
+                    p: { xs: 3, sm: 5 },
+                    borderRadius: '40px',
+                    maxWidth: 420,
+                    width: '100%',
+                    boxShadow: '0 10px 40px rgba(0, 0, 0, 0.08)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: 2,
+                }}
+            >
+                <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
+                    Login
+                </Typography>
 
-                <form className="login-card__form" onSubmit={handleLogin}>
-                    {error && <div className="login-error-message">{error}</div>}
+                <Box
+                    component="form"
+                    onSubmit={handleLogin}
+                    sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 2 }}
+                >
+                    {error && (
+                        <Typography
+                            sx={{
+                                color: '#e53e3e',
+                                fontSize: '0.85rem',
+                                fontWeight: 500,
+                                textAlign: 'center',
+                                backgroundColor: '#fef2f2',
+                                p: 1.5,
+                                borderRadius: '12px',
+                            }}
+                        >
+                            {error}
+                        </Typography>
+                    )}
 
                     <TextField
                         icon={<PersonOutlineIcon />}
@@ -117,15 +158,15 @@ function LoginPage() {
                             Forget Password?
                         </Button>
                     </Link>
-                </form>
+                </Box>
 
                 <Link to="/register" style={{ textDecoration: 'none' }}>
                     <Button variant="outlined" size="medium">
                         Create Your Account→
                     </Button>
                 </Link>
-            </div>
-        </div>
+            </Paper>
+        </Box>
     )
 }
 

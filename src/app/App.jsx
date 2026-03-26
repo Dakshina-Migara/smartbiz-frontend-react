@@ -1,4 +1,7 @@
 import { useEffect } from 'react'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import CircularProgress from '@mui/material/CircularProgress'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import LoginPage from '../pages/LoginPage/LoginPage'
 import RegisterPage from '../pages/RegisterPage/RegisterPage'
@@ -15,7 +18,7 @@ import { SalesProvider } from '../context/SalesContext'
 import { TransactionProvider } from '../context/TransactionContext'
 import { ReportsProvider } from '../context/ReportsContext'
 import { AiInsightProvider } from '../context/AiInsightContext'
-import BusinessOwnerSupplier from '../pages/Owner/Suppliers/BusinessOwnerSupplier'
+import BusinessOwnerSuppliers from '../pages/Owner/Suppliers/BusinessOwnerSuppliers'
 import BusinessOwnerSales from '../pages/Owner/Sales/BusinessOwnerSales'
 import BusinessOwnerTransaction from '../pages/Owner/Transaction/BusinessOwnerTransaction'
 import BusinessOwnerReports from '../pages/Owner/Reports/BusinessOwnerReports'
@@ -51,17 +54,20 @@ function AppContent() {
 
   if (loading) {
     return (
-      <div style={{
+      <Box sx={{
         height: '100vh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: '#f8fafc',
-        fontFamily: 'sans-serif',
-        color: '#64748b'
+        flexDirection: 'column',
+        gap: 2,
+        backgroundColor: 'background.default',
       }}>
-        Loading SmartBiz...
-      </div>
+        <CircularProgress sx={{ color: '#3d3229' }} />
+        <Typography sx={{ color: '#7a6e64', fontWeight: 500 }}>
+          Loading SmartBiz...
+        </Typography>
+      </Box>
     )
   }
 
@@ -77,7 +83,7 @@ function AppContent() {
         <Route path="/owner/products" element={<OwnerProductsPage />} />
         <Route path="/owner/inventory" element={<BusinessOwnerInventory />} />
         <Route path="/owner/customers" element={<BusinessOwnerCustomers />} />
-        <Route path="/owner/suppliers" element={<BusinessOwnerSupplier />} />
+        <Route path="/owner/suppliers" element={<BusinessOwnerSuppliers />} />
         <Route path="/owner/sales" element={<BusinessOwnerSales />} />
         <Route path="/owner/transactions" element={<BusinessOwnerTransaction />} />
         <Route path="/owner/reports" element={<BusinessOwnerReports />} />
