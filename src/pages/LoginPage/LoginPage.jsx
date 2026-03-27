@@ -153,7 +153,7 @@ function LoginPage() {
                         {isLoading ? 'Logging in...' : 'Login'}
                     </Button>
 
-                    <Link to="/forgot-password" style={{ textDecoration: 'none' }}>
+                    <Link to="/forgot-password" style={{ textDecoration: 'none', alignSelf: 'center' }}>
                         <Button variant="text">
                             Forget Password?
                         </Button>
