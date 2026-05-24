@@ -2,7 +2,9 @@ import { useEffect } from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import CircularProgress from '@mui/material/CircularProgress'
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom'
+import ProtectedRoute from '../common/component/ProtectedRoute/ProtectedRoute'
+import PublicRoute from '../common/component/ProtectedRoute/PublicRoute'
 import LoginPage from '../pages/LoginPage/LoginPage'
 import RegisterPage from '../pages/RegisterPage/RegisterPage'
 import ForgotPasswordPage from '../pages/ForgotPasswordPage/ForgotPasswordPage'
@@ -75,26 +77,27 @@ function AppContent() {
     <BrowserRouter>
       <TitleManager />
       <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/owner/dashboard" element={<BusinessOwnerDashboard />} />
-        <Route path="/owner/products" element={<OwnerProductsPage />} />
-        <Route path="/owner/inventory" element={<BusinessOwnerInventory />} />
-        <Route path="/owner/customers" element={<BusinessOwnerCustomers />} />
-        <Route path="/owner/suppliers" element={<BusinessOwnerSuppliers />} />
-        <Route path="/owner/sales" element={<BusinessOwnerSales />} />
-        <Route path="/owner/transactions" element={<BusinessOwnerTransaction />} />
-        <Route path="/owner/reports" element={<BusinessOwnerReports />} />
-        <Route path="/owner/ai-insight" element={<BusinessOwnerAiInsight />} />
-        <Route path="/owner/subscription" element={<SubscriptionPlans />} />
-        <Route path="/admin/overview" element={<AdminOverview />} />
-        <Route path="/admin/dashboard" element={<AdminOverview />} />
-        <Route path="/admin/businesses" element={<AdminBusinesses />} />
-        <Route path="/admin/logs" element={<AdminUsageLogs />} />
-        <Route path="/admin/usage-logs" element={<AdminUsageLogs />} />
-        <Route path="/admin/plans" element={<AdminPlans />} />
+        <Route path="/" element={<PublicRoute><LoginPage /></PublicRoute>} />
+        <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
+        <Route path="/register" element={<PublicRoute><RegisterPage /></PublicRoute>} />
+        <Route path="/forgot-password" element={<PublicRoute><ForgotPasswordPage /></PublicRoute>} />
+        <Route path="/owner/dashboard" element={<ProtectedRoute allowedRoles={['OWNER']}><BusinessOwnerDashboard /></ProtectedRoute>} />
+        <Route path="/owner/products" element={<ProtectedRoute allowedRoles={['OWNER']}><OwnerProductsPage /></ProtectedRoute>} />
+        <Route path="/owner/inventory" element={<ProtectedRoute allowedRoles={['OWNER']}><BusinessOwnerInventory /></ProtectedRoute>} />
+        <Route path="/owner/customers" element={<ProtectedRoute allowedRoles={['OWNER']}><BusinessOwnerCustomers /></ProtectedRoute>} />
+        <Route path="/owner/suppliers" element={<ProtectedRoute allowedRoles={['OWNER']}><BusinessOwnerSuppliers /></ProtectedRoute>} />
+        <Route path="/owner/sales" element={<ProtectedRoute allowedRoles={['OWNER']}><BusinessOwnerSales /></ProtectedRoute>} />
+        <Route path="/owner/transactions" element={<ProtectedRoute allowedRoles={['OWNER']}><BusinessOwnerTransaction /></ProtectedRoute>} />
+        <Route path="/owner/reports" element={<ProtectedRoute allowedRoles={['OWNER']}><BusinessOwnerReports /></ProtectedRoute>} />
+        <Route path="/owner/ai-insight" element={<ProtectedRoute allowedRoles={['OWNER']}><BusinessOwnerAiInsight /></ProtectedRoute>} />
+        <Route path="/owner/subscription" element={<ProtectedRoute allowedRoles={['OWNER']}><SubscriptionPlans /></ProtectedRoute>} />
+        <Route path="/admin/overview" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminOverview /></ProtectedRoute>} />
+        <Route path="/admin/dashboard" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminOverview /></ProtectedRoute>} />
+        <Route path="/admin/businesses" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminBusinesses /></ProtectedRoute>} />
+        <Route path="/admin/logs" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminUsageLogs /></ProtectedRoute>} />
+        <Route path="/admin/usage-logs" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminUsageLogs /></ProtectedRoute>} />
+        <Route path="/admin/plans" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminPlans /></ProtectedRoute>} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
   )
