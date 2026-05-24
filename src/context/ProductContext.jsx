@@ -76,7 +76,7 @@ export function ProductProvider({ children }) {
             }
             return { success: false }
         } catch (error) {
-            return { success: false, error: error.message }
+            return { success: false, error: error.response?.data?.message || error.message }
         }
     }
 
@@ -100,7 +100,7 @@ export function ProductProvider({ children }) {
             }
             return { success: false }
         } catch (error) {
-            return { success: false, error: error.message }
+            return { success: false, error: error.response?.data?.message || error.message }
         }
     }
 
@@ -139,7 +139,7 @@ export function ProductProvider({ children }) {
             }
             return { success: false }
         } catch (error) {
-            return { success: false, error: error.message }
+            return { success: false, error: error.response?.data?.message || error.message }
         }
     }
 

@@ -61,7 +61,7 @@ export default function OwnerProductsPage() {
             if (result.success) {
                 showNotification('Product deleted successfully', 'success')
             } else {
-                showNotification('Failed to delete product.', 'error')
+                showNotification(result.error || 'Failed to delete product.', 'error')
             }
         }
     }
@@ -89,7 +89,7 @@ export default function OwnerProductsPage() {
             setIsModalOpen(false)
             showNotification(`Product ${editingProduct ? 'updated' : 'added'} successfully!`, 'success')
         } else {
-            showNotification('Failed to save product. Please try again.', 'error')
+            showNotification(result.error || 'Failed to save product. Please try again.', 'error')
         }
         setIsSubmitting(false)
     }
