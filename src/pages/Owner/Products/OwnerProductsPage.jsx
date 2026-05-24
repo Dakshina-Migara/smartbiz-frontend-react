@@ -60,6 +60,24 @@ export default function OwnerProductsPage() {
             const result = await deleteProduct(id)
             if (result.success) {
                 showNotification('Product deleted successfully', 'success')
+            } else if (result.error && (result.error.toLowerCase().includes('associated sales records') || result.error.toLowerCase().includes('update its stock to 0'))) {
+                const updateConfirmed = await showConfirm(
+                    'Cannot delete product because it has associated sales records. Would you like to update its stock to 0 instead?'
+                )
+                if (updateConfirmed) {
+                    const productToUpdate = products.find(p => p.id === id)
+                    if (productToUpdate) {
+                        const updateResult = await updateProduct(id, {
+                            ...productToUpdate,
+                            stock: 0
+                        })
+                        if (updateResult.success) {
+                            showNotification('Stock successfully updated to 0.', 'success')
+                        } else {
+                            showNotification(updateResult.error || 'Failed to update stock.', 'error')
+                        }
+                    }
+                }
             } else {
                 showNotification(result.error || 'Failed to delete product.', 'error')
             }
