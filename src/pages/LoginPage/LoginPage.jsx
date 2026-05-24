@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
@@ -18,17 +18,15 @@ function LoginPage() {
 
     const { login, user, token } = useAuth()
     const navigate = useNavigate()
+    const location = useLocation()
 
     useEffect(() => {
         if (user && token && !isLoading) {
             const userRole = user.role?.toUpperCase()
-            if (userRole === 'ADMIN') {
-                navigate('/admin/overview')
-            } else {
-                navigate('/owner/dashboard')
-            }
+            const from = location.state?.from?.pathname || (userRole === 'ADMIN' ? '/admin/overview' : '/owner/dashboard')
+            navigate(from, { replace: true })
         }
-    }, [user, token, navigate])
+    }, [user, token, navigate, location, isLoading])
 
     const handleLogin = async (e) => {
         if (e) e.preventDefault()
@@ -50,17 +48,9 @@ function LoginPage() {
         const result = await login(email, password)
 
         if (result.success) {
-            const homePath = result.data.homePath
-            if (homePath) {
-                navigate(homePath)
-            } else {
-                const userRole = result.data.role?.toUpperCase()
-                if (userRole === 'ADMIN') {
-                    navigate('/admin/overview')
-                } else {
-                    navigate('/owner/dashboard')
-                }
-            }
+            const userRole = result.data.role?.toUpperCase()
+            const from = location.state?.from?.pathname || result.data.homePath || (userRole === 'ADMIN' ? '/admin/overview' : '/owner/dashboard')
+            navigate(from, { replace: true })
         } else {
             setError(result.message)
         }
